@@ -128,18 +128,20 @@ fieldset {
 }
 input[type=file] {
   cursor: pointer;
-  width: 100%;
   height: 34px;
   overflow: hidden;
 }
 
 input[type=file]::before {
-  width: 100%;
   height: 22px;
+  position: absolute;
   color: #888;
-  content: 'Pilih Gambar';
+  content: 'Pilih Gambar :';
   display: inline-block;
   background: white;
+}
+input[type=file]::after {
+  color: white;
 }
 
 input[type=file]::-webkit-file-upload-button {

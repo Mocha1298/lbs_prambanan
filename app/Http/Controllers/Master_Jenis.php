@@ -61,7 +61,6 @@ class Master_Jenis extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        $imgname;
         if($request->hasFile('marker')){
             //Memindah Foto baru
             $file = $request->file('marker');
@@ -70,7 +69,7 @@ class Master_Jenis extends Controller
             $img = Image::make($file->getRealPath());
             $img->resize(100, 100, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save('gambar/jenis'.$imgname);
+            })->save('gambar/jenis/'.$imgname);
             //HAPUS FOTO LAMA
             $data = Type::find($id);
             $foto = $data->marker;
@@ -85,7 +84,6 @@ class Master_Jenis extends Controller
         $data->jenis = $request->jenis;
         $data->kategori = $request->kategori;
         $data->marker = $imgname;
-        // return $request;
         $data->save();
 
         return redirect('/master_jenis')->with('edit','Data sukses diubah');

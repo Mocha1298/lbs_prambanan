@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Map;
+use App\Type;
 
 class Objek_Kerusakan extends Controller
 {
@@ -22,6 +23,12 @@ class Objek_Kerusakan extends Controller
     public function index()
     {
         return view('super.objek.objek_kerusakan');
+    }
+    public function index2($id)
+    {
+        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->paginate(10);
+        $count = $data->count();
+        return view('super.objek.tabel_kerusakan',['count'=>$count,'data'=>$data]);
     }
 
     /**

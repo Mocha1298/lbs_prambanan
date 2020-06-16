@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Master Desa')
+@section('title','Master Kerusakan')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
@@ -21,37 +21,42 @@
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    <a href="/master_kecamatan">Master Kecamatan</a> > Master Desa
+    <a href="/master_kecamatan">Master Kecamatan</a> > Master Kerusakan
 @endsection
 @section('isi')
   <div class="isi">
     <table>
-      <caption>Tabel Desa</caption>
+      <caption>Tabel Kerusakan</caption>
       <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Nama Desa</th>
-          <th scope="col">Jumlah RW</th>
+          <th scope="col">Nama Kerusakan</th>
+          <th scope="col">Level Kerusakan</th>
+          <th scope="col">Status Perbaikan</th>
+          <th scope="col">Rencana Perbaikan</th>
+          <th scope="col">Alamat (RT/RW)</th>
+          <th scope="col">Foto</th>
         </tr>
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $ds)
-            <tr id="{{$ds->id}}" class="table">
+          @foreach($data as $kr)
+            <tr id="{{$kr->id}}" class="table">
               <td data-label="No">{{ $loop->iteration }}</td>
-              <td data-label="Nama Desa">{{ $ds->nama }}</td>
-              <td data-label="Jumlah RW">{{ $ds->rw }}</td>
+              <td data-label="Nama Kerusakan">{{ $kr->nama }}</td>
+              <td data-label="Level Kerusakan">{{ $kr->level }}</td>
+              <td data-label="Status Perbaikan">{{ $kr->kategori }}</td>
+              <td data-label="Rencana Perbaikan">{{ $kr->perbaikan }}</td>
+              <td data-label="Alamat">{{ $kr->rt }}/{{ $kr->rw }}</td>
+              <td data-label="Foto"><img src="../gambar/jenis/jenis_1592311483.png" alt="" width="100px" height="auto"></td>
                 {{-- Content Klik Kanan --}}
-                <div id="contextMenu" class="cm_{{$ds->id}}" style="display: none">
+                <div id="contextMenu" class="cm_{{$kr->id}}" style="display: none">
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                     <li class="edit">
-                      <a href="#popup_e{{$ds->id}}">EDIT</a>
+                      <a href="#popup_e{{$kr->id}}">EDIT</a>
                     </li>
                     <li class="hapus">
-                      <a href="#popup_h{{$ds->id}}">HAPUS</a>
-                    </li>
-                    <li class="detail">
-                      <a href="/objek_kerusakan/{{$ds->id}}">KERUSAKAN</a>
+                      <a href="#popup_h{{$kr->id}}">HAPUS</a>
                     </li>
                   </ul>
                 </div>
@@ -65,11 +70,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        @if ($admin == 1)
-        <a class="add false" href="#">Tambah Desa</a>
-        @else
-        <a style="color:white;" class="add" href="#add">Tambah Desa</a>
-        @endif
+        <a style="color:white;" class="add" href="#add">Tambah Kerusakan</a>
         <?php
           // config
           $link_limit = 10;
@@ -105,18 +106,17 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endif
     </div>
   </div>
-  @foreach ($data as $ds)
+  @foreach ($data as $kr)
     {{-- POPUP EDIT DATA --}}
-    <div id="popup_e{{$ds->id}}" class="overlay">
+    <div id="popup_e{{$kr->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Data Desa</h2>
-        <a class="close" href="/master_desa/{{$id}}">&times;</a>
+        <a class="close" href="/objek_kerusakan/{{$kr->id}}">&times;</a>
         <div class="content">
-          <form id="form" action="/master_desa_ubah/{{$ds->id}}" method="post">
+          <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post">
             {{ csrf_field() }}
-            <input type="text" name="id" value="{{$id}}" hidden>
             <fieldset>
-              <input placeholder="Nama Desa" type="text" name="nama" value="{{ old('nama') ?? $ds->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
+              <input placeholder="Nama Desa" type="text" name="nama" value="{{ old('nama') ?? $kr->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
               @error('nama')
               <div class="invalid-feedback">
                   {{$message}}
@@ -124,7 +124,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input placeholder="Jumlah RW" type="text" name="rw" value="{{ old('rw') ?? $ds->rw }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <input placeholder="Jumlah RW" type="text" name="rw" value="{{ old('rw') ?? $kr->rw }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
               @error('rw')
               <div class="invalid-feedback">
                   {{$message}}
@@ -132,7 +132,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $ds->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kr->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
                   {{$message}}
@@ -140,7 +140,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="lintang2" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $ds->lintang}}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="lintang2" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $kr->lintang}}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('lintang')
               <div class="invalid-feedback">
                   {{$message}}
@@ -156,37 +156,14 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </div>
     </div>
     {{-- POPUP HAPUS DATA --}}
-    <div id="popup_h{{$ds->id}}" class="overlay">
+    <div id="popup_h{{$kr->id}}" class="overlay">
       <div class="popup">
-        <h2>Hapus Data Desa?</h2>
+        <h2>Hapus Data Kerusakan?</h2>
         <div class="content">
           <fieldset class="acc">
-            <a class="acc" href="/master_desa_hapus/{{$id}}/{{ $ds->id }}">HAPUS</a>
+            <a class="acc" href="/objek_kerusakan_hapus/{{ $kr->id }}">HAPUS</a>
             <a class="cancel" href="#">Batal</a>
           </fieldset>
-        </div>
-      </div>
-    </div>
-    {{-- POPUP TAMBAH ADMIN --}}
-    <div id="popup_u{{$ds->id}}" class="overlay">
-      <div class="popup">
-      <h2>Tambah Admin Desa {{$ds->nama}}</h2>
-        <a class="close" href="#">&times;</a>
-        <div class="content">
-          <form id="form" action="/master_user/{{$ds->id}}" method="post">
-            {{ csrf_field() }}
-            <fieldset>
-              <input placeholder="Nama Admin" type="text" name="nama" value="{{ old('nama') ?? $ds->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
-              @error('nama')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
-              <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
-            </fieldset>
-        </form>
         </div>
       </div>
     </div>
@@ -196,7 +173,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <h2>Form Tambah Data</h2>
       <a class="close" href="#">&times;</a>
       <div class="content">
-        <form id="form" action="/master_desa_tambah/{{$id}}" method="post">
+        <form id="form" action="/objek_kerusakan_tambah/{{$kr->id}}" method="post">
           {{ csrf_field() }}
           <fieldset>
             <input placeholder="Nama Desa" type="text" autocomplete="off" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
