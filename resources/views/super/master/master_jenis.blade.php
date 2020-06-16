@@ -96,18 +96,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <h2>Edit Data Jenis</h2>
         <a class="close" href="/master_jenis">&times;</a>
         <div class="content">
-          <form id="form" action="/master_jenis_ubah/{{$dt->id}}" method="post">
+          <form id="form" action="/master_jenis_ubah/{{$dt->id}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <fieldset>
-              <input placeholder="Jenis" type="text" name="nama" value="{{ old('jenis') ?? $dt->jenis }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
-              @error('jenis')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
-              <input placeholder="Kategori" type="text" name="kategori" value="{{ old('kategori') ?? $dt->kategori }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <input placeholder="Kategori" type="text" name="kategori" value="{{ $dt->kategori ?? old('kategori') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
               @error('kategori')
               <div class="invalid-feedback">
                   {{$message}}
@@ -115,15 +107,21 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              {{-- <input placeholder="Icon" type="text" name="marker" value="{{ old('marker') ?? $dt->marker }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"> --}}
-              <label for="upload-photo">Browse...</label>
-              <input type="file" name="photo" id="upload-photo" />
-              {{-- <input placeholder="Icon" type="file" accept="image/*" name="marker" value="{{ old('marker') ?? $dt->marker }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"> --}}
-              @error('icon')
+              <select name="jenis" id="form" required>
+                <option @if ($dt->jenis=='' || old('jenis')=='') selected @endif value="">-- PILIH --</option>
+                <option @if ($dt->jenis=='Kerusakan' || old('jenis')=='Kerusakan') selected @endif value="Kerusakan">Objek Kerusakan</option>
+                <option @if ($dt->jenis=='Peta' || old('jenis')=='Peta') selected @endif value="Peta">Objek Peta</option>
+              </select>
+              @error('jenis')
               <div class="invalid-feedback">
                   {{$message}}
               </div>
               @enderror
+            </fieldset>
+            <fieldset>
+              <input type="file" id="fileimg1" accept="image/*" name="marker">
+              <input type="text" name="marker1" hidden value="{{$dt->marker ?? old('marker1')}}">
+              <img src="{{asset('gambar/jenis/'.$dt->marker)}}" alt="">
             </fieldset>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
@@ -146,15 +144,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </div>
   @endforeach
   <div id="add" class="overlay">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <div class="popup">
       <h2>Form Tambah Data</h2>
       <a class="close" href="#">&times;</a>
@@ -182,9 +171,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            {{-- <input name="marker" type='file' id="imgInp" required/> --}}
-            <input type="file" id="imgInp" accept="image/*" name="marker">
-            <img id="blah" src="#" alt="" />
+            <input type="file" id="fileimg" accept="image/*" name="marker" required>
           </fieldset>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
@@ -195,36 +182,5 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
 @endsection
 @section('script')
-    <script>
-      function readURL(input) {
-          if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
-            reader.onload = function(e) {
-              $('#blah')
-                    .attr('src', e.target.result);
-            }
-            
-            reader.readAsDataURL(input.files[0]); // convert to base64 string
-          }
-        }
-
-        $("#imgInp").change(function() {
-          readURL(this);
-        });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#blah')
-                    .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
 @endsection
