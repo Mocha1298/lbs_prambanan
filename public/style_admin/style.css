@@ -1,0 +1,271 @@
+/* @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i,600,700"); */
+*,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  
+  html {
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #252326;
+    background-image: url("http://christiannaths.com/code/admin-interface/dots.png"),
+      url("http://christiannaths.com/code/admin-interface/route-66.jpg");
+    background-position: center center, center, center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+  }
+  
+  body {
+    height: 100%;
+    margin: 0;
+    font: normal 16px/1.2 "Josefin Sans", sans-serif;
+    font-weight: 100;
+    color: #616161;
+    color: #252326;
+  }
+
+  .container{
+    min-height: 100%;
+    position: relative;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 0;
+    font-family: inherit;
+    font-weight: inherit;
+  }
+  
+  h1.title{
+    text-align: center;
+  }
+
+  header{
+    width: 100%;
+    height: 56px;
+    min-height: 56px;
+    background-color: #e7e7e7;
+    margin-bottom: 20px;
+  }
+  .log{
+    display: inline-block;
+    float: right;
+    font-size: 20px;
+    font-weight: 100;
+    line-height: 1.5;
+    text-align: center;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .bagian {
+    display: inline-block;
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    background-color: #e7e7e7;
+    vertical-align: top;
+  }
+  
+  span.fa {
+    display: inline-block;
+    float: right;
+    width: 30px;
+    height: 30px;
+    font-size: 1.5em;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin-bottom: 0;
+    font-size: 28px;
+  }
+  
+  header a {
+    color: #a93447;
+  }
+  
+  nav {
+    margin: 20px 0;
+  }
+  
+  nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a.bagian {
+    position: relative;
+    font-family: inherit;
+    font-weight: inherit;
+    color: #616161;
+    color: #252326;
+    line-height: 2;
+    background-color: #252326;
+    background-color: #f3f3f3;
+    background-color: #e7e7e7;
+    border-left: 3px solid #616161;
+  }
+  
+  nav ul li a.bagian .fa {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 64px;
+    width: 64px;
+    font-size: 2em;
+    color: #fff;
+    line-height: 2.25;
+    background: #616161;
+  }
+  
+  nav ul li a.dashboard {
+    border-color: #b93861;
+  }
+  
+  nav ul li a.dashboard .fa {
+    background-color: #b93861;
+  }
+  
+  nav ul li a.pages {
+    border-color: #34abd7;
+  }
+  nav ul li .submenu a.pages:hover{
+    color: #f3f3f3;
+    background-color: #616161;
+  }
+  
+  nav ul li a.pages .fa {
+    background-color: #34abd7;
+  }
+  
+  nav ul li a.navigation {
+    border-color: #158a53;
+  }
+  
+  nav ul li a.navigation .fa {
+    background-color: #158a53;
+  }
+
+  nav ul li .submenu a.navigation:hover{
+    color: #f3f3f3;
+    background-color: #616161;
+  }
+  
+  nav ul li a.users {
+    border-color: #d95235;
+  }
+  
+  nav ul li a.users .fa {
+    background-color: #d95235;
+  }
+
+  nav ul li .submenu a.users:hover{
+    color: #f3f3f3;
+    background-color: #616161;
+  }
+
+  nav ul li .submenu{
+    width: 95%;
+    float: right;
+  }
+  nav ul #upbutton{
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  nav ul li #upbutton a{
+    padding: 20px 43%;
+  }
+  nav ul li #upbutton i{
+    width: 30px;
+    height: auto;
+  }
+  nav ul #upbutton i:hover{
+    color: silver;
+  }
+  .content .main .breadcrump {
+    color: grey;
+  }
+  .content .main .breadcrump a{
+    color: black;
+  }
+  .content .main .breadcrump a:hover{
+    color: rgb(212, 16, 16);
+  }
+  .content{
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+  }
+  .content .main{
+    z-index: -2;
+    padding: 16px;
+    background-color: #e7e7e7;
+  }
+  .main .pagination {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+  }
+  .main .pagination ul{
+    list-style: none;
+    padding-left: 0;
+  }
+  .main .pagination ul li{
+    display: inline;
+  }
+  .main .pagination a{
+    color: black;
+    padding: 5px 10px;
+  }
+  .main .pagination a.button{
+    color: white;
+    background-color: #d95235;
+    padding: 5px 10px;
+    border-radius: 15px;
+    -webkit-box-shadow: 4px 4px 5px 1px #ccc;
+    -moz-box-shadow:    4px 4px 5px 1px #ccc;
+    box-shadow:         4px 4px 5px 1px #ccc;
+  }
+
+  .leaflet-container.crosshair-cursor-enabled {
+    cursor:crosshair;
+}
+
+  @media all and (min-width: 800px) {
+    nav {
+      position: absolute;
+      width: 250px;
+    }
+  
+    .content{
+      display: inline-block;
+      width: 100%;
+      height: auto;
+      height: auto;
+    }
+    .content .main{
+      height: 86vh;
+      margin-top: 20px;
+      margin-left: 282px;
+      padding: 16px;
+      background-color: #e7e7e7;
+    }
+  }

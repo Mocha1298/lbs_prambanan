@@ -1,0 +1,60 @@
+#contextMenu {
+    position: absolute;
+    border: solid black 1px;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 9999;
+  }
+#contextMenu ul{
+  padding-left: 0;
+  margin: 10px;
+}
+#contextMenu ul li{
+  list-style: none;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 5px;
+}
+#contextMenu ul li a{
+  color: black;
+  padding: 10px 20px;
+}
+#contextMenu ul li.edit:hover{
+  width: 100%;
+  background-color: rgb(238, 193, 46);
+}
+#contextMenu ul li.hapus:hover a{
+  color: white;
+}
+#contextMenu ul li.hapus:hover{
+  width: 100%;
+  background-color: rgb(241, 67, 67);
+}
+#contextMenu ul li.detail:hover{
+  width: 100%;
+  background-color: rgb(26, 96, 226);
+}
+#contextMenu ul li.detail:hover a{
+  color: white;
+}
+#contextMenu ul li.admin:hover{
+  width: 100%;
+  background-color: rgb(26, 96, 226);
+}
+#contextMenu ul li.admin:hover a{
+  color: white;
+}
+  
+  table{border:1px solid rgba(221, 221, 221, 1);}
+  
+  tr:nth-child(even) {background: #F5F5F5}
+  
+  tr{
+    position:relative;
+  }
+  
+  tr:hover{
+    background:#c9e8f7;
+    cursor: pointer;
+    position:relative;
+  }
