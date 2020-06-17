@@ -137,7 +137,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="bujur" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kc->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kc->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
                   {{$message}}
@@ -145,7 +145,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="lintang" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $kc->lintang}}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="lintang2" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $kc->lintang}}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('lintang')
               <div class="invalid-feedback">
                   {{$message}}
@@ -206,7 +206,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input id="bujur" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+            <input id="bujur1" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('bujur')
             <div class="invalid-feedback">
                 {{$message}}
@@ -214,7 +214,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input id="lintang" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+            <input id="lintang1" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('lintang')
             <div class="invalid-feedback">
                 {{$message}}

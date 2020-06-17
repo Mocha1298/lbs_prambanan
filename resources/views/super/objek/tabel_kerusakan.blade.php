@@ -21,7 +21,8 @@
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    <a href="/master_kecamatan">Master Kecamatan</a> > Master Kerusakan
+    <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa_back/{{$id}}">Master Kerusakan</a> >Data Kerusakan
+    <a style="position: absolute; right: 0; width: 50px;" href="/peta_kerusakan/{{$id}}"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
 @endsection
 @section('isi')
   <div class="isi">
@@ -30,11 +31,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Nama Kerusakan</th>
-          <th scope="col">Level Kerusakan</th>
-          <th scope="col">Status Perbaikan</th>
-          <th scope="col">Rencana Perbaikan</th>
-          <th scope="col">Alamat (RT/RW)</th>
+          <th scope="col">Nama</th>
+          <th scope="col">Level</th>
+          <th scope="col">Status</th>
+          <th scope="col">Tanggal</th>
+          <th scope="col">RT/RW</th>
           <th scope="col">Foto</th>
         </tr>
       </thead>
@@ -43,12 +44,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @foreach($data as $kr)
             <tr id="{{$kr->id}}" class="table">
               <td data-label="No">{{ $loop->iteration }}</td>
-              <td data-label="Nama Kerusakan">{{ $kr->nama }}</td>
-              <td data-label="Level Kerusakan">{{ $kr->level }}</td>
-              <td data-label="Status Perbaikan">{{ $kr->kategori }}</td>
-              <td data-label="Rencana Perbaikan">{{ $kr->perbaikan }}</td>
-              <td data-label="Alamat">{{ $kr->rt }}/{{ $kr->rw }}</td>
-              <td data-label="Foto"><img src="../gambar/jenis/jenis_1592311483.png" alt="" width="100px" height="auto"></td>
+              <td data-label="Nama">{{ $kr->nama }}</td>
+              <td data-label="Level">{{ $kr->level }}</td>
+              <td data-label="Status">{{ $kr->kategori }}</td>
+              <td data-label="Tanggal">{{ $kr->perbaikan }}</td>
+              <td data-label="RT/RW">{{ $kr->rt }}/{{ $kr->rw }}</td>
+              <td data-label="Foto"><img src="../gambar/jenis/jenis_1592311483.png" alt="" width="50px" height="auto"></td>
                 {{-- Content Klik Kanan --}}
                 <div id="contextMenu" class="cm_{{$kr->id}}" style="display: none">
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
@@ -173,7 +174,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <h2>Form Tambah Data</h2>
       <a class="close" href="#">&times;</a>
       <div class="content">
-        <form id="form" action="/objek_kerusakan_tambah/{{$kr->id}}" method="post">
+        <form id="form" action="/objek_kerusakan_tambah/{{$id}}" method="post">
           {{ csrf_field() }}
           <fieldset>
             <input placeholder="Nama Desa" type="text" autocomplete="off" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>

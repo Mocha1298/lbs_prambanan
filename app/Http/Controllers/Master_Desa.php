@@ -32,6 +32,23 @@ class Master_Desa extends Controller
         $data = Village::where('subdistricts_id',$id)->paginate(10);
         return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin]);
     }
+    public function index3($id)
+    {
+        $ds = Village::find($id);
+        $idk = $ds->subdistricts_id;
+        $kc = Subdistrict::find($idk);
+        $limit = $kc->desa;
+        $count = Village::where('subdistricts_id',$idk)->count();
+        if ($limit == $count) {
+            $admin = 1;
+        }
+        else{
+            $admin = 0;
+        }
+        $data = Village::where('subdistricts_id',$idk)->paginate(10);
+        $id = $idk;
+        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin]);
+    }
 
     public function create2(Request $request, $id)
     {

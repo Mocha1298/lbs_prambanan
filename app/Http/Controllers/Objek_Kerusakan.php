@@ -24,13 +24,12 @@ class Objek_Kerusakan extends Controller
     {
         return view('super.objek.objek_kerusakan');
     }
-    public function index2($id)
+    public function index2($id)//Berdasarkan Desa
     {
         $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->paginate(10);
         $count = $data->count();
-        return view('super.objek.tabel_kerusakan',['count'=>$count,'data'=>$data]);
+        return view('super.objek.tabel_kerusakan',['count'=>$count,'data'=>$data,'id'=>$id]);
     }
-
     /**
      * Show the form for creating a new resource.
      *

@@ -22,10 +22,11 @@ Route::get('/master_user_hapus/{id}','Master_User@destroy');//Proses hapus data 
 
 //Route Master Desa
 Route::get('/master_desa','Master_Desa@index');//Menampilkan Halaman Master Desa
+Route::get('/master_desa/{id}','Master_Desa@index2');//Menampilkan Halaman Master Desa Berdasarkan id Kecamatan
+Route::get('/master_desa_back/{id}','Master_Desa@index3');//Mengembalikan halaman dari kerusakan
 Route::post('/master_desa_tambah','Master_Desa@create');//Proses simpan data
 Route::post('/master_desa_ubah/{id}','Master_Desa@update');//Proses update data
 Route::get('/master_desa_hapus/{id}','Master_Desa@destroy');//Proses hapus data
-Route::get('/master_desa/{id}','Master_Desa@index2');//Menampilkan Halaman Master Desa Berdasarkan id Kecamatan
 Route::post('/master_desa_tambah/{id}','Master_Desa@create2');//Proses simpan data berdasarkan id Kecamatan
 Route::get('/master_desa_hapus/{id_k}/{id}','Master_Desa@destroy');//Proses hapus data berdasarkan id kecamatan
 
