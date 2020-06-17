@@ -15,11 +15,10 @@ class CreateSubdistrictsTable extends Migration
     {
         Schema::create('subdistricts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nama')->unique();
-            $table->integer('desa')->unsigned();
+            $table->string('nama');
+            $table->integer('desa');
             $table->string('bujur');
             $table->string('lintang');
-            $table->string('nama_cmt');
             $table->timestamps();
         });
     }

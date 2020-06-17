@@ -221,7 +221,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             </div>
             @enderror
           </fieldset>
-          <div id="mapid1" style="width: 100%; height: 40vh;"></div>
+          <div id="mapid1" style="width: 100%; height: 40vh;" onclick="getcenter();">
+            <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
+          </div>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>

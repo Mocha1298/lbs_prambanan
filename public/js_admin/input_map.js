@@ -4,7 +4,11 @@ var mymap = L.map("mapid1", {
     scrollWheelZoom: false,
 });
 
-L.DomUtil.addClass(mymap._container,'crosshair-cursor-enabled');
+getcenter(){
+    var center = mymap.getCenter().toString();
+    console.log(center);
+}
+
 
 var tiles = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
     maxZoom: 20,

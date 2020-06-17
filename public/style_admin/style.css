@@ -244,10 +244,13 @@
     -moz-box-shadow:    4px 4px 5px 1px #ccc;
     box-shadow:         4px 4px 5px 1px #ccc;
   }
-
-  .leaflet-container.crosshair-cursor-enabled {
-    cursor:crosshair;
-}
+  img.marker{
+    position: absolute;
+    width: 30px;
+    z-index: 99999999;
+    top: 43%;
+    left: 47%;
+  }
 
   @media all and (min-width: 800px) {
     nav {

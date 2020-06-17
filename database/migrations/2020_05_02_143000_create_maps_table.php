@@ -17,10 +17,9 @@ class CreateMapsTable extends Migration
             $table->bigIncrements('id');
             $table->string('nama');
             $table->string('level');
-            $table->string('status');
-            $table->date('perbaikan');
-            $table->integer('rt')->unsigned();
-            $table->integer('rw')->unsigned();
+            $table->date('perbaikan')->nullable();
+            $table->integer('rt');
+            $table->integer('rw');
             $table->string('bujur');
             $table->string('lintang');
             $table->integer('types_id')->unsigned();

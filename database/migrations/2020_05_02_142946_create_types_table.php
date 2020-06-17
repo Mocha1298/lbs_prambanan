@@ -15,8 +15,8 @@ class CreateTypesTable extends Migration
     {
         Schema::create('types', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nama');
             $table->string('jenis');
-            $table->string('kategori');
             $table->string('marker');
             $table->timestamps();
         });

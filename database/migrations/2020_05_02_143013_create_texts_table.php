@@ -15,24 +15,19 @@ class CreateTextsTable extends Migration
     {
         Schema::create('texts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('status')->unsigned();
+            $table->string('status');
             $table->string('keterangan');
-            $table->integer('rt')->unsigned();
-            $table->integer('rw')->unsigned();
+            $table->integer('rt')->nullable();
+            $table->integer('rw')->nullable();
             $table->string('bujur');
             $table->string('lintang');
-            $table->integer('id_tul')->unsigned();
+            $table->integer('id_tul')->nullable();
             $table->integer('users_id')->unsigned();
             $table->integer('maps_id')->unsigned();
             $table->integer('photos_id')->unsigned();
             $table->integer('villages_id')->unsigned();
-            $table->integer('subdistrict_id')->unsigned();
+            $table->integer('subdistricts_id')->unsigned();
             $table->timestamps();
-            // Relasi
-            // $table->foreign('users_id')->references('id')->on('users');
-            // $table->foreign('maps_id')->references('id')->on('maps');
-            // $table->foreign('photos_id')->references('id')->on('photos');
-            // $table->foreign('villages_id')->references('id')->on('villages');
         });
     }
 

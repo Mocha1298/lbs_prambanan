@@ -7,8 +7,6 @@ var mymap = L.map("mapid2", {
     scrollWheelZoom: false,
 });
 
-L.DomUtil.addClass(mymap._container,'crosshair-cursor-enabled');
-
 var tiles = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
     maxZoom: 20,
     minZoom: 13,
