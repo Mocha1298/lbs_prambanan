@@ -3,25 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Map;
 
-class Objek_Kerusakan extends Controller
+class Homepage extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function datapeta()
-    {
-        $map = Map::all();
-        return $map;
-        echo json_encode($map);
-    }
-    
     public function index()
     {
-        return view('super.objek.objek_kerusakan');
+        return view('user.homepage');
     }
 
     /**

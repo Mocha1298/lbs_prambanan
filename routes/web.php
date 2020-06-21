@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/','Dashboard@index');
+Route::get('/','Homepage@index');
+
+Route::get('/super','Dashboard@index');
 
 // Route Master User
 Route::get('/master_user','Master_User@index');//Menampilkan halaman master user
@@ -55,8 +57,7 @@ Route::get('/objek_peta_hapus/{id}','Objek_Peta@destroy');
 
 // Route Objek Kerusakan
 Route::get('/objek_kerusakan/{id}','Objek_Kerusakan@index2');//Menampilkan peta berdasarkan desa
-Route::get('/objek_kerusakan_tambah','Objek_Kerusakan@create');
-Route::post('/objek_kerusakan_tpost','Objek_Kerusakan@store');
+Route::post('/objek_kerusakan_tambah/{id}','Objek_Kerusakan@create');//Proses tambah berdasarkan desa
 Route::get('/objek_kerusakan_ubah','Objek_Kerusakan@edit');
 Route::post('/objek_kerusakan_upost','Objek_Kerusakan@update');
 Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');

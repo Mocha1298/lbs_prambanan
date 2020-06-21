@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Map;
 use App\Type;
+use App\Photo;
+use Image;
+use File;
+use Illuminate\Support\Facades\Validator;
 
 class Objek_Kerusakan extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function datapeta()
     {
         $map = Map::all();
@@ -24,73 +23,85 @@ class Objek_Kerusakan extends Controller
     {
         return view('super.objek.objek_kerusakan');
     }
+
     public function index2($id)//Berdasarkan Desa
     {
-        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->paginate(10);
+        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','=','maps.photos_id')->select('maps.*','types.nama as status','photos.foto1')->paginate(10);
         $count = $data->count();
-        return view('super.objek.tabel_kerusakan',['count'=>$count,'data'=>$data,'id'=>$id]);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $tipe = Type::where('jenis','Kerusakan')->get();
+        // return $data;
+        return view('super.objek.tabel_kerusakan',['count'=>$count,'data'=>$data,'tipe'=>$tipe,'id'=>$id]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'level' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
+            'perbaikan' => 'required',
+            'bujur'=> 'required',
+            'lintang'=> 'required',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('objek_kerusakan/'.$id.'#add')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $file = $request->file('foto1');
+        $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+
+        //Menamai gambar
+        $imgname ='kerusakan_'.time().'.'.$eks;
+
+        $img = Image::make($file->getRealPath());
+        $img->resize(2000, 2000, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('gambar/kerusakan/ori/'.$imgname);
+
+        $img->resize(100, 100, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('gambar/kerusakan/thumbnail/'.$imgname);
+
+        $ph = new Photo;
+        $ph->foto1 = $imgname;
+        $ph->save();
+
+        $ph = Photo::latest()->first();
+
+        $kr = new Map;
+        $kr->nama = $request->nama;
+        $kr->level = $request->level;
+        $kr->perbaikan = $request->perbaikan;
+        $kr->rt = $request->rt;
+        $kr->rw = $request->rw;
+        $kr->bujur = $request->bujur;
+        $kr->lintang = $request->lintang;
+        $kr->villages_id = $id;
+        
+        $tipe = Type::where('jenis','Kerusakan')->first();
+
+        $kr->types_id = $tipe->id;
+        $kr->photos_id = $ph->id;
+        $kr->save();
+
+        return redirect('/objek_kerusakan/'.$id.'')->with('simpan','Data sukses disimpan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

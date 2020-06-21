@@ -25,6 +25,15 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
   <div class="isi">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <table>
       <caption>Tabel Kecamatan</caption>
       <thead>
@@ -32,7 +41,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <th scope="col">No</th>
           <th scope="col">Nama Kecamatan</th>
           <th scope="col">Jumlah Desa</th>
-          <th scope="col">Nama Kepala Camat</th>
         </tr>
       </thead>
       @if ($count != 0)
@@ -42,7 +50,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <td data-label="No">{{ $loop->iteration }}</td>
             <td data-label="Nama Kecamatan">{{ $kc->nama }}</td>
             <td data-label="Jumlah Desa">{{ $kc->desa }}</td>
-            <td data-label="Nama Kepala Camat">{{ $kc->nama_cmt }}</td>
               {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$kc->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
@@ -62,7 +69,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </tbody>
       @else
         <tbody>
-          <tr>Belum ada data! Tambah sekarang...</tr>
+          <tr class="table">Belum ada data! Tambah sekarang...</tr>
         </tbody>
       @endif
     </table>
@@ -129,14 +136,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input placeholder="Nama Camat" type="text" name="nama_cmt" value="{{ old('nama_cmt') ?? $kc->nama_cmt }}" tabindex="1"  oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-              @error('nama_cmt')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
               <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kc->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
@@ -152,7 +151,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
               </div>
               @enderror
             </fieldset>
-            <div id="mapid2" style="width: 100%; height: 40vh;"></div>
+            <div onclick="getcenter2();" id="mapid2" style="width: 100%; height: 40vh;">
+              <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
+            </div>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
             </fieldset>
@@ -198,14 +199,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input placeholder="Nama Camat" autocomplete="off" type="text" name="nama_cmt" value="{{ old('nama_cmt') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('nama_cmt')
-            <div class="invalid-feedback">
-                {{$message}}
-            </div>
-            @enderror
-          </fieldset>
-          <fieldset>
             <input id="bujur1" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('bujur')
             <div class="invalid-feedback">
@@ -221,7 +214,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             </div>
             @enderror
           </fieldset>
-          <div id="mapid1" style="width: 100%; height: 40vh;" onclick="getcenter();">
+          <div onclick="getcenter1();" id="mapid1" style="width: 100%; height: 40vh;">
             <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
           </div>
           <fieldset>

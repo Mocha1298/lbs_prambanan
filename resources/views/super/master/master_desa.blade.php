@@ -147,7 +147,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
               </div>
               @enderror
             </fieldset>
-            <div id="mapid2" style="width: 100%; height: 40vh;"></div>
+            <div onclick="getcenter2();" id="mapid2" style="width: 100%; height: 40vh;">
+              <img class="marker" src="{{asset('gambar/marker/current.png')}}" alt="">
+            </div>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
@@ -164,29 +166,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <a class="acc" href="/master_desa_hapus/{{$id}}/{{ $ds->id }}">HAPUS</a>
             <a class="cancel" href="#">Batal</a>
           </fieldset>
-        </div>
-      </div>
-    </div>
-    {{-- POPUP TAMBAH ADMIN --}}
-    <div id="popup_u{{$ds->id}}" class="overlay">
-      <div class="popup">
-      <h2>Tambah Admin Desa {{$ds->nama}}</h2>
-        <a class="close" href="#">&times;</a>
-        <div class="content">
-          <form id="form" action="/master_user/{{$ds->id}}" method="post">
-            {{ csrf_field() }}
-            <fieldset>
-              <input placeholder="Nama Admin" type="text" name="nama" value="{{ old('nama') ?? $ds->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
-              @error('nama')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
-              <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
-            </fieldset>
-        </form>
         </div>
       </div>
     </div>
@@ -230,7 +209,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             </div>
             @enderror
           </fieldset>
-          <div id="mapid1" style="width: 100%; height: 40vh;"></div>
+          <div onclick="getcenter1();" id="mapid1" style="width: 100%; height: 40vh;">
+            <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
+          </div>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>

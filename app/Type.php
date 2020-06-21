@@ -11,6 +11,6 @@ class Type extends Model
         return $this->hasMany('App\Map','types_id');
     }
     protected $fillable = [
-        'jenis','kategori','marker',
+        'nama','jenis','marker',
     ];
 }

@@ -29,12 +29,7 @@ fieldset {
   min-width: 100%;
   padding: 0;
   width: 100%;
-}
-fieldset {
   margin: 20px 0;
-  min-width: 100%;
-  padding: 0;
-  width: 100%;
 }
 
 #form input[type="text"],
@@ -150,4 +145,7 @@ input[type=file]::-webkit-file-upload-button {
 
 option{
   font-size: 13px;
+}
+form#form input.half{
+  width: 50%;
 }

@@ -9,8 +9,6 @@
     padding: 16px;
     box-sizing: border-box;
     background-color: #252326;
-    background-image: url("http://christiannaths.com/code/admin-interface/dots.png"),
-      url("http://christiannaths.com/code/admin-interface/route-66.jpg");
     background-position: center center, center, center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
@@ -246,10 +244,10 @@
   }
   img.marker{
     position: absolute;
-    width: 30px;
+    width: 40px;
     z-index: 99999999;
-    top: 43%;
-    left: 47%;
+    top: 39%;
+    left: 45.8%;
   }
 
   @media all and (min-width: 800px) {

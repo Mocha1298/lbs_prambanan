@@ -95,7 +95,7 @@ return [
     'numeric' => 'Bagian ini harus bernilai numerik',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => 'Bagian ini harus di isi.',
+    'required' => ':attribute harus di isi.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',

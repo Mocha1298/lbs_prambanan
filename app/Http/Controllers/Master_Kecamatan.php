@@ -20,9 +20,8 @@ class Master_Kecamatan extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'desa' => 'required|numeric',
-            'nama_cmt' => 'required',
             'bujur' => 'required',
-            'lintang' => 'required'
+            'lintang' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -33,7 +32,6 @@ class Master_Kecamatan extends Controller
         $subdistrict = new Subdistrict;
         $subdistrict->nama = $request->nama;
         $subdistrict->desa = $request->desa;
-        $subdistrict->nama_cmt = $request->nama_cmt;
         $subdistrict->bujur = $request->bujur;
         $subdistrict->lintang = $request->lintang;
         $subdistrict->save();
@@ -60,7 +58,8 @@ class Master_Kecamatan extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'desa' => 'required|numeric',
-            'nama_cmt' => 'required'
+            'bujur' => 'required',
+            'lintang' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -72,7 +71,8 @@ class Master_Kecamatan extends Controller
         $subdistrict = Subdistrict::find($id);
         $subdistrict->nama = $request->nama;
         $subdistrict->desa = $request->desa;
-        $subdistrict->nama_cmt = $request->nama_cmt;
+        $subdistrict->bujur = $request->bujur;
+        $subdistrict->lintang = $request->lintang;
         $subdistrict->save();
         return redirect('master_kecamatan')->with('edit','Data sukses diubah');
     }

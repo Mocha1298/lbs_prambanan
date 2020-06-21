@@ -99,8 +99,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <form id="form" action="/master_jenis_ubah/{{$dt->id}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <fieldset>
-              <input placeholder="Kategori" type="text" name="kategori" value="{{ $dt->kategori ?? old('kategori') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-              @error('kategori')
+              <input placeholder="Kategori" type="text" name="nama" value="{{ $dt->nama ?? old('nama') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              @error('nama')
               <div class="invalid-feedback">
                   {{$message}}
               </div>
@@ -151,8 +151,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <form id="form" action="/master_jenis_tambah" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
           <fieldset>
-            <input placeholder="Kategori" type="text" name="kategori" value="{{ old('kategori') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('kategori')
+            <input placeholder="Kategori" type="text" autocomplete="off" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('nama')
             <div class="invalid-feedback">
                 {{$message}}
             </div>

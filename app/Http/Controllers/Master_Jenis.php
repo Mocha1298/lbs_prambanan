@@ -20,7 +20,7 @@ class Master_Jenis extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kategori' => 'required',
+            'nama' => 'required',
             'jenis' => 'required',
             'marker' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
         ]);
@@ -40,8 +40,8 @@ class Master_Jenis extends Controller
         })->save('gambar/jenis/'.$imgname);
 
         $type = new Type;
+        $type->nama = $request->nama;
         $type->jenis = $request->jenis;
-        $type->kategori = $request->kategori;
         $type->marker = $imgname;
         $type->save();
 
@@ -51,7 +51,7 @@ class Master_Jenis extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'kategori' => 'required',
+            'nama' => 'required',
             'jenis' => 'required',
             'marker' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
         ]);
@@ -82,7 +82,7 @@ class Master_Jenis extends Controller
         }
         $data = Type::find($id);
         $data->jenis = $request->jenis;
-        $data->kategori = $request->kategori;
+        $data->nama = $request->nama;
         $data->marker = $imgname;
         $data->save();
 
