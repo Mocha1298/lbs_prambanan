@@ -31,4 +31,6 @@ function getcenter2(){
     var center = mymap2.getCenter();
     document.getElementById("bujur2").value = center.lng;
     document.getElementById("lintang2").value = center.lat;
+    $(".alert-dismissible").css({display: "block"});
+    $(".alert-dismissible").fadeIn().delay(2000).fadeOut();
 }

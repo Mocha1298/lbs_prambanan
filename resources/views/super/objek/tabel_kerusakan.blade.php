@@ -50,6 +50,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
               <td data-label="Tanggal">{{ $kr->perbaikan }}</td>
               <td data-label="RT/RW">{{ $kr->rt }}/{{ $kr->rw }}</td>
               <td data-label="Foto"><a href="/gambar/kerusakan/ori/{{$kr->foto1}}"><img src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="" width="50px" height="auto"></a></td>
+              @if ($kr->status == 'Sedang' || $kr->status == 'Selesai')
+              <td data-label="Foto"><a href="/gambar/kerusakan/ori/{{$kr->foto2}}"><img src="/gambar/kerusakan/thumbnail/{{$kr->foto2}}" alt="" width="50px" height="auto"></a></td>
+              @elseif ($kr->status == 'Selesai')
+              <td data-label="Foto"><a href="/gambar/kerusakan/ori/{{$kr->foto3}}"><img src="/gambar/kerusakan/thumbnail/{{$kr->foto3}}" alt="" width="50px" height="auto"></a></td>
+              @endif
                 {{-- Content Klik Kanan --}}
                 <div id="contextMenu" class="cm_{{$kr->id}}" style="display: none">
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
@@ -112,13 +117,29 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_e{{$kr->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Desa</h2>
-        <a class="close" href="/objek_kerusakan/{{$kr->id}}">&times;</a>
+        <a class="close" href="/objek_kerusakan/{{$kr->villages_id}}">&times;</a>
         <div class="content">
-          <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post">
+          <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <fieldset>
               <input placeholder="Nama Kerusakan" type="text" autocomplete="off" name="nama" value="{{ old('nama') ?? $kr->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
               @error('nama')
+              <div class="invalid-feedback">
+                  {{$message}}
+              </div>
+              @enderror 
+            </fieldset>
+            <fieldset>
+              <input placeholder="RT" type="text" autocomplete="off" name="rt" value="{{ old('rt') ?? $kr->rt }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
+              @error('rt')
+              <div class="invalid-feedback">
+                  {{$message}}
+              </div>
+              @enderror 
+            </fieldset>
+            <fieldset>
+              <input placeholder="RW" type="text" autocomplete="off" name="rw" value="{{ old('rw') ?? $kr->rw }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
+              @error('rw')
               <div class="invalid-feedback">
                   {{$message}}
               </div>
@@ -147,6 +168,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             </fieldset>
             <fieldset>
               <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
+              <img style="margin-left: 20px" src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="">
             </fieldset>
             <fieldset>
               <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kr->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
@@ -168,7 +190,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               <div onclick="getcenter2();" id="mapid2" style="width: 100%; height: 40vh;">
                 <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
               </div>
-            </fieldset>
+            <fieldset>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
@@ -196,7 +218,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <div class="content">
         <form id="form" action="/objek_kerusakan_tambah/{{$id}}" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
-          @if ($errors->any())
+          {{-- @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
                       @foreach ($errors->all() as $error)
@@ -204,29 +226,32 @@ oncopy='return false' oncut='return false' onpaste='return false'
                       @endforeach
                   </ul>
               </div>
-          @endif
-          <fieldset style="margin-top: 0">
+          @endif --}}
+          <fieldset>
             <input placeholder="Nama Kerusakan" type="text" autocomplete="off" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('nama')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror 
-
+          </fieldset>
+          <fieldset>
             <input placeholder="RT" type="text" autocomplete="off" name="rt" value="{{ old('rt') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('rt')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror 
-
+          </fieldset>
+          <fieldset>
             <input placeholder="RW" type="text" autocomplete="off" name="rw" value="{{ old('rw') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('rw')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror 
-
+          </fieldset>
+          <fieldset>
             <select name="level" id="form" tabindex="2" required>
               <option @if (old('level')=='') selected @endif value="">-- PILIH LEVEL--</option>
               <option @if (old('level')=='Ringan') selected @endif value="Ringan">Ringan</option>
@@ -237,7 +262,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 {{$message}}
             </div>
             @enderror
-
+          </fieldset>
+          <fieldset>
             <input placeholder="Rencana Perbaikan" type="date" autocomplete="off" name="perbaikan" value="{{ old('perbaikan') }}" tabindex="5" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
             <label style="font-size: 12px; color: #888;" for="perbaikan">Rencana Perbaikan</label>
             @error('perbaikan')
@@ -245,23 +271,27 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 {{$message}}
             </div>
             @enderror
-
+          </fieldset>
+          <fieldset>
             <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
-
+          </fieldset>
+          <fieldset>
             <input id="bujur1" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('bujur')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror
-
+          </fieldset>
+          <fieldset>
             <input id="lintang1" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('lintang')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror
-
+          </fieldset>
+          <fieldset>
             <div onclick="getcenter1();" id="mapid1" style="width: 100%; height: 35vh;">
               <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
             </div>

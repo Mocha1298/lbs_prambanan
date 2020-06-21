@@ -10,6 +10,9 @@
     @yield('head')
 </head>
 <body @yield('copy') >
+    <div class="alert alert-warning alert-dismissible fade show">
+      POSISI MARKER DIUBAH
+    </div>
     <div class="container">
         <header>
             <h2 class="bagian header">

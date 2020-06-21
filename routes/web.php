@@ -58,8 +58,7 @@ Route::get('/objek_peta_hapus/{id}','Objek_Peta@destroy');
 // Route Objek Kerusakan
 Route::get('/objek_kerusakan/{id}','Objek_Kerusakan@index2');//Menampilkan peta berdasarkan desa
 Route::post('/objek_kerusakan_tambah/{id}','Objek_Kerusakan@create');//Proses tambah berdasarkan desa
-Route::get('/objek_kerusakan_ubah','Objek_Kerusakan@edit');
-Route::post('/objek_kerusakan_upost','Objek_Kerusakan@update');
+Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
 Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
 
 

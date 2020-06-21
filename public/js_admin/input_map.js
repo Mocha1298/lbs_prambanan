@@ -9,7 +9,8 @@ function getcenter1(){
     
     document.getElementById("bujur1").value = center.lng;
     document.getElementById("lintang1").value = center.lat;
-    // document.getElementById("ltln").value = center.lat+','+center.lng;
+    $(".alert-dismissible").css({display: "block"});
+    $(".alert-dismissible").fadeIn().delay(2000).fadeOut();
 }
 
 var tiles1 = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{

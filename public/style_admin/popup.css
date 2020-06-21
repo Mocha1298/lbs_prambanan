@@ -19,8 +19,9 @@
   }
   
   div.overlay {
+    overflow-y: auto;
     position: fixed;
-    top: -7%;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -72,6 +73,18 @@
     color: black;
     padding: 5px;
   }
+
+  .alert-dismissible {
+    position: fixed;
+    width: 99%;
+    padding: 10px 0;
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    background: rgba(0, 255, 106, 0.534);
+    display: none;
+    z-index: 1;
+}
   
   @media screen and (max-width: 700px) {
     div.popup {
