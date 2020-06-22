@@ -132,7 +132,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="bujur2" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $ds->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="bujur{{$ds->id}}" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $ds->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
                   {{$message}}
@@ -140,16 +140,18 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="lintang2" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $ds->lintang}}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+              <input id="lintang{{$ds->id}}" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $ds->lintang }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('lintang')
               <div class="invalid-feedback">
                   {{$message}}
               </div>
               @enderror
             </fieldset>
-            <div onclick="getcenter2();" id="mapid2" style="width: 100%; height: 40vh;">
-              <img class="marker" src="{{asset('gambar/marker/current.png')}}" alt="">
-            </div>
+            <fieldset>
+            <div onclick="getcenter2({{$ds->id}});" class="map" id="mapid{{$ds->id}}" style="width: 100%; height: 40vh;">
+                <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
+              </div>
+            <fieldset>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
@@ -194,7 +196,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input id="bujur1" placeholder="Longitude" type="text" autocomplete="off" name="bujur" value="{{ old('bujur') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+            <input id="bujur" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('bujur')
             <div class="invalid-feedback">
                 {{$message}}
@@ -202,16 +204,18 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input id="lintang1" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
+            <input id="lintang" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
             @error('lintang')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror
           </fieldset>
-          <div onclick="getcenter1();" id="mapid1" style="width: 100%; height: 40vh;">
-            <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
-          </div>
+          <fieldset>
+            <div onclick="getcenter1();" id="mapid" style="width: 100%; height: 35vh;">
+              <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
+            </div>
+          </fieldset>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
@@ -223,6 +227,5 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @section('script')
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/edit_map.js')}}"></script>
-    <script src="{{asset('js_admin/input_map.js')}}"></script>
+    <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection
