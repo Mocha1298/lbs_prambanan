@@ -55,6 +55,7 @@
                 </div>
                   <ul class="submenu">
                     <div id="submenu1" style="display:none;">
+                      @if (Auth::user()->roles_id == 1)
                       <li>
                         <a class="bagian pages" href="/master_kecamatan"><span class='fa fa-bookmark'></span>Kecamatan</a>
                       </li>
@@ -64,29 +65,36 @@
                       <li>
                         <a class="bagian pages" href="/master_user"><span class='fa fa-bookmark'></span>User</a>
                       </li>
+                      @else
+                      <li>
+                        <a class="bagian pages" href="/objek_kerusakan/{{Auth::user()->villages_id}}"><span class='fa fa-bookmark'></span>Kerusakan</a>
+                      </li>
+                      @endif
                       <div id="upbutton"><a onclick="return hide(1);"><i class="fa fa-chevron-up"></i></a></div>
                     </div> 
                   </ul>
             </li>
-            {{-- OLAH OBJEK --}}
-            <li class="topmenu">
-              <div id="opener">
-                <a href="#2" class="bagian navigation" name="2" onclick="return show(2);">
-                  <span class='fa fa-share'></span>Olah Objek
-                </a>
-              </div>
-                <ul class="submenu">
-                  <div id="submenu2" style="display:none;">
-                    <li>
-                      <a class="bagian navigation" href="/objek_peta"><span class='fa fa-share'></span>Objek Peta</a>
-                    </li>
-                    <li>
-                      <a class="bagian navigation" href="/objek_kerusakan"><span class='fa fa-share'></span>Objek Kerusakan</a>
-                    </li>
-                    <div id="upbutton"><a onclick="return hide(2);"><i class="fa fa-chevron-up"></i></a></div>
-                  </div> 
-                </ul>
-            </li>
+            @if (Auth::user()->roles_id == 1)
+                {{-- OLAH OBJEK --}}
+                <li class="topmenu">
+                  <div id="opener">
+                    <a href="#2" class="bagian navigation" name="2" onclick="return show(2);">
+                      <span class='fa fa-share'></span>Olah Objek
+                    </a>
+                  </div>
+                    <ul class="submenu">
+                      <div id="submenu2" style="display:none;">
+                        <li>
+                          <a class="bagian navigation" href="/objek_peta"><span class='fa fa-share'></span>Objek Peta</a>
+                        </li>
+                        <li>
+                          <a class="bagian navigation" href="/objek_kerusakan"><span class='fa fa-share'></span>Objek Kerusakan</a>
+                        </li>
+                        <div id="upbutton"><a onclick="return hide(2);"><i class="fa fa-chevron-up"></i></a></div>
+                      </div> 
+                    </ul>
+                </li>
+            @endif
             {{-- OLAH WARGA --}}
             <li class="topmenu">
               <div id="opener">

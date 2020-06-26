@@ -21,7 +21,9 @@
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa_back/{{$id}}">Master Kerusakan</a> >Data Kerusakan
+    @if (Auth::user()->roles_id != 2)
+        <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa_back/{{$id}}">Master Kerusakan</a> >Data Kerusakan
+    @endif
     <a style="position: absolute; right: 0; width: 50px;" href="/peta_kerusakan/{{$id}}"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
 @endsection
 @section('isi')

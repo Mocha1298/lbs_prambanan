@@ -18,6 +18,8 @@ class Checkrole
         if($request->user()->roles_id != $role){
         return $next($request);
         }
-        return redirect('/');
+        else {
+            return redirect('/');
+        }
     }
 }

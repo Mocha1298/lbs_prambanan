@@ -107,7 +107,11 @@
         <h1 class='company'>PETANE PRAMBANAN</h1>
         </div>
         @if (Auth::check())
-            <p style="text-align: center">Anda sudah login....==> <a class="dashboard" href="/super">Dashboard</a></p>
+            @if (Auth::user()->roles_id != 3)
+                <p style="text-align: center">Anda sudah login....==> <a class="dashboard" href="/super">Dashboard</a></p>
+            @else
+                <p style="text-align: center">Anda sudah login....==> <a class="dashboard" href="/">Home</a></p>
+            @endif
         @else
             <p class='msg'>Selamat Datang</p>
             <div class='form'>
@@ -124,7 +128,7 @@
                     <a href="#" class='forgot'>Lupa Password</a>
                 </form>
             </div>
-            @endif
+        @endif
     </section>
 </body>
 </html>

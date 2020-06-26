@@ -15,9 +15,9 @@ Route::get('/','Homepage@index');
 
 Route::get('/login','AuthController@index')->name('login');
 Route::post('/dashboard','AuthController@postlogin');
+Route::get('/logout','AuthController@logout');
     
 Route::group(['middleware' => ['auth','checkrole:3']], function () {
-    Route::get('/logout','AuthController@logout');
     Route::get('/super','Dashboard@index');
     // Route Master User
     Route::get('/master_user','Master_User@index');//Menampilkan halaman master user
