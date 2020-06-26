@@ -6,6 +6,7 @@
     <title>@yield('title')</title>
     <script src="https://use.fontawesome.com/f5184190ae.js"></script>
     <link rel="stylesheet" href="{{asset('style_admin/style.css')}}">
+    <link rel="stylesheet" href="{{asset('style_admin/dropdown-user.css')}}">
     <script src="{{asset('js_admin/nav.js')}}"></script>
     @yield('head')
 </head>
@@ -17,14 +18,34 @@
         <header>
             <h2 class="bagian header">
                 <span class="log">
-                    <a href="#">Logout</a>
+                  <label for="profile2" class="profile-dropdown">
+                    <input type="checkbox" id="profile2">
+                    <img src="https://cdn0.iconfinder.com/data/icons/avatars-3/512/avatar_hipster_guy-512.png">
+                    <span>{{auth()->user()->nama}}</span>
+                    <label for="profile2"><i class="mdi mdi-menu"></i></label>
+                    <ul>
+                      <li><a href="#"><i class="mdi mdi-email-outline"></i>Messages</a></li>
+                      <li><a href="#"><i class="mdi mdi-account"></i>Account</a></li>
+                      <li><a href="#"><i class="mdi mdi-settings"></i>Settings</a></li>
+                      <li><a href="/logout"><i class="mdi mdi-logout"></i>Logout</a></li>
+                    </ul>
+                  </label>
                 </span>Olah Master
             </h2>
         </header>
 
+
+
+
+
+
+<!-- Template layout -->
+
+<div class="background"></div>
+
         <nav>
           <ul>
-            <li><a class="bagian dashboard" href="/"><span class='fa fa-home'></span>Dashboard</a></li>
+            <li><a class="bagian dashboard" href="/super"><span class='fa fa-home'></span>Dashboard</a></li>
             {{-- OLAH MASTER --}}
             <li class="topmenu">
                 <div id="opener">

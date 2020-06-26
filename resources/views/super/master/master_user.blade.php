@@ -35,7 +35,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @foreach($data as $us)
           <tr id="{{$us->id}}" class="table">
             <td data-label="No">{{ $loop->iteration }}</td>
-            <td data-label="Nama User">{{ $us->name }}</td>
+            <td data-label="Nama User">{{ $us->nama }}</td>
             <td data-label="Email">{{ $us->email }}</td>
             <td data-label="Status">
               @if ($us->aktivasi == 0)
