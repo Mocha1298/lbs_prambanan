@@ -17,7 +17,7 @@ Route::get('/login','AuthController@index')->name('login');
 Route::post('/dashboard','AuthController@postlogin');
 Route::get('/logout','AuthController@logout');
     
-Route::group(['middleware' => ['auth','checkrole:3']], function () {
+Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/super','Dashboard@index');
     // Route Master User
     Route::get('/master_user','Master_User@index');//Menampilkan halaman master user
@@ -65,6 +65,10 @@ Route::group(['middleware' => ['auth','checkrole:3']], function () {
     Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
 });
+
+// Route::group(['middleware' => ['']])
+
+Route::get('/suwar','SuaraWarga@index');
 
 // Auth::routes();
 

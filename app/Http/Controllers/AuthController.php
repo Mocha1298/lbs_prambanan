@@ -26,10 +26,13 @@ class AuthController extends Controller
                 $data4 = Text::count();
                 return view('super.dashboard',['data1'=>$data1,'data2'=>$data2,'data3'=>$data3,'data4'=>$data4]);
             }
-            else{
+            elseif (Auth::user()->roles_id == 2){
                 $data3 = Map::where('villages_id',$id)->count();
                 $data4 = Text::where('villages_id',$id)->count();
                 return view('super.dashboard',['data3'=>$data3,'data4'=>$data4,'id'=>$id]);
+            }
+            else{
+                return view('user.homepage');
             }
         }
         return redirect('/login')->with('gagal','Username atau Password tidak cocok!');
