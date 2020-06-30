@@ -32,7 +32,7 @@ class AuthController extends Controller
                 return view('super.dashboard',['data3'=>$data3,'data4'=>$data4,'id'=>$id]);
             }
             else{
-                return view('user.homepage');
+                return view('user.landing-page');
             }
         }
         return redirect('/login')->with('gagal','Username atau Password tidak cocok!');

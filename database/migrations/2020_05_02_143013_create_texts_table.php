@@ -16,6 +16,7 @@ class CreateTextsTable extends Migration
         Schema::create('texts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('status');
+            $table->string('nama');
             $table->string('keterangan');
             $table->integer('rt')->nullable();
             $table->integer('rw')->nullable();

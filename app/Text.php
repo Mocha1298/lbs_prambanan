@@ -11,7 +11,7 @@ class Text extends Model
         return $this->hasMany('App\Agenda','texts_id');
     }
     protected $fillable = [
-        'status','keterangan','rt','rw','bujur','lintang','id_tul','users_id','maps_id','photos_id','villages_id','subdistrict_id',
+        'nama','status','keterangan','rt','rw','bujur','lintang','id_tul','users_id','maps_id','photos_id','villages_id','subdistrict_id',
 
     ];
 }

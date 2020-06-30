@@ -1,59 +1,74 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script type="text/javascript">
-        var onloadCallback = function() {
-          grecaptcha.render('html_element', {
-            'sitekey' : '6LewHKoZAAAAAHZySR29OeUNPV59UJJdt98M1qmG'
-          });
-        };
-    </script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="{{asset('jquery/jquery.js')}}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('style_user/form.css')}}">
+  <title>Document</title>
 </head>
 <body>
-    <header>
-        <h1>Suara Warga Prambanan</h1>
-    </header>
-    <div class="content">
-        <div class="progress-bar">
-            <div class="bar">
-                <div class="garis pertama"></div>
-                <div class="garis pertama"></div>
-                <div class="garis pertama"></div>
-            </div>
-        </div>
-        <div id="form">
-            <form action="?" method="POST">
-            <div class="g-recaptcha" data-sitekey="your_site_key"></div>
-            <br/>
-            <input type="submit" value="Submit">
-            </form>
-        </div>
-    </div>
-</body>
-</html> --}}
+  <form method="post" action="{{url('captcha')}}">
 
-<html>
-  <head>
-    <title>reCAPTCHA demo: Simple page</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script type="text/javascript">
-        var onloadCallback = function() {
-          alert("grecaptcha is ready!");
-        };
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+    <div class="judul">
+      <h3 id="logo">Suara Warga</h3>
+      <h5>(Suara Warga adalah fitur pelaporan untuk Masyarakat kepada Pemerintah Desa terhadap kasus kerusakan jalan baru...)</h5>
+    </div>
+  
+    <hr>
+
+    <label for="nama">Judul Laporan</label>
+    <input type="text" id="nama" name="nama" placeholder="Tulis Judul laporan Anda.." autocomplete="off" required />
+  
+    <label for="keterangan">Keterangan</label>
+    <input type="text" id="keterangan" name="keterangan" placeholder="Tulis Keterangan laporan Anda.." autocomplete="off" required />
+
+    <label for="desa">DESA</label>
+    <select name="desa">
+      <option class="dis" selected disabled>Pilih Desa laporan Anda..</option>
+      @foreach ($data as $dt)
+        <option value="{{$dt->id}}">{{$dt->nama}}</option>
+      @endforeach
+    </select>
+    
+    <label for="rw">RW (optional)</label>
+    <input type="text" id="rw" name="rw" placeholder="Tulis  laporan Anda.." autocomplete="off" required />
+    
+    <label for="rt">RT (optional)</label>
+    <input type="text" id="rt" name="rt" placeholder="Tulis judul laporan Anda.." autocomplete="off" required />
+  
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Type in your username.." autocomplete="off" required />
+
+    <label style="width: 100%" for="captcha">Captcha</label>
+    <div class="captcha">
+      <span>{!! captcha_img() !!}</span>
+    </div>
+    <div class="btn-refresh">
+      <button id="refresh" type="button" class="refresh"><i class="fa fa-refresh"></i></button>
+      {{-- <a href="#" id="refresh"></a> --}}
+    </div>
+
+    <input id="captcha" type="text" placeholder="Enter Captcha" name="captcha" autocomplete="off" required ></div>
+    </div>
+  
+    <input type="submit" name="submit" value="Submit" />
+  
+  </form>
+  <script type="text/javascript">
+    $('#refresh').click(function(){
+        $.ajax({
+          type:'GET',
+          url:'refreshcaptcha',
+          success:function(data){
+              $(".captcha span").html(data.captcha);
+          }
+        });
+      });
   </script>
-  </head>
-  <body>
-    <form action="?" method="POST">
-      <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
-      <br/>
-      <input type="submit" value="Submit">
-    </form>
-  </body>
+  <script>
+  </script>
+</body>
 </html>

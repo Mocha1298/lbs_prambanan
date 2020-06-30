@@ -13,6 +13,11 @@ div.leaflet-control-zoom.leaflet-bar.leaflet-control{
     margin-top: 90vh;
     margin-left: 50px;
 }
+svg.leaflet-zoom-animated g path.leaflet-interactive{
+    stroke: white;
+    stroke-width: 1;
+    fill-opacity: 0;
+}
 @media all and (max-width: 800px){
     div.leaflet-control-zoom.leaflet-bar.leaflet-control{
         margin-top: 80vh;

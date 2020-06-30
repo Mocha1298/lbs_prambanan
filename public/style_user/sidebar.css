@@ -121,6 +121,7 @@
  */
 #menu
 {
+  border-radius: 20px;
   position: absolute;
   width: 300px;
   margin: -100px 0 0 -50px;

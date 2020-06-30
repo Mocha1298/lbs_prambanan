@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-    <title>Document</title>
+    <title>Peta-Jalan</title>
 </head>
 <body>
     <div id="mapid"></div>
@@ -31,8 +31,8 @@
             <ul id="menu">
                 <a href="/">
                     <li class="between">
-                        <img style="width: 40px; height: 40px; margin-top: 10px; margin-left: 10px" src="/gambar/marker/logo.png">
-                        <p >PetaJalan Prambanan</p>
+                        <img style="width: 40px; height: 40px; margin: 10px 23px 0 11px" src="/gambar/marker/logo.png">
+                        <p>Peta-Jalan</p>
                     </li>
                 </a>
                 <a href="#rute"><li class="between">
