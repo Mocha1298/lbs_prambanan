@@ -41,35 +41,50 @@
           <i class="fa fa-arrow-right fa-3x"></i>
         </div>
       </a>
-    </li>      
-  @endif
-  <li class="card kerusakan">
-    <div class="logo">
-      <i class="fa fa-map fa-3x"></i>
-    </div>
-    <div class="title">
-      <div class="name">KERUSAKAN</div>
-      <div class="number">{{$data3}}</div>
-    </div>
-    <a href="/objek_kerusakan">
-      <div class="detail">
-        <i class="fa fa-arrow-right fa-3x"></i>
+    </li>   
+    <li class="card objek">
+      <div class="logo">
+        <i class="fa fa-tree fa-3x"></i>
       </div>
-    </a>
-  </li>
-  <li class="card laporan">
-    <div class="logo">
-      <i class="fa fa-file fa-3x"></i>
-    </div>
-    <div class="title">
-      <div class="name">LAPORAN</div>
-      <div class="number">{{$data4}}</div>
-    </div>
-    <a href="/lapor_lapor1">
-      <div class="detail">
-        <i class="fa fa-arrow-right fa-3x"></i>
+      <div class="title">
+        <div class="name">OBJEK</div>
+        <div class="number">{{$data5}}</div>
       </div>
-    </a>
-  </li>
+      <a href="/objek_peta">
+        <div class="detail">
+          <i class="fa fa-arrow-right fa-3x"></i>
+        </div>
+      </a>
+    </li>
+    @else
+    <li class="card kerusakan">
+      <div class="logo">
+        <i class="fa fa-map fa-3x"></i>
+      </div>
+      <div class="title">
+        <div class="name">KERUSAKAN</div>
+        <div class="number">{{$data3}}</div>
+      </div>
+      <a href="/objek_kerusakan">
+        <div class="detail">
+          <i class="fa fa-arrow-right fa-3x"></i>
+        </div>
+      </a>
+    </li>
+    <li class="card laporan">
+      <div class="logo">
+        <i class="fa fa-file fa-3x"></i>
+      </div>
+      <div class="title">
+        <div class="name">LAPORAN</div>
+        <div class="number">{{$data4}}</div>
+      </div>
+      <a href="/lapor_lapor1">
+        <div class="detail">
+          <i class="fa fa-arrow-right fa-3x"></i>
+        </div>
+      </a>
+    </li>
+    @endif
 </ul>
 @endsection

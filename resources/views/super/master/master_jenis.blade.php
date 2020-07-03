@@ -25,8 +25,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Jenis</th>
           <th scope="col">Kategori</th>
+          <th scope="col">Jenis</th>
           <th scope="col">Icon</th>
         </tr>
       </thead>
@@ -34,18 +34,20 @@ oncopy='return false' oncut='return false' onpaste='return false'
         @foreach($data as $dt)
           <tr id="{{$dt->id}}" class="table">
             <td data-label="No">{{ $loop->iteration }}</td>
+            <td data-label="Kategori">{{ $dt->nama }}</td>
             <td data-label="Jenis">{{ $dt->jenis }}</td>
-            <td data-label="Kategori">{{ $dt->kategori }}</td>
-          <td data-label="Icon"><img width="50px" height="50px" src="{{asset('gambar/jenis/'.$dt->marker.'')}}" alt=""></td>
+            <td data-label="Icon"><img width="50px" height="50px" src="{{asset('gambar/jenis/'.$dt->marker.'')}}" alt=""></td>
               {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$dt->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                   <li class="edit">
                     <a href="#popup_e{{$dt->id}}">EDIT</a>
                   </li>
+                  @if($dt->jenis != 'Kerusakan')
                   <li class="hapus">
                     <a href="#popup_h{{$dt->id}}">HAPUS</a>
                   </li>
+                  @endif
                 </ul>
               </div>
           </tr>
@@ -56,37 +58,37 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <a style="color:white;" class="add" href="#add">Tambah Jenis</a>
         <?php
           // config
-          $link_limit = 7; // maximum number of links (a little bit inaccurate, but will be ok for now)
-          ?>
+          $link_limit = 5;
+        ?>
 
-          @if ($data->lastPage() > 1)
-              <ul>
-                  <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url(1) }}">First</a>
-                  </li>
-                  @for ($i = 1; $i <= $data->lastPage(); $i++)
-                      <?php
-                      $half_total_links = floor($link_limit / 2);
-                      $from = $data->currentPage() - $half_total_links;
-                      $to = $data->currentPage() + $half_total_links;
-                      if ($data->currentPage() < $half_total_links) {
-                        $to += $half_total_links - $data->currentPage();
-                      }
-                      if ($data->lastPage() - $data->currentPage() < $half_total_links) {
-                          $from -= $half_total_links - ($data->lastPage() - $data->currentPage()) - 1;
-                      }
-                      ?>
-                      @if ($from < $i && $i < $to)
-                          <li class="{{ ($data->currentPage() == $i) ? ' active' : '' }}">
-                              <a href="{{ $data->url($i) }}">{{ $i }}</a>
-                          </li>
-                      @endif
-                  @endfor
-                  <li class="{{ ($data->currentPage() == $data->lastPage()) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url($data->lastPage()) }}">Last</a>
-                  </li>
-              </ul>
-@endif
+        @if ($data->lastPage() > 1)
+            <ul>
+                <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
+                    <a href="{{ $data->url(1) }}">First</a>
+                </li>
+                @for ($i = 1; $i <= $data->lastPage(); $i++)
+                    <?php
+                    $half_total_links = floor($link_limit / 2);
+                    $from = $data->currentPage() - $half_total_links;
+                    $to = $data->currentPage() + $half_total_links;
+                    if ($data->currentPage() < $half_total_links) {
+                      $to += $half_total_links - $data->currentPage();
+                    }
+                    if ($data->lastPage() - $data->currentPage() < $half_total_links) {
+                        $from -= $half_total_links - ($data->lastPage() - $data->currentPage()) - 1;
+                    }
+                    ?>
+                    @if ($from < $i && $i < $to)
+                        <li class="{{ ($data->currentPage() == $i) ? ' active' : '' }}">
+                            <a href="{{ $data->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endif
+                @endfor
+                <li class="{{ ($data->currentPage() == $data->lastPage()) ? ' disabled' : '' }}">
+                    <a href="{{ $data->url($data->lastPage()) }}">Last</a>
+                </li>
+            </ul>
+        @endif
     </div>
   </div>
   @foreach ($data as $dt)

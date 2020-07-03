@@ -36,6 +36,12 @@
 .card.kecamatan .logo{
   background: #dd4b39 !important;
 }
+.card.objek{
+  border-right: solid #b93861 !important;
+}
+.card.objek .logo{
+  background: #b93861 !important;
+}
 .card.kerusakan{
   border-right: solid #00a65a !important;
 }

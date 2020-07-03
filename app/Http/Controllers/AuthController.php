@@ -24,7 +24,8 @@ class AuthController extends Controller
                 $data2 = Subdistrict::count();
                 $data3 = Map::count();
                 $data4 = Text::count();
-                return view('super.dashboard',['data1'=>$data1,'data2'=>$data2,'data3'=>$data3,'data4'=>$data4]);
+                $data5 = Map::join('types','types.id','maps.types_id')->where('jenis','Peta')->count();
+                return view('super.dashboard',['data1'=>$data1,'data2'=>$data2,'data3'=>$data3,'data4'=>$data4,'data5'=>$data5]);
             }
             elseif (Auth::user()->roles_id == 2){
                 $data3 = Map::where('villages_id',$id)->count();

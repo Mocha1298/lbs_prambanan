@@ -13,7 +13,7 @@ class Master_Jenis extends Controller
 
     public function index()
     {
-        $data = Type::paginate(10);
+        $data = Type::paginate(5);
         return view ('super.master.master_jenis',['data'=>$data]);
     }
 
@@ -92,6 +92,10 @@ class Master_Jenis extends Controller
     public function destroy($id)
     {
         $type = Type::find($id);
+        $jenis = $type->jenis;
+        if($jenis == 'Kerusakan'){
+            return redirect('/master_jenis')->with('hapus','Data tidak dapat dihapus!');
+        }
         $foto = $type->marker;
         $data = "gambar/jenis/$foto";
         if(File::exists($data)) {

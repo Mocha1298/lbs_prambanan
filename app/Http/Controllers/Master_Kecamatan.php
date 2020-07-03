@@ -38,21 +38,6 @@ class Master_Kecamatan extends Controller
         return redirect('master_kecamatan')->with('simpan','Data sukses disimpan');
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

@@ -19,6 +19,7 @@
   }
   
   div.overlay {
+    z-index: 2;
     overflow-y: auto;
     position: fixed;
     top: 0;

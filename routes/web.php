@@ -54,16 +54,16 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
     // Route Objek Peta
     Route::get('/objek_peta','Objek_Peta@index');
-    Route::get('/objek_peta_tambah','Objek_Peta@create');
-    Route::post('/objek_peta_tpost','Objek_Peta@store');
-    Route::get('/objek_peta_ubah','Objek_Peta@edit');
-    Route::post('/objek_peta_upost','Objek_Peta@update');
+    Route::post('/objek_peta_tambah','Objek_Peta@create');
+    Route::post('/objek_peta_ubah/{id}','Objek_Peta@update');
     Route::get('/objek_peta_hapus/{id}','Objek_Peta@destroy');
 
     // Route Objek Kerusakan
     Route::get('/objek_kerusakan/{id}','Objek_Kerusakan@index2');//Menampilkan peta berdasarkan desa
     Route::post('/objek_kerusakan_tambah/{id}','Objek_Kerusakan@create');//Proses tambah berdasarkan desa
+    Route::post('/objek_kerusakan_foto/{id}','Objek_Kerusakan@foto');//Proses tambah berdasarkan desa
     Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
+    Route::post('/objek_kerusakan_status/{id}','Objek_Kerusakan@update1');//Proses ubah status data
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
 });
 

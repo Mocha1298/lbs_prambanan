@@ -39,7 +39,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <td data-label="Email">{{ $us->email }}</td>
             <td data-label="Status">
               @if ($us->aktivasi == 0)
-              UBAH EMAIL DAN PASSWORD!
+              UNCOFIRMED
               @elseif ($us->aktivasi == 1)
               OK
               @else

@@ -17,9 +17,10 @@ class Dashboard extends Controller
         if (Auth::user()->roles_id == 1) {
             $data1 = User::count();
             $data2 = Subdistrict::count();
-            $data3 = Map::count();
+            $data3 = Map::join('types','types.id','maps.types_id')->where('jenis','Kerusakan')->count();
             $data4 = Text::count();
-            return view('super.dashboard',['data1'=>$data1,'data2'=>$data2,'data3'=>$data3,'data4'=>$data4]);
+            $data5 = Map::join('types','types.id','maps.types_id')->where('jenis','Peta')->count();
+            return view('super.dashboard',['data1'=>$data1,'data2'=>$data2,'data3'=>$data3,'data4'=>$data4,'data5'=>$data5]);
         }
         else{
             $data3 = Map::where('villages_id',$id)->count();

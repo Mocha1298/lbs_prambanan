@@ -24,25 +24,13 @@
                     <span>{{auth()->user()->nama}}</span>
                     <label for="profile2"><i class="mdi mdi-menu"></i></label>
                     <ul>
-                      <li><a href="#"><i class="mdi mdi-email-outline"></i>Messages</a></li>
-                      <li><a href="#"><i class="mdi mdi-account"></i>Account</a></li>
-                      <li><a href="#"><i class="mdi mdi-settings"></i>Settings</a></li>
                       <li><a href="/logout"><i class="mdi mdi-logout"></i>Logout</a></li>
                     </ul>
                   </label>
-                </span>Olah Master
+                </span> Peta Jalan
             </h2>
         </header>
-
-
-
-
-
-
-<!-- Template layout -->
-
-<div class="background"></div>
-
+        <div class="background"></div>
         <nav>
           <ul>
             <li><a class="bagian dashboard" href="/super"><span class='fa fa-home'></span>Dashboard</a></li>
@@ -74,49 +62,51 @@
                     </div> 
                   </ul>
             </li>
-            @if (Auth::user()->roles_id == 1)
-                {{-- OLAH OBJEK --}}
-                <li class="topmenu">
-                  <div id="opener">
-                    <a href="#2" class="bagian navigation" name="2" onclick="return show(2);">
-                      <span class='fa fa-share'></span>Olah Objek
-                    </a>
-                  </div>
-                    <ul class="submenu">
-                      <div id="submenu2" style="display:none;">
-                        <li>
-                          <a class="bagian navigation" href="/objek_peta"><span class='fa fa-share'></span>Objek Peta</a>
-                        </li>
-                        <li>
-                          <a class="bagian navigation" href="/objek_kerusakan"><span class='fa fa-share'></span>Objek Kerusakan</a>
-                        </li>
-                        <div id="upbutton"><a onclick="return hide(2);"><i class="fa fa-chevron-up"></i></a></div>
-                      </div> 
-                    </ul>
-                </li>
-            @endif
-            {{-- OLAH WARGA --}}
+            {{-- OLAH OBJEK --}}
             <li class="topmenu">
               <div id="opener">
-                <a href="#3" class="bagian users" name="3" onclick="return show(3);">
-                  <span class='fa fa-user'></span>Suara Warga
+                <a href="#2" class="bagian navigation" name="2" onclick="return show(2);">
+                  <span class='fa fa-share'></span>Olah Objek
                 </a>
               </div>
                 <ul class="submenu">
-                  <div id="submenu3" style="display:none;">
+                  <div id="submenu2" style="display:none;">
+                    @if (Auth::user()->roles_id == 1)
                     <li>
-                      <a class="bagian users" href="/lapor_lapor1"><span class='fa fa-user'></span>Laporan</a>
+                      <a class="bagian navigation" href="/objek_peta"><span class='fa fa-share'></span>Objek Peta</a>
                     </li>
+                    @else
                     <li>
-                      <a class="bagian users" href="/lapor_lapor2"><span class='fa fa-user'></span>Agenda</a>
+                      <a class="bagian navigation" href="/objek_kerusakan"><span class='fa fa-share'></span>Objek Kerusakan</a>
                     </li>
-                    <div id="upbutton"><a onclick="return hide(3);"><i class="fa fa-chevron-up"></i></a></div>
+                    @endif
+                    <div id="upbutton"><a onclick="return hide(2);"><i class="fa fa-chevron-up"></i></a></div>
                   </div> 
                 </ul>
             </li>
+            @if (Auth::user()->roles_id == 2)
+              {{-- OLAH WARGA --}}
+              <li class="topmenu">
+                <div id="opener">
+                  <a href="#3" class="bagian users" name="3" onclick="return show(3);">
+                    <span class='fa fa-user'></span>Suara Warga
+                  </a>
+                </div>
+                <ul class="submenu">
+                    <div id="submenu3" style="display:none;">
+                      <li>
+                        <a class="bagian users" href="/lapor_lapor1"><span class='fa fa-user'></span>Laporan</a>
+                      </li>
+                      <li>
+                        <a class="bagian users" href="/lapor_lapor2"><span class='fa fa-user'></span>Agenda</a>
+                      </li>
+                      <div id="upbutton"><a onclick="return hide(3);"><i class="fa fa-chevron-up"></i></a></div>
+                    </div> 
+                </ul>
+              </li>
+            @endif
           </ul>
         </nav>
-        
         <div class="content">
           <div class="main">
             <div class="breadcrump">
@@ -136,7 +126,6 @@
             @yield('isi')
           </div>
         </div>
-        
     </div>
     @yield('script')
 </body>
