@@ -24,10 +24,14 @@
                     <span>{{auth()->user()->nama}}</span>
                     <label for="profile2"><i class="mdi mdi-menu"></i></label>
                     <ul>
-                      <li><a href="/logout"><i class="mdi mdi-logout"></i>Logout</a></li>
+                      <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                         @csrf
+                     </form></li>
                     </ul>
                   </label>
-                </span> Peta Jalan
+                </span> 
+                Peta Jalan
             </h2>
         </header>
         <div class="background"></div>

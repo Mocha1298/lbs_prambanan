@@ -19,6 +19,14 @@
             <li><a href="#apa">Apa itu?</a></li>
             <li><a href="#fitur">Fitur</a></li>
             <li><a href="#bergabung">Bergabung</a></li>
+            @if (Auth::check())
+                <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                     @csrf
+                 </form></li>
+            @else
+                <li><a href="login">Login</a></li>
+            @endif
             </nav>
         </header>
 

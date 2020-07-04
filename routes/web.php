@@ -12,14 +12,14 @@
 */
 
 Route::get('/','Homepage@landing');
-Route::get('/maps','Homepage@maps');
+// Route::get('/maps','Homepage@maps');
 
-Route::get('/login','AuthController@index')->name('login');
-Route::post('/dashboard','AuthController@postlogin');
-Route::get('/logout','AuthController@logout');
+// Route::get('/login','AuthController@index')->name('login');
+// Route::post('/dashboard','AuthController@postlogin');
+// Route::get('/logout','AuthController@logout');
     
 Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
-    Route::get('/super','Dashboard@index');
+    Route::get('/admin','Dashboard@index');
     // Route Master User
     Route::get('/master_user','Master_User@index');//Menampilkan halaman master user
     Route::post('/master_user_tambah','Master_User@create');//Proses tambah user
@@ -67,13 +67,18 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
 });
 
-// Route::group(['middleware' => ['']])
-
 Route::get('/suwar','SuaraWarga@index');
 Route::get('createcaptcha', 'SuaraWarga@create');
 Route::post('captcha', 'SuaraWarga@captchaValidate');
 Route::get('refreshcaptcha', 'SuaraWarga@refreshCaptcha');
 
-// Auth::routes();
+Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/clear-cache', function() {
+    Artisan::call('view:clear');
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    return "200 OK";
+});

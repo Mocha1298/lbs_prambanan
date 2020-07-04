@@ -49,12 +49,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
               {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                  @if (Auth::user()->id == $us->id)
                   <li class="edit">
                     <a href="#popup_e{{$us->id}}">EDIT</a>
                   </li>
-                  <li class="hapus">
-                    <a href="#popup_h{{$us->id}}">HAPUS</a>
-                  </li>
+                  @endif
                   <li class="detail">
                     <a href="/master_desa/{{$us->id}}">DISABLE</a>
                   </li>
@@ -147,18 +146,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </div>
       </div>
     </div>
-    {{-- POPUP HAPUS DATA --}}
-    <div id="popup_h{{$us->id}}" class="overlay">
-      <div class="popup">
-        <h2>Hapus Data Kecataman?</h2>
-        <div class="content">
-          <fieldset class="acc">
-            <a class="acc" href="/master_User_hapus/{{ $us->id }}">HAPUS</a>
-            <a class="cancel" href="#">Batal</a>
-          </fieldset>
-        </div>
-      </div>
-    </div>
   @endforeach
   {{-- POPUP TAMBAH DATA --}}
   <div id="add" class="overlay">
@@ -166,7 +153,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <h2>Form Tambah Data</h2>
       <a class="close" href="#">&times;</a>
       <div class="content">
-        <form id="form" action="/master_user_tambah" method="post">
+        {{-- <form id="form" action="/master_user_tambah" method="post"> --}}
+        <form id="form" action="{{ route('register') }}" method="post">
           {{ csrf_field() }}
           <fieldset>
             <input placeholder="Nama User" autocomplete="off" type="text" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
@@ -177,16 +165,24 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <input placeholder="Jumlah Desa" autocomplete="off" type="text" name="desa" value="{{ old('desa') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('desa')
+            <input placeholder="Email" autocomplete="off" type="email" name="email" value="{{ old('email') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('email')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
             @enderror
           </fieldset>
           <fieldset>
-            <input placeholder="Nama Camat" autocomplete="off" type="text" name="nama_cmt" value="{{ old('nama_cmt') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('nama_cmt')
+            <input placeholder="Password" autocomplete="off" type="password" name="password" value="{{ old('password') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('password')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+          </fieldset>            
+          <fieldset>
+            <input placeholder="Confirm Password" autocomplete="off" type="password" name="password_confirmation" value="{{ old('password') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('password')
             <div class="invalid-feedback">
                 {{$message}}
             </div>
