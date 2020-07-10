@@ -6,11 +6,24 @@ body {
 	font-family:arial,tahoma,sans-serif;
 	font-size:12px;
 	direction:ltr;
-  	background:tomato;
+	background-image: url("https://images.unsplash.com/photo-1446769357257-5aa1b1bfcd65?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
+}
+
+a.my-report{
+	color: tomato;
+	position: absolute;
+	right: 0;
+	padding: 30px;
+}
+a.home{
+	color: tomato;
+	position: absolute;
+	left: 0;
+	padding: 30px;
 }
 
 form {
-	margin: 1% auto 0 auto;
+	margin: 1% auto 2%;
 	padding:30px;
 	width: 50%;
 	height:auto;
@@ -19,8 +32,7 @@ form {
 	border-radius:10px;
 }
 .judul{
-	background: tomato;
-	margin: 0 -30px;
+	justify-content: center;
 }
 
 h3,h5{
@@ -140,7 +152,7 @@ select {
 select:hover,
 select:focus {
 	color: black;
-	background-color: tomato;
+	/* background-color: tomato; */
 	border-bottom-color: #962d22;
 }
 select:hover ~ .select-icon,
@@ -160,6 +172,21 @@ option.dis{
 	  background: gray;
 }
 
+input[type=file] {
+	cursor: pointer;
+	overflow: hidden;
+  }
+  input[type=file]::before {
+	color: gray;
+	content: 'Pilih Gambar :';
+	display: inline-block;
+	background: white;
+  }
+  
+  input[type=file]::-webkit-file-upload-button {
+	visibility: hidden;
+  }
+
 .btn-refresh{
 	margin: 20px 0 10px;
 	width: 100%;
@@ -167,7 +194,7 @@ option.dis{
 }
   
 button.refresh{
-	padding: 10px 30px;
+	padding: 5px 10px;
 }
 
 .captcha{
@@ -178,6 +205,25 @@ button.refresh{
 	width: 200px;
 	height: auto;
 }
+
+.container-alert {
+	z-index: 1000;
+	width: 500px;
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 20px;
+	box-sizing: border-box
+  }
+  img.marker{
+    position: absolute;
+    width: 40px;
+    z-index: 99999999;
+    top: 39%;
+    left: 45.8%;
+  }
+  .invalid-feedback{
+	  color: red;
+  }
 
 
 @media all and (max-width: 600px){	

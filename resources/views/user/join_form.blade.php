@@ -148,45 +148,46 @@
                 {{ session('status') }}
             </div>
             @endif
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-            {{-- <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label> --}}
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign Up</label>
             <div class="login-form">
                 <div class="sign-in-htm">
-                    <form method="post" action="{{ route('login') }}">
+                    <form method="post" action="/join_form">
                         @csrf
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <div class="group">
+                            <label for="user" class="label">Nama</label>
+                            <input name="nama" id="user" type="text" class="input" autocomplete="off" value="{{old('nama')}}" autofocus required>
+                            @error('nama')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
                         </div>
-                    @endif
                         <div class="group">
                             <label for="user" class="label">Email</label>
-                            <input name="email" id="user" type="text" class="input" autocomplete="off" autofocus required>
+                            <input name="email" id="email" type="email" class="input" autocomplete="off" required readonly value="{{$email}}">
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Password</label>
-                            <input name="password" id="pass" type="password" class="input" data-type="password" required>
+                            <input name="password" id="pass" type="password" class="input" data-type="password" autocomplete="new-password" required>
+                            @error('password')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
                         </div>
                         <div class="group">
-                            <input id="check" class="check" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label for="check"><span class="icon"></span> Tetap login</label>
+                            <label for="pass" class="label">Konfirmasi Password</label>
+                            <input name="passwordc" id="pass" type="password" class="input" data-type="password" required>
+                            @error('passwordc')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" value="Sign In">
+                            <input type="submit" class="button" value="Sign Up">
                         </div>
                     </form>
-                    <div class="hr"></div>
-                    <div class="foot-lnk">
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                        @endif
-                    </div>
                 </div>
             </div>
         </div>

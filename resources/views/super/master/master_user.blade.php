@@ -38,27 +38,32 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <td data-label="Nama User">{{ $us->nama }}</td>
             <td data-label="Email">{{ $us->email }}</td>
             <td data-label="Status">
-              @if ($us->aktivasi == 0)
-              UNCOFIRMED
-              @elseif ($us->aktivasi == 1)
+              @if ($us->aktivasi == 1)
               OK
               @else
               DISABLED
               @endif
             </td>
-              {{-- Content Klik Kanan --}}
+            @if ($us->roles_id == 3)
+            {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-                  @if (Auth::user()->id == $us->id)
-                  <li class="edit">
-                    <a href="#popup_e{{$us->id}}">EDIT</a>
-                  </li>
-                  @endif
                   <li class="detail">
-                    <a href="/master_desa/{{$us->id}}">DISABLE</a>
+                    <a href="/master_user_disable/{{$us->id}}">DISABLE</a>
                   </li>
                 </ul>
               </div>
+            @endif
+            @if (Auth::user()->id == $us->id)
+            {{-- Content Klik Kanan --}}
+              <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                  <li class="edit">
+                    <a href="#popup_e{{$us->id}}">EDIT</a>
+                  </li>
+                </ul>
+              </div>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -110,10 +115,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_e{{$us->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Data User</h2>
-        <a class="close" href="/master_user">&times;</a>
         <div class="content">
-        <form id="form" action="/master_user_ubah/{{$us->id}}" method="post">
+          <form id="form" action="/master_user_ubah/{{$us->id}}" method="post">
             {{ csrf_field() }}
+            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             <fieldset>
               <input placeholder="Nama User" type="text" name="nama" value="{{ old('nama') ?? $us->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
               @error('nama')
@@ -151,11 +156,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div id="add" class="overlay">
     <div class="popup">
       <h2>Form Tambah Data</h2>
-      <a class="close" href="#">&times;</a>
       <div class="content">
-        {{-- <form id="form" action="/master_user_tambah" method="post"> --}}
-        <form id="form" action="{{ route('register') }}" method="post">
+        <form id="form" action="/master_user_tambah" method="post">
           {{ csrf_field() }}
+          <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
             <input placeholder="Nama User" autocomplete="off" type="text" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('nama')
@@ -171,23 +175,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 {{$message}}
             </div>
             @enderror
-          </fieldset>
-          <fieldset>
-            <input placeholder="Password" autocomplete="off" type="password" name="password" value="{{ old('password') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('password')
-            <div class="invalid-feedback">
-                {{$message}}
-            </div>
-            @enderror
-          </fieldset>            
-          <fieldset>
-            <input placeholder="Confirm Password" autocomplete="off" type="password" name="password_confirmation" value="{{ old('password') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-            @error('password')
-            <div class="invalid-feedback">
-                {{$message}}
-            </div>
-            @enderror
-          </fieldset>            
+          </fieldset>         
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
@@ -197,5 +185,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
 @endsection
 @section('script')
+    <script>
+      function href() {
+        window.location.href = '#';
+      }
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
 @endsection

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
-  <script src="{{asset('jquery/jquery-3.5.1.slim.min.js')}}"></script>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
   <script src="{{asset('js_admin/nav.js')}}"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -115,9 +115,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_e{{$kc->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Data Kecamatan</h2>
-        <a class="close" href="/master_kecamatan">&times;</a>
         <div class="content">
-        <form id="form" action="/master_kecamatan_ubah/{{$kc->id}}" method="post">
+          <form id="form" action="/master_kecamatan_ubah/{{$kc->id}}" method="post">
+            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             {{ csrf_field() }}
             <fieldset>
               <input placeholder="Nama Kecamatan" type="text" name="nama" value="{{ old('nama') ?? $kc->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
@@ -159,7 +159,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
             </fieldset>
-        </form>
+          </form>
         </div>
       </div>
     </div>
@@ -180,10 +180,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div id="add" class="overlay">
     <div class="popup">
       <h2>Form Tambah Data</h2>
-      <a class="close" href="#">&times;</a>
       <div class="content">
         <form id="form" action="/master_kecamatan_tambah" method="post">
           {{ csrf_field() }}
+          <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
             <input placeholder="Nama Kecamatan" autocomplete="off" type="text" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('nama')
@@ -230,6 +230,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
 @endsection
 @section('script')
+    <script>
+      function href() {
+        window.location.href = '#';
+      }
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>

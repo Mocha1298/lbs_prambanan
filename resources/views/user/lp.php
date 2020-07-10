@@ -6,15 +6,20 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Peta-Jalan</title>
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://use.fontawesome.com/46ea1af652.js"></script>
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <link rel="stylesheet" href="{{asset('style_user/lp-style.css')}}">
     </head>
     <body>
-    <!-- Forked from a template on Tutorialzine: https://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox -->
+        <div class="float-sm">
+            <div class="fl-fl float-sw">
+                <a href="/suwar"> Suara Warga!</a>
+                <i class="fa fa-flag-checkered fa-4x"></i>
+            </div>
+        </div>
         <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
         <header>
-            <h2><a href="/">Peta-Jalan</a></h2>
+            <h2><a href="#">Peta-Jalan</a></h2>
             <nav>
             <li><a href="#apa">Apa itu?</a></li>
             <li><a href="#fitur">Fitur</a></li>
@@ -72,9 +77,10 @@
             <h3 class="title">Bergabung?</h3>
             <p>Ingin bergabung dengan kami? jika Anda ingin ikut berpartisipasi dengan kami untuk berbagi informasi kerusakan jalan yang ada di Kecataman Prambanan ini Anda cukup melakukan Pendaftaran dengan cara mengisi form setelah menekan tombol dibawah ini.</p>
             <hr>
-            <form>
-            <input type="email" placeholder="Tuliskan Email Anda">
-            <a href="#" class="btn">Bergabung!</a>
+            <form method="post" action="/bergabung">
+                @csrf
+                <input name="email" type="email" placeholder="Tuliskan Email Anda" required autocomplete="off">
+                <button type="@if(Auth::check()) @else submit @endif" class="btn">Bergabung</button>
             </form>
         </section>
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <script src="https://use.fontawesome.com/f5184190ae.js"></script>
+    <script src="https://use.fontawesome.com/46ea1af652.js"></script>
     <link rel="stylesheet" href="{{asset('style_admin/style.css')}}">
     <link rel="stylesheet" href="{{asset('style_admin/dropdown-user.css')}}">
     <script src="{{asset('js_admin/nav.js')}}"></script>
@@ -37,7 +37,8 @@
         <div class="background"></div>
         <nav>
           <ul>
-            <li><a class="bagian dashboard" href="/super"><span class='fa fa-home'></span>Dashboard</a></li>
+            <li><a class="bagian dashboard" href="/admin"><span class='fa fa-home'></span>Dashboard</a></li>
+            @if (Auth::user()->roles_id == 1)
             {{-- OLAH MASTER --}}
             <li class="topmenu">
                 <div id="opener">
@@ -45,27 +46,22 @@
                     <span class='fa fa-bookmark'></span>Olah Master
                   </a>
                 </div>
-                  <ul class="submenu">
-                    <div id="submenu1" style="display:none;">
-                      @if (Auth::user()->roles_id == 1)
-                      <li>
-                        <a class="bagian pages" href="/master_kecamatan"><span class='fa fa-bookmark'></span>Kecamatan</a>
-                      </li>
-                      <li>
-                        <a class="bagian pages" href="/master_jenis"><span class='fa fa-bookmark'></span>Jenis Objek</a>
-                      </li>
-                      <li>
-                        <a class="bagian pages" href="/master_user"><span class='fa fa-bookmark'></span>User</a>
-                      </li>
-                      @else
-                      <li>
-                        <a class="bagian pages" href="/objek_kerusakan/{{Auth::user()->villages_id}}"><span class='fa fa-bookmark'></span>Kerusakan</a>
-                      </li>
-                      @endif
-                      <div id="upbutton"><a onclick="return hide(1);"><i class="fa fa-chevron-up"></i></a></div>
-                    </div> 
-                  </ul>
+                <ul class="submenu">
+                  <div id="submenu1" style="display:none;">
+                    <li>
+                      <a class="bagian pages" href="/master_kecamatan"><span class='fa fa-bookmark'></span>Kecamatan</a>
+                    </li>
+                    <li>
+                      <a class="bagian pages" href="/master_jenis"><span class='fa fa-bookmark'></span>Jenis Objek</a>
+                    </li>
+                    <li>
+                      <a class="bagian pages" href="/master_user"><span class='fa fa-bookmark'></span>User</a>
+                    </li>
+                    <div id="upbutton"><a onclick="return hide(1);"><i class="fa fa-chevron-up"></i></a></div>
+                  </div> 
+                </ul>
             </li>
+            @endif
             {{-- OLAH OBJEK --}}
             <li class="topmenu">
               <div id="opener">
@@ -81,7 +77,7 @@
                     </li>
                     @else
                     <li>
-                      <a class="bagian navigation" href="/objek_kerusakan"><span class='fa fa-share'></span>Objek Kerusakan</a>
+                      <a class="bagian navigation" href="/objek_kerusakan/{{Auth::user()->villages_id}}"><span class='fa fa-share'></span>Kerusakan</a>
                     </li>
                     @endif
                     <div id="upbutton"><a onclick="return hide(2);"><i class="fa fa-chevron-up"></i></a></div>
@@ -118,13 +114,13 @@
             </div>
             <hr>
             @if (session('simpan'))
-            <div class="success">{{session('simpan')}}</div>
+            <div class="success"><i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>{{session('simpan')}}</div>
             @elseif (session('edit'))
-            <div class="info">{{session('edit')}}</div>
+            <div class="success"><i class="fa fa-pencil-circle-o fa-2x" aria-hidden="true"></i>{{session('edit')}}</div>
             @elseif (session('hapus'))
-            <div class="warning">{{session('hapus')}}</div>
+            <div class="success"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>{{session('hapus')}}</div>
             @elseif (session('gagal'))
-            <div class="error">{{session('gagal')}}</div>
+            <div class="success"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i>{{session('gagal')}}</div>
             @endif
             {{-- Content --}}
             @yield('isi')

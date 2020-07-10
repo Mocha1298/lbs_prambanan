@@ -11,6 +11,12 @@
         <link rel="stylesheet" href="{{asset('style_user/lp-style.css')}}">
     </head>
     <body>
+        <div class="float-sm">
+            <div class="fl-fl float-sw">
+                <a href="/suwar"> Suara Warga!</a>
+                <i class="fa fa-flag-checkered fa-4x"></i>
+            </div>
+        </div>
     <!-- Forked from a template on Tutorialzine: https://tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox -->
         <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
         <header>
@@ -22,6 +28,8 @@
             @if (Auth::check())
                 @if (Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
                     <li><a href="/admin">Admin</a></li>
+                @else
+                    <li><a href="/my_suwar">Profile</a></li>
                 @endif
                 <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -75,9 +83,10 @@
             <h3 class="title">Bergabung?</h3>
             <p>Ingin bergabung dengan kami? jika Anda ingin ikut berpartisipasi dengan kami untuk berbagi informasi kerusakan jalan yang ada di Kecataman Prambanan ini Anda cukup melakukan Pendaftaran dengan cara mengisi form setelah menekan tombol dibawah ini.</p>
             <hr>
-            <form>
-            <input type="email" placeholder="Tuliskan Email Anda">
-            <a href="#" class="btn">Bergabung!</a>
+            <form method="post" action="/bergabung">
+                @csrf
+                <input name="email" type="email" placeholder="Tuliskan Email Anda" required autocomplete="off">
+                <button @if(Auth::check()) disabled @endif type="submit" class="btn">Bergabung</button>
             </form>
         </section>
 
@@ -97,6 +106,15 @@
                     $('#return-to-top').fadeIn(200);    // Efek muncul
                 } else {
                     $('#return-to-top').fadeOut(200);   // Efek hilang
+
+                }
+            });
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 500) {        // Scroll lebih 50px
+                    $('header').css('background','rgba(2, 2, 2, 0.966)');
+                } else {
+                    $('header').css('background','rgba(2, 2, 2, 0.1)');
+
                 }
             });
             $('#return-to-top').click(function() {      // Aksi ketika klik

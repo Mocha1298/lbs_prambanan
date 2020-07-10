@@ -108,10 +108,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_e{{$pt->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Desa</h2>
-        <a class="close" href="/objek_peta">&times;</a>
         <div class="content">
           <form id="form" action="/objek_peta_ubah/{{$pt->id}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
+            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             <fieldset>
               <input placeholder="Nama Kerusakan" type="text" autocomplete="off" name="nama" value="{{ old('nama') ?? $pt->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
               @error('nama')
@@ -198,10 +198,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div id="add" class="overlay">
     <div class="popup">
       <h2>Tambah Data</h2>
-      <a class="close" href="#">&times;</a>
       <div class="content">
         <form id="form" action="/objek_peta_tambah" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
+          <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
             <input placeholder="Nama Objek" type="text" autocomplete="off" name="nama" value="{{ old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
             @error('nama')
@@ -268,6 +268,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
 @endsection
 @section('script')
+    <script>
+      function href() {
+        window.location.href = '#';
+      }
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>

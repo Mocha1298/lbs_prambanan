@@ -15,7 +15,7 @@ class CreateTextsTable extends Migration
     {
         Schema::create('texts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('status');
+            $table->integer('status');
             $table->string('nama');
             $table->string('keterangan');
             $table->integer('rt')->nullable();
@@ -24,10 +24,9 @@ class CreateTextsTable extends Migration
             $table->string('lintang');
             $table->integer('id_tul')->nullable();
             $table->integer('users_id')->unsigned();
-            $table->integer('maps_id')->unsigned();
-            $table->integer('photos_id')->unsigned();
-            $table->integer('villages_id')->unsigned();
-            $table->integer('subdistricts_id')->unsigned();
+            $table->integer('maps_id')->unsigned()->nullable();
+            $table->integer('photos_id')->unsigned()->nullable();
+            $table->integer('villages_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

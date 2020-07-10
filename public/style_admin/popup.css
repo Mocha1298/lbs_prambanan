@@ -61,6 +61,8 @@
     font-weight: bold;
     text-decoration: none;
     color: #333;
+    background: white;
+    border: 0px;
   }
   div.popup .close:hover {
     color: #06d85f;

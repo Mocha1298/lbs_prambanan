@@ -76,14 +76,18 @@ class Master_Desa extends Controller
         $last = Village::latest('id')->first();
 
         $user = new User;
-        $user->nama = 'Admin'.$request->nama;
-        $user->email = 'admin'.$request->nama.'@gmail.com';
+        $nama = 'Admin_'.$request->nama;
+        $nama = str_replace(' ','_  ', $nama);
+        $email = 'Admin'.$request->nama.'@gmail.com';
+        $email = str_replace(' ','.', $email);
+        $user->email = $email;
         $password = 'rahasia';
         $user->password = Hash::make($password);
         $user->roles_id = 2;
         $user->aktivasi = 1;
         $user->villages_id = $last->id;
         $user->save();
+        $user->markEmailAsVerified();
         return redirect('master_desa/'.$id.'')->with('simpan','Data sukses disimpan');
     }
 

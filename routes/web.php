@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/','Homepage@landing');
-// Route::get('/maps','Homepage@maps');
+Route::get('/','Homepage@landing')->name('home');
+Route::post('/bergabung','Homepage@bergabung');
+Route::post('/join_form','Homepage@join_form');
+Route::get('/maps','Homepage@maps');
 
 // Route::get('/login','AuthController@index')->name('login');
 // Route::post('/dashboard','AuthController@postlogin');
@@ -67,14 +69,20 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
 });
 
-Route::get('/suwar','SuaraWarga@index');
-Route::get('createcaptcha', 'SuaraWarga@create');
-Route::post('captcha', 'SuaraWarga@captchaValidate');
-Route::get('refreshcaptcha', 'SuaraWarga@refreshCaptcha');
+Route::group(['middleware' => ['auth','checkrole:3']], function (){
+    // Route Suara Warga
+    Route::get('/suwar','SuaraWarga@index');
+    Route::get('/my_suwar','SuaraWarga@index1');
+    Route::get('createcaptcha', 'SuaraWarga@create');
+    Route::post('captcha', 'SuaraWarga@captchaValidate');
+    Route::get('refreshcaptcha', 'SuaraWarga@refreshCaptcha');
+    Route::post('ubah_display/{id}','SuaraWarga@display');
+    Route::post('ubah_password/{id}','SuaraWarga@password');
+});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes(['verify' => true]);
 
 Route::get('/clear-cache', function() {
     Artisan::call('view:clear');

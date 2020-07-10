@@ -62,7 +62,7 @@ nav {
 
 a {
 	text-decoration: none;
-	opacity: 0.75;
+	opacity: 0.5;
 	color: #fff;
 }
 
@@ -80,8 +80,24 @@ a.btn {
 	transition: all 400ms;
 }
 
+button.btn {
+	border-radius: 4px;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-align: center;
+	background-color: #e07e7b;
+	opacity: 1;
+	transition: all 400ms;
+	border: none;
+}
+
 a.btn:hover {
 	background-color: #ce5856;
+	color: white;
+}
+button.btn:hover {
+	background-color: #ce5856;
+	color: white;
 }
 
 section {
@@ -131,19 +147,22 @@ section p {
 	}
 }
 
-/*Header Styles*/
+/*Header Styles =========================================*/
 
 header {
-	position: absolute;
+	background: rgba(0, 0, 0, 0);
+	position: fixed;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 35px 100px 0;
+	vertical-align: middle;
+	padding: 20px 100px;
 	animation: 1s fadein 0.5s forwards;
 	opacity: 0;
 	color: #fff;
 	z-index: 2;
+	transition: all ease 1s;
 }
 
 @keyframes fadein {
@@ -176,7 +195,7 @@ header nav li {
 	}
 }
 
-/*Hero Styles*/
+/*Hero Styles ==============================*/
 
 .hero {
 	position: relative;
@@ -247,6 +266,10 @@ header nav li {
 }
 
 /*Packages Section*/
+
+.packages {
+	background: whitesmoke;
+}
 
 .packages .grid li {
 	padding: 50px;
@@ -339,3 +362,47 @@ footer p {
 		margin: 0 8px;
 	}
 }
+/* CSS SUARA WARGA */
+.fl-fl {
+	background: gold;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	padding: 4px;
+	width: 190px;
+	position: fixed;
+	left: -135px;
+	z-index: 1000;
+	font: normal normal 10px Arial;
+	-webkit-transition: all .25s ease;
+	-moz-transition: all .25s ease;
+	-ms-transition: all .25s ease;
+	-o-transition: all .25s ease;
+	transition: all .25s ease;
+	border-radius: 5px;
+  }
+  
+  .fl-fl.fa {
+	color: olivedrab;
+	padding: 10px 0;
+	width: 40px;
+	margin-left: 1px;
+  }
+  
+  .fl-fl:hover {
+	left: 0;
+  }
+  
+  .fl-fl a {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: center;
+	margin-left: 15px;
+	line-height: 43px!important;
+	vertical-align: top!important;
+	transition: all .25s ease;
+  }
+  
+  .float-sw {
+	top: 45%;
+  }

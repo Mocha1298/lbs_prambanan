@@ -16,11 +16,6 @@
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
   <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script>
-    function foto(value) {
-      alert(value);
-    }
-  </script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -29,7 +24,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     @if (Auth::user()->roles_id != 2)
         <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa_back/{{$id}}">Master Kerusakan</a> >Data Kerusakan
     @endif
-    <a style="position: absolute; right: 0; width: 50px;" href="/peta_kerusakan/{{$id}}"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
 @endsection
 @section('isi')
   <div class="isi">
@@ -93,6 +87,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </table>
     <div class="pagination">
         <a style="color:white;" class="add" href="#add">Tambah Kerusakan</a>
+        <a style="right: 0; width: 50px;" href="/peta_kerusakan/{{$id}}"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
           $link_limit = 10;
@@ -125,7 +120,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
                       <a href="{{ $data->url($data->lastPage()) }}">Last</a>
                   </li>
               </ul>
-@endif
+          @endif
     </div>
   </div>
   @foreach ($data as $kr)
@@ -133,9 +128,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_e{{$kr->id}}" class="overlay">
       <div class="popup">
         <h2>Edit Desa</h2>
-        <a class="close" href="/objek_kerusakan/{{$kr->villages_id}}">&times;</a>
         <div class="content">
           <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post" enctype="multipart/form-data">
+            <a class="close" href="/objek_kerusakan/{{$kr->villages_id}}">&times;</a>
             {{ csrf_field() }}
             <fieldset>
               <input placeholder="Nama Kerusakan" type="text" autocomplete="off" name="nama" value="{{ old('nama') ?? $kr->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
@@ -322,10 +317,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div id="add" class="overlay">
     <div class="popup">
       <h2>Tambah Data</h2>
-      <a class="close" href="#">&times;</a>
       <div class="content">
         <form id="form" action="/objek_kerusakan_tambah/{{$id}}" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
+          <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           {{-- @if ($errors->any())
               <div class="alert alert-danger">
                   <ul>
@@ -413,26 +408,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
 @endsection
 @section('script')
+    <script>
+      function href() {
+        window.location.href = '#';
+      }
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
-    <script>
-      // $('select#form').on('change', function() {        
-      //   if (this.value == 1) {
-      //     document.getElementById('#foto1').style.display = 'block';
-      //     document.getElementById('#foto2').style.display = 'none';
-      //     document.getElementById('#foto3').style.display = 'none';
-      //   }
-      //   elseif (this.value == 2) {
-      //     document.getElementById('#foto1').style.display = 'none';
-      //     document.getElementById('#foto2').style.display = 'block';
-      //     document.getElementById('#foto3').style.display = 'none';
-      //   }
-      //   else {
-      //     document.getElementById('#foto1').style.display = 'none';
-      //     document.getElementById('#foto2').style.display = 'none';
-      //     document.getElementById('#foto3').style.display = 'block';
-      //   }
-      // });
-    </script>
 @endsection

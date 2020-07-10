@@ -32,34 +32,9 @@
                 <a href="/">
                     <li class="between">
                         <img style="width: 40px; height: 40px; margin: 10px 23px 0 11px" src="/gambar/marker/logo.png">
-                        <p>Peta-Jalan</p>
+                        <p>Home</p>
                     </li>
                 </a>
-                <a href="#rute"><li class="between">
-                    <i class="fa fa-location-arrow"></i>
-                    <p>Rute</p>
-                </li></a>
-                @if (Auth::check())
-                    <a href="/suwar"><li class="between">
-                        <i class="fa fa-bullhorn"></i>
-                        <p>Suara Warga</p>
-                    </li></a>
-                @endif
-                <a href="#"><li class="between">
-                    <i class="fa fa-info"></i>
-                    <p>Pusat Informasi</p>
-                </li></a>
-                @if (Auth::check())
-                    <a href="/logout"><li class="between">
-                        <i class="fa fa-power-off"></i>
-                        <p>Logout</p>
-                    </li></a>
-                @else
-                    <a href="/login"><li class="between">
-                        <i class="fa fa-power-off"></i>
-                        <p>Login</p>
-                    </li></a>
-                @endif
             </ul>
         </div>
     </nav>
