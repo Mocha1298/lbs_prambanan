@@ -1,11 +1,23 @@
-function show(nomor){
+function show(nomor) {
   for (var index = 1; index <= 3; index++) {
-      document.getElementById('submenu'+nomor+'').style.display = 'block';
     if(index != nomor){
-      document.getElementById('submenu'+index+'').style.display = 'none';        
-    }      
+      if ($('a#'+index+'.bagian').length) {
+        $('a#'+index+'.bagian')[0].attributes.onclick.nodeValue = "return show("+index+");";
+        $('#submenu'+index).fadeOut("slow"); 
+      }
+    }
+    else{
+      $('#submenu'+index).fadeIn("slow");
+      $('a#'+index+'.bagian')[0].attributes.onclick.nodeValue = "return hide();";
+    }
   }
 }
-function hide(nomor){
-    document.getElementById('submenu'+nomor+'').style.display = 'none';
+
+function hide() {
+  for (var index = 1; index <= 3; index++) {
+    if ($('a#'+index+'.bagian').length) {
+      $('#submenu'+index).fadeOut("slow"); 
+      $('a#'+index+'.bagian')[0].attributes.onclick.nodeValue = "return show("+index+");";
+    }
+  }
 }

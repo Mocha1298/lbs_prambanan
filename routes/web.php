@@ -67,6 +67,11 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
     Route::post('/objek_kerusakan_status/{id}','Objek_Kerusakan@update1');//Proses ubah status data
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
+
+    // Route Laporan
+    Route::get('/suwar_admin/{id}','SuaraWarga@desa');
+    Route::get('/suwar_acc/{id}','SuaraWarga@acc');
+    Route::get('/suwar_dis/{id}','SuaraWarga@dis');
 });
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){

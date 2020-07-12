@@ -1,3 +1,6 @@
+.log{
+  float: left;
+}
 .profile-dropdown {
   z-index: 1;
     display: inline-block;

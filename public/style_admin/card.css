@@ -13,6 +13,10 @@
   display: flex;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
+.card:hover .card .logo .fa-3x{
+  padding-top: 5px;
+  font-size: 2em;
+}
 .card .logo{
   padding: 15px;
   width: 90px;
@@ -24,11 +28,11 @@
 .card.user{
   border-right: solid #00c0ef !important;
 }
-.card.user:hover{
-  border-right: solid #00c0ef !important;
-}
 .card.user .logo{
   background: #00c0ef !important;
+}
+.card.user .detail:hover{
+  background-image: linear-gradient(to right, white , #00c0ef);
 }
 .card.kecamatan{
   border-right: solid #dd4b39 !important;
@@ -36,11 +40,17 @@
 .card.kecamatan .logo{
   background: #dd4b39 !important;
 }
+.card.kecamatan .detail:hover{
+  background-image: linear-gradient(to right, white , #dd4b39);
+}
 .card.objek{
   border-right: solid #b93861 !important;
 }
 .card.objek .logo{
   background: #b93861 !important;
+}
+.card.objek .detail:hover{
+  background-image: linear-gradient(to right, white , #b93861);
 }
 .card.kerusakan{
   border-right: solid #00a65a !important;
@@ -48,11 +58,17 @@
 .card.kerusakan .logo{
   background: #00a65a !important;
 }
+.card.kerusakan .detail:hover{
+  background-image: linear-gradient(to right, white , #00a65a);
+}
 .card.laporan{
   border-right: solid #f39c12 !important;
 }
 .card.laporan .logo{
   background: #f39c12 !important;
+}
+.card.laporan .detail:hover{
+  background-image: linear-gradient(to right, white , #f39c12);
 }
 /* WARNA */
 .card .title{
@@ -78,8 +94,7 @@
   width: 80px;
   height: 80px;
   transition: 0.5s;
-  border-left: solid 1px #a6a8a8;
 }
 .card .detail:hover{
-  background: #a6a8a8;
+  padding-left: 25px;
 }

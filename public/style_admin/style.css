@@ -96,7 +96,7 @@
   }
   
   nav {
-    margin: 20px 0;
+    margin: 50px 0 20px;
   }
   
   nav ul {
@@ -265,7 +265,7 @@
     }
     .content .main{
       height: 86vh;
-      margin-top: 20px;
+      margin-top: 50px;
       margin-left: 282px;
       padding: 16px;
       background-color: #e7e7e7;

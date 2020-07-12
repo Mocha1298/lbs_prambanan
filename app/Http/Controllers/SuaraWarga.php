@@ -31,6 +31,21 @@ class SuaraWarga extends Controller
         // return $data;
         return view('user.my_suwar',['data'=>$data,'count'=>$count,'id'=>$id]);
     }
+
+    public function desa($id)
+    {
+        $data = Text::where('villages_id',$id)->join('photos','photos.id','texts.photos_id')->select('texts.*','photos.foto1')->paginate(5);
+        $count = $data->count();
+        return view('super.suwar.laporan',['data'=>$data,'count'=>$count,'id'=>$id]);
+    }
+
+    public function acc($id)
+    {
+        $data  = Text::find($id);
+        $data->status = 2;
+        return redirect()->back();
+    }
+
     public function create()
     {
         return view('captchacreate');

@@ -4,12 +4,10 @@
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
-  <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
-  <script src="{{asset('jquery/jquery-3.5.1.slim.min.js')}}"></script>
   <script src="{{asset('js_admin/nav.js')}}"></script>
 @endsection
 @section('copy')
