@@ -32,7 +32,7 @@
     <div class="card">
         <h3 class="">Terima Kasih atas Laporan Anda</h3>
         <hr class="garis">
-        <p>Selamat anda telah melakuka registrasi.</p>
+        <p>Selamat anda telah melakukan registrasi.</p>
         <h4>Terima kasih telah bergabung dengan kami</h4>
     </div>
 </body>

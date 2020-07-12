@@ -150,7 +150,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <div onclick="getcenter2({{$kc->id}});" class="map" id="mapid{{$kc->id}}" style="width: 100%; height: 40vh;">
+              <div onmousemove="getcenter2({{$kc->id}});" class="map" id="mapid{{$kc->id}}" style="width: 100%; height: 40vh;">
                 <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
               </div>
             <fieldset>
@@ -215,7 +215,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <div onclick="getcenter1();" id="mapid" style="width: 100%; height: 40vh;">
+            <div onmousemove="getcenter1();" id="mapid" style="width: 100%; height: 40vh;">
               <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
             </div>
           </fieldset>

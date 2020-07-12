@@ -8,7 +8,7 @@ for (let i = 0; i < classname.length; i++) {
     
     mymap[id] = L.map("mapid"+id+"", {
         center: [lat,lng],
-        zoom: 12,
+        zoom: 20,
         scrollWheelZoom: false,
     });
     
@@ -22,8 +22,8 @@ for (let i = 0; i < classname.length; i++) {
     var current = L.icon({
         iconUrl: '/gambar/marker/current.png',
         iconSize:     [17, 17], // size of the icon
-        iconAnchor:   [20, 10], // point of the icon which will correspond to marker's location
-        popupAnchor:  [-13, -5], // point from which the popup should open relative to the iconAnchor
+        iconAnchor:   [5, 15], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-10, -5], // point from which the popup should open relative to the iconAnchor
         tooltipAnchor: [9,-20], //Alhamdulillah nemu bind tool up e aku :D
     });
     L.marker([lat,lng],{icon:current})
@@ -35,8 +35,6 @@ function getcenter2(id){
     var center = mymap[id].getCenter();   
     document.getElementById("bujur"+id+"").value = center.lng;
     document.getElementById("lintang"+id+"").value = center.lat;
-    $(".alert-dismissible").css({display: "block"});
-    $(".alert-dismissible").fadeIn().delay(100).fadeOut();
 }
 
 // Input 
@@ -57,6 +55,4 @@ function getcenter1(){
     
     document.getElementById("bujur").value = center.lng;
     document.getElementById("lintang").value = center.lat;
-    $(".alert-dismissible").css({display: "block"});
-    $(".alert-dismissible").fadeIn().delay(100).fadeOut();
 }

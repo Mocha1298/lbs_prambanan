@@ -9,11 +9,11 @@ use App\Photo;
 use App\Text;
 use App\User;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MailNotify;
 use Illuminate\Support\Facades\Validator;
 use Image;
 use File;
 use Auth;
+use App\Mail\LaporanMasuk;
 
 class SuaraWarga extends Controller
 {
@@ -66,6 +66,7 @@ class SuaraWarga extends Controller
         $data = User::find($id);
         $data->nama = $request->nama;
         $data->email = $request->email;
+        $data->save();
         return redirect('my_suwar');
     }
 
@@ -84,7 +85,7 @@ class SuaraWarga extends Controller
         $data = User::find($id);
         $password = bcrypt($request->password);
         $data->password = $password;
-        return $password;
+        $data->save();
         return redirect('my_suwar');
     }
 
@@ -98,7 +99,7 @@ class SuaraWarga extends Controller
             'desa' => 'required',
             'bujur' => 'required',
             'lintang' => 'required',
-            'foto1' => 'required',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
             'captcha' => 'required|captcha'
         ]);
 
@@ -148,6 +149,16 @@ class SuaraWarga extends Controller
         $data->photos_id = $ph->id;
         $data->users_id = $request->uid;
         $data->save();
+
+        $details = [
+            'title' => 'Peta-Jalan',
+            'body' => 'Laporan kerusakan baru dari '.Auth::user()->nama,
+            'comment' => $request->nama,
+            'notice' => '127.0.0.1:8000/suwar_admin/'.$request->desa
+        ];
+
+        $admin = User::where('villages_id',$request->desa)->first();
+        \Mail::to($admin)->send(new LaporanMasuk($details));
 
         return redirect('/suwar')->with('simpan','Data sukses disimpan');
     }

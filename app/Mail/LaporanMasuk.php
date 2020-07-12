@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MailNotify extends Mailable
+class LaporanMasuk extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,9 +16,9 @@ class MailNotify extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -28,6 +28,7 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->subject('Laporan Kerusakan Baru')
+                    ->view('super.mails.mail');
     }
 }

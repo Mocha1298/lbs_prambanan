@@ -128,7 +128,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <h2>Edit Desa</h2>
         <div class="content">
           <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post" enctype="multipart/form-data">
-            <a class="close" href="/objek_kerusakan/{{$kr->villages_id}}">&times;</a>
+            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             {{ csrf_field() }}
             <fieldset>
               <input placeholder="Nama Kerusakan" type="text" autocomplete="off" name="nama" value="{{ old('nama') ?? $kr->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
@@ -258,7 +258,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-            <div onclick="getcenter2({{$kr->id}});" class="map" id="mapid{{$kr->id}}" style="width: 100%; height: 40vh;">
+            <div onmousemove="getcenter2({{$kr->id}});" class="map" id="mapid{{$kr->id}}" style="width: 100%; height: 40vh;">
                 <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
               </div>
             <fieldset>
@@ -393,7 +393,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
-            <div onclick="getcenter1();" id="mapid" style="width: 100%; height: 35vh;">
+            <div onmousemove="getcenter1();" id="mapid" style="width: 100%; height: 35vh;">
               <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
             </div>
           </fieldset>

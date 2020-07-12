@@ -63,7 +63,7 @@
     <br>
     
     <label for="rw">RW (optional)</label>
-    <input type="text" id="rw" name="rw" placeholder="Tulis  laporan Anda.." value="{{old('rw')}}" autocomplete="off" required />
+    <input type="text" id="rw" name="rw" placeholder="Tulis  laporan Anda.." value="{{old('rw')}}" autocomplete="off" />
     @error('rw')
     <div class="invalid-feedback">
         {{$message}}
@@ -72,7 +72,7 @@
     <br>
     
     <label for="rt">RT (optional)</label>
-    <input type="text" id="rt" name="rt" placeholder="Tulis judul laporan Anda.." value="{{old('rt')}}" autocomplete="off" required />
+    <input type="text" id="rt" name="rt" placeholder="Tulis judul laporan Anda.." value="{{old('rt')}}" autocomplete="off" />
     @error('rt')
     <div class="invalid-feedback">
         {{$message}}
@@ -105,7 +105,7 @@
     @enderror
     <br>
 
-    <div onclick="getcenter1();" id="mapid" style="width: 100%; height: 35vh;margin-bottom: 20px">
+    <div onmousemove="getcenter1();" id="mapid" style="width: 100%; height: 35vh;margin-bottom: 20px">
       <img class="marker" src="{{asset('gambar/marker/marker.png')}}" alt="">
     </div>
 

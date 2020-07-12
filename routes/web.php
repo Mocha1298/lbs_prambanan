@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/master_user_tambah/{id}','Master_User@create2');//Proses tambah user berdasarkan id desa (Untuk Admin Desa) 
     Route::post('/master_user_ubah/{id}','Master_User@update');//Proses ubah data user
     Route::get('/master_user_hapus/{id}','Master_User@destroy');//Proses hapus data user
+    Route::get('/profile/{id}','Master_User@profile');
+    Route::post('display/{id}','Master_User@display');
+    Route::post('password/{id}','Master_User@password');
 
     //Route Master Desa
     Route::get('/master_desa','Master_Desa@index');//Menampilkan Halaman Master Desa

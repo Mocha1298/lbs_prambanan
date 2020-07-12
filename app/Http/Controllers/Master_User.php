@@ -15,6 +15,11 @@ class Master_User extends Controller
         $count = User::count();
         return view('super.master.master_user',['data'=>$data,'count'=>$count]);
     }
+    public function profile($id)
+    {
+        $data = User::find($id);
+        return view('super.profile',['data'=>$data]);
+    }
 
     public function create(Request $request)
     {
@@ -41,13 +46,42 @@ class Master_User extends Controller
         return redirect('/master_user')->with('simpan','Data sukses disimpan');
     }
 
-    public function update(Request $request, $id)
+    public function display(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'email' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = User::find($id);
+        $data->nama = $request->nama;
+        $data->email = $request->email;
+        $data->save();
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
 
-    public function destroy($id)
+    public function password(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+            'passwordc' => 'required_with:password|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = User::find($id);
+        $password = bcrypt($request->password);
+        $data->password = $password;
+        $data->save();
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
+
 }
