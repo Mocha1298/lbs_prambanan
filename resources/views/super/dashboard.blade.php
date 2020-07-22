@@ -79,7 +79,7 @@
         <div class="name">LAPORAN</div>
         <div class="number">{{$data4}}</div>
       </div>
-      <a href="/lapor_lapor1">
+      <a href="/suwar_admin/{{Auth::user()->villages_id}}">
         <div class="detail">
           <i class="fa fa-arrow-right fa-3x"></i>
         </div>

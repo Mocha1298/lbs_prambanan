@@ -28,8 +28,8 @@
             @if (Auth::check())
                 @if (Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
                     <li><a href="/admin">Admin</a></li>
-                @else
-                    <li><a href="/my_suwar">Profile</a></li>
+                @elseif(Auth::user()->roles_id == 3)
+                    <li><a href="/my_suwar/{{Auth::user()->id}}">Profile</a></li>
                 @endif
                 <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{asset('/gambar/logo/logo.png')}}">
     <title>@yield('title')</title>
     <script src="https://use.fontawesome.com/46ea1af652.js"></script>
     <link rel="stylesheet" href="{{asset('style_admin/style.css')}}">
@@ -29,6 +30,7 @@
                     <span>{{auth()->user()->nama}}</span>
                     <label for="profile2"><i class="mdi mdi-menu"></i></label>
                     <ul>
+                      <li><a class="dropdown-item" href="/">Home</a></li>
                       <li><a class="dropdown-item" href="/profile/{{Auth::user()->id}}">Profile</a></li>
                       <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -118,11 +120,11 @@
             @if (session('simpan'))
             <div class="success"><i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>{{session('simpan')}}</div>
             @elseif (session('edit'))
-            <div class="success"><i class="fa fa-pencil-circle-o fa-2x" aria-hidden="true"></i>{{session('edit')}}</div>
+            <div class="warning"><i class="fa fa-pencil-circle-o fa-2x" aria-hidden="true"></i>{{session('edit')}}</div>
             @elseif (session('hapus'))
-            <div class="success"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>{{session('hapus')}}</div>
+            <div class="error"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>{{session('hapus')}}</div>
             @elseif (session('gagal'))
-            <div class="success"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i>{{session('gagal')}}</div>
+            <div class="error"><i class="fa fa-times-circle-o fa-2x" aria-hidden="true"></i>{{session('gagal')}}</div>
             @endif
             {{-- Content --}}
             @yield('isi')
@@ -132,7 +134,7 @@
       {{-- POPUP TAMBAH DATA --}}
   <div id="notif" class="overlay">
     <div class="popup">
-      <h2 style="text-align: center">NOTIFIKASI SISTEM</h2>
+      <h2 style="text-align: center">NOTIFIKASI</h2>
       <a href="#" class="close">&times;</a>
       <div class="content">
         

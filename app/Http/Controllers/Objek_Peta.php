@@ -43,7 +43,7 @@ class Objek_Peta extends Controller
             'kategori' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'foto1' => 'required|mimes:jpeg,jpg,png,gif|required|max:30000',
         ]);
 
         if ($validator->fails()) {
@@ -63,7 +63,7 @@ class Objek_Peta extends Controller
             $constraint->aspectRatio();
         })->save('gambar/objek/ori/'.$imgname);
 
-        $img->resize(100, 100, function ($constraint) {
+        $img->resize(300, 300, function ($constraint) {
             $constraint->aspectRatio();
         })->save('gambar/objek/thumbnail/'.$imgname);
 
@@ -90,7 +90,7 @@ class Objek_Peta extends Controller
             'kategori' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:30000',
         ]);
 
         if ($validator->fails()) {
@@ -123,7 +123,7 @@ class Objek_Peta extends Controller
                 $constraint->aspectRatio();
             })->save('gambar/objek/ori/'.$foto);
 
-            $img->resize(100, 100, function ($constraint) {
+            $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save('gambar/objek/thumbnail/'.$foto);
         }

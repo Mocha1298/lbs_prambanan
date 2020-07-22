@@ -55,7 +55,7 @@
                 <td data-label="Judul">{{ $sw->nama }}</td>
                 <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
                 <td data-label="Desa">{{ $sw->nama_desa }}</td>
-                <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" alt=""></a></td>
+                <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
                 <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
               </tr>
             @endforeach
@@ -74,7 +74,7 @@
           ?>
 
           @if ($data->lastPage() > 1)
-              <ul>
+              <ul style="background: white;">
                   <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
                       <a href="{{ $data->url(1) }}">First</a>
                   </li>

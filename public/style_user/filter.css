@@ -1,0 +1,54 @@
+div.overlay{
+    z-index: 9999999;
+}
+.content img{
+    width: 150px;
+}
+.panel{
+    z-index: 99999;
+    position: absolute;
+    right: 1vw;
+    top: -100px;
+    /* top: 0; */
+    width: 200px;
+    height: 100px;
+    background: whitesmoke;
+    border-radius: 0 0 15px 15px;
+    transition: all ease 1s;
+    /* overflow: hidden; */
+}
+.panel .body{
+    margin: 10px;
+    width: 90%;
+    height: auto;
+}
+.panel .content{
+    text-align: center;
+    padding: 10px 0;
+}
+a.tarikan{
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+    padding: 0 20px;
+    background: whitesmoke;
+    border-radius: 0 0 30px 30px;
+}
+a.tarikan:hover{
+    cursor: pointer;
+}
+a h2{
+    margin-bottom: 5px;
+}
+
+.panel .content button{
+    height: 30px;
+    background: goldenrod;
+    color: white;
+    border: 1px solid whitesmoke;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 7px 18px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 7px 18px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 7px 18px -7px rgba(0,0,0,0.75);
+}

@@ -30,7 +30,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Objek Peta</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Nama</th>
           <th scope="col">Kategori</th>
           <th scope="col">Foto</th>
@@ -40,7 +39,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $pt)
             <tr id="{{$pt->id}}" class="table">
-              <td data-label="No">{{ $loop->iteration }}</td>
               <td data-label="Nama">{{ $pt->nama }}</td>
               <td data-label="Kategori">{{ $pt->tipe }}</td>
               <td data-label="Foto"><a href="/gambar/objek/ori/{{ $pt->foto1 }}"><img src="/gambar/objek/thumbnail/{{ $pt->foto1 }}" alt="" width="80px" height="auto"></a></td>
@@ -98,7 +96,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
                       <a href="{{ $data->url($data->lastPage()) }}">Last</a>
                   </li>
               </ul>
-@endif
+          @endif
     </div>
   </div>
   @foreach ($data as $pt)
@@ -273,5 +271,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
+    <script src="{{asset('js_admin/polygon.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

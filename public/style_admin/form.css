@@ -82,6 +82,23 @@ fieldset {
   -moz-transition: background 0.3s ease-in-out;
   transition: background-color 0.3s ease-in-out;
 }
+#form a#cancel {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background: #d8db00;
+  color: rgb(0, 0, 0);
+  margin: 0 0 5px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+#form a#cancel:hover {
+  background: #b3b600;
+  -webkit-transition: background 0.3s ease-in-out;
+  -moz-transition: background 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
 
 #form button[type="submit"]:active {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);

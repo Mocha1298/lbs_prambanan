@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use App\Map;
 use App\Type;
 use App\Photo;
+use App\Subdistrict;
+use App\Village;
 use Image;
 use File;
 use Illuminate\Support\Facades\Validator;
+
+// OK
 
 class Objek_Kerusakan extends Controller
 {
@@ -29,8 +33,10 @@ class Objek_Kerusakan extends Controller
         $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','maps.photos_id')->select('maps.*','types.nama as status','photos.id as idp','photos.foto1','photos.foto2','photos.foto3')->paginate(10);
         $count = $data->count();
         $tipe = Type::where('jenis','Kerusakan')->get();
+        $ids = Village::find($id);
+        $ids = $ids->subdistricts_id;
         // return $data;
-        return view('super.objek.objek_kerusakan',['count'=>$count,'data'=>$data,'tipe'=>$tipe,'id'=>$id]);
+        return view('super.objek.objek_kerusakan',['count'=>$count,'data'=>$data,'tipe'=>$tipe,'id'=>$id,'ids'=>$ids]);
     }
 
     public function create(Request $request, $id)
@@ -43,7 +49,7 @@ class Objek_Kerusakan extends Controller
             'perbaikan' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:30000',
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +70,7 @@ class Objek_Kerusakan extends Controller
                 $constraint->aspectRatio();
             })->save('gambar/kerusakan/ori/'.$imgname);
     
-            $img->resize(100, 100, function ($constraint) {
+            $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save('gambar/kerusakan/thumbnail/'.$imgname);
         }
@@ -101,7 +107,7 @@ class Objek_Kerusakan extends Controller
     public function foto(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'foto1' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'foto1' => 'required|mimes:jpeg,jpg,png,gif|required|max:30000',
         ]);
         
         $data = Map::find($id);
@@ -124,7 +130,7 @@ class Objek_Kerusakan extends Controller
             $constraint->aspectRatio();
         })->save('gambar/kerusakan/ori/'.$imgname);
 
-        $img->resize(100, 100, function ($constraint) {
+        $img->resize(300, 300, function ($constraint) {
             $constraint->aspectRatio();
         })->save('gambar/kerusakan/thumbnail/'.$imgname);
 
@@ -148,14 +154,14 @@ class Objek_Kerusakan extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'level' => 'required',
-            'rt' => 'required',
-            'rw' => 'required',
+            'rt' => 'numeric',
+            'rw' => 'numeric',
             'perbaikan' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
-            'foto2' => 'mimes:jpeg,jpg,png,gif|max:10000',
-            'foto3' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:30000',
+            'foto2' => 'mimes:jpeg,jpg,png,gif|max:30000',
+            'foto3' => 'mimes:jpeg,jpg,png,gif|max:30000',
         ]);
 
         if ($validator->fails()) {
@@ -188,7 +194,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$foto);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$foto);
             }
@@ -201,7 +207,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$imgname);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$imgname);
                 $photo->foto1 = $imgname;
@@ -228,7 +234,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$foto);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$foto);
             }
@@ -241,7 +247,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$imgname);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$imgname);
                 $photo->foto2 = $imgname;
@@ -268,7 +274,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$foto);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$foto);
             }
@@ -281,7 +287,7 @@ class Objek_Kerusakan extends Controller
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/ori/'.$imgname);
 
-                $img->resize(100, 100, function ($constraint) {
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('gambar/kerusakan/thumbnail/'.$imgname);
                 $photo->foto3 = $imgname;
@@ -334,22 +340,43 @@ class Objek_Kerusakan extends Controller
 
     public function destroy($id)
     {
-        $data = Map::find($id);
-        $pt = $data->photos_id;
-        $foto = Photo::find($pt);
-
-        $foto1 = $foto->foto1;
-        $file_t = "gambar/objek/thumbnail/$foto1";
-        $file_o = "gambar/objek/ori/$foto1";
-
-        if(File::exists($file_t)) {
-            File::delete($file_t);
-            File::delete($file_o);
+        $map = Map::find($id);//CALL DATA WITH QUERY
+        $idm = $map->photos_id;//AMBIL ID KRSKN
+        $idm_st = $map->types_id;//AMBIL ID TIPE
+        $photo1 = Photo::find($idm);//CALL PHOTO
+        $status = Type::find($idm_st);//CALL TYPE
+        $status = $status->nama;
+        $foto;//VAR SAVE DATA POTO
+        $x;//PANJANG DATA
+        if($status == 'Rencana'){
+            $foto[0] = $photo1->foto1;
+            $x = 1;
         }
-
-        $foto->delete();
-
-        $data->delete();
+        elseif($status == 'Sedang'){
+            $foto[0] = $photo1->foto1;
+            $foto[1] = $photo1->foto2;
+            $x = 2;
+        }
+        else{
+            $foto[0] = $photo1->foto1;
+            $foto[1] = $photo1->foto2;
+            $foto[2] = $photo1->foto3;
+            $x = 3;
+        }
+        for ($i=0; $i < $x; $i++) { 
+            $fotos = $foto[$i];
+            if($fotos != 'empty.jpg'){
+                $file_o = "gambar/kerusakan/ori/$fotos";
+                $file_t = "gambar/kerusakan/thumbnail/$fotos";
+                if(File::exists($file_t)) {
+                    File::delete($file_t);
+                    File::delete($file_o);
+                }
+            }
+        }
+        $id = $map->villages_id;
+        $map->delete();
+        $photo1->delete();
     
         return redirect('objek_kerusakan/'.$id.'')->with('hapus','Data berhasil dihapus!');
     }

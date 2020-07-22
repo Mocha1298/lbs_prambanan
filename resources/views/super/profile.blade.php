@@ -1,15 +1,14 @@
 @extends('super.template')
 
-@section('title','Dashboard')
+@section('title','Profile')
 
 @section('head')
 <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
-<link rel="stylesheet" href="{{asset('style_admin/card.css')}}">
 <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
 @endsection
 
 @section('breadcrump')
-    Dashboard
+    Profile
 @endsection
 
 @section('isi')

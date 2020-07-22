@@ -3,6 +3,7 @@
 @section('title','Master Jenis')
 
 @section('head')
+  {{-- OK BOSSS --}}
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
@@ -22,7 +23,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Jenis</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Kategori</th>
           <th scope="col">Jenis</th>
           <th scope="col">Icon</th>
@@ -31,7 +31,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <tbody>
         @foreach($data as $dt)
           <tr id="{{$dt->id}}" class="table">
-            <td data-label="No">{{ $loop->iteration }}</td>
             <td data-label="Kategori">{{ $dt->nama }}</td>
             <td data-label="Jenis">{{ $dt->jenis }}</td>
             <td data-label="Icon"><img width="50px" height="50px" src="{{asset('gambar/jenis/'.$dt->marker.'')}}" alt=""></td>
@@ -126,6 +125,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
+            <fieldset>
+              <a id="cancel" href="/master_jenis">Cancel</a>
+            </fieldset>
         </form>
         </div>
       </div>
@@ -175,6 +177,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
           </fieldset>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
+          </fieldset>
+          <fieldset>
+            <a id="cancel" href="/master_jenis">Cancel</a>
           </fieldset>
       </form>
       </div>

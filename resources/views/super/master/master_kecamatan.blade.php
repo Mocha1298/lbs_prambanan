@@ -23,20 +23,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
   <div class="isi">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <table>
       <caption>Tabel Kecamatan</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Nama Kecamatan</th>
           <th scope="col">Jumlah Desa</th>
         </tr>
@@ -45,7 +35,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $kc)
           <tr id="{{$kc->id}}" class="table">
-            <td data-label="No">{{ $loop->iteration }}</td>
             <td data-label="Nama Kecamatan">{{ $kc->nama }}</td>
             <td data-label="Jumlah Desa">{{ $kc->desa }}</td>
               {{-- Content Klik Kanan --}}
@@ -157,6 +146,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
             </fieldset>
+            <fieldset>
+              <a id="cancel" href="/master_kecamatan">Cancel</a>
+            </fieldset>
           </form>
         </div>
       </div>
@@ -164,10 +156,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
     {{-- POPUP HAPUS DATA --}}
     <div id="popup_h{{$kc->id}}" class="overlay">
       <div class="popup">
-        <h2>Hapus Data Kecataman?</h2>
+        <h2>Hapus Data Kecataman</h2>
         <div class="content">
+          <p style="color: firebrick;margin-bottom: 20px">Intruksi ini akan menghapus seluruh data yang berhubungan dengan master tersebut, apakah Anda yakin untuk melanjutkan intruksi ini?</p>
           <fieldset class="acc">
-            <a class="acc" href="/master_kecamatan_hapus/{{ $kc->id }}">HAPUS</a>
+            <a class="acc" href="/master_kecamatan_hapus/{{ $kc->id }}">YA, Saya Yakin!</a>
             <a class="cancel" href="#">Batal</a>
           </fieldset>
         </div>
@@ -222,6 +215,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
+          <fieldset>
+            <a id="cancel" href="/master_kecamatan">Cancel</a>
+          </fieldset>
       </form>
       </div>
     </div>
@@ -235,5 +231,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
+    <script src="{{asset('js_admin/polygon.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

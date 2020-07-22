@@ -34,6 +34,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <th scope="col">Judul</th>
           <th scope="col">RT/RW</th>
           <th scope="col">Foto</th>
+          <th scope="col">Tanggal Masuk</th>
           <th scope="col">Status</th>
         </tr>
       </thead>
@@ -44,7 +45,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
               <td data-label="No">{{ $loop->iteration }}</td>
               <td data-label="Judul">{{ $sw->nama }}</td>
               <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
-              <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" alt=""></a></td>
+              <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
+              <td data-label="Tanggal Masuk">{{ $sw->created_at }}</td>
               <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
               {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$sw->id}}" style="display: none">
@@ -53,7 +55,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
                   <a href="/suwar_acc/{{$sw->id}}">SETUJU</a>
                   </li>
                   <li class="hapus">
-                    <a href="suwar_dis/{{$sw->id}}" >DITUNDA</a>
+                    <a href="/suwar_dis/{{$sw->id}}" >DITUNDA</a>
                   </li>
                 </ul>
               </div>
@@ -67,7 +69,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Kerusakan</a>
         <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
@@ -115,6 +116,4 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('script')
     <script src="{{asset('js_admin/action.js')}}"></script>
-    <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

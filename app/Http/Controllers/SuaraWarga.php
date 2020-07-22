@@ -9,11 +9,11 @@ use App\Photo;
 use App\Text;
 use App\User;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\LaporanMasuk;
 use Illuminate\Support\Facades\Validator;
 use Image;
 use File;
 use Auth;
-use App\Mail\LaporanMasuk;
 
 class SuaraWarga extends Controller
 {
@@ -23,28 +23,15 @@ class SuaraWarga extends Controller
         $data = Village::where('subdistricts_id',$kc->id)->get();
         return view('user.suara_warga',['data'=>$data]);
     }
-    public function index1()
+    public function index1($id)
     {
-        $id = Auth::user()->id;
-        $data = Text::join('villages','villages.id','texts.villages_id')->join('photos','photos.id','texts.photos_id')->select('texts.*','villages.nama as nama_desa','photos.foto1')->paginate(5);
+        $data = Text::where('users_id',$id)->join('villages','villages.id','texts.villages_id')->join('photos','photos.id','texts.photos_id')->select('texts.*','villages.nama as nama_desa','photos.foto1')->paginate(5);
         $count = $data->count();
         // return $data;
         return view('user.my_suwar',['data'=>$data,'count'=>$count,'id'=>$id]);
     }
 
-    public function desa($id)
-    {
-        $data = Text::where('villages_id',$id)->join('photos','photos.id','texts.photos_id')->select('texts.*','photos.foto1')->paginate(5);
-        $count = $data->count();
-        return view('super.suwar.laporan',['data'=>$data,'count'=>$count,'id'=>$id]);
-    }
 
-    public function acc($id)
-    {
-        $data  = Text::find($id);
-        $data->status = 2;
-        return redirect()->back();
-    }
 
     public function create()
     {
@@ -99,7 +86,7 @@ class SuaraWarga extends Controller
             'desa' => 'required',
             'bujur' => 'required',
             'lintang' => 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'foto1' => 'required|mimes:jpeg,jpg,png,gif|max:10000',
             'captcha' => 'required|captcha'
         ]);
 
@@ -109,27 +96,20 @@ class SuaraWarga extends Controller
                         ->withInput();
         }
         
+        $file = $request->file('foto1');
+        $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
 
-        if ($request->hasFile('foto1')) {
-            $file = $request->file('foto1');
-            $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
-    
-            //Menamai gambar
-            $imgname ='laporan_'.time().'.'.$eks;
-    
-            $img = Image::make($file->getRealPath());
-            $img->resize(2000, 2000, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save('gambar/laporan/ori/'.$imgname);
-    
-            $img->resize(100, 100, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save('gambar/laporan/thumbnail/'.$imgname);
-        }
-        else{
-            //Menamai gambar
-            $imgname ='empty.jpg';
-        }
+        //Menamai gambar
+        $imgname ='laporan_'.time().'.'.$eks;
+
+        $img = Image::make($file->getRealPath());
+        $img->resize(2000, 2000, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('gambar/laporan/ori/'.$imgname);
+
+        $img->resize(100, 100, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save('gambar/laporan/thumbnail/'.$imgname);
 
         $ph = new Photo;
         $ph->foto1 = $imgname;
@@ -147,18 +127,35 @@ class SuaraWarga extends Controller
         $data->lintang = $request->lintang;
         $data->villages_id = $request->desa;
         $data->photos_id = $ph->id;
-        $data->users_id = $request->uid;
-        $data->save();
+        $data->users_id = Auth::user()->id;
 
-        $details = [
-            'title' => 'Peta-Jalan',
-            'body' => 'Laporan kerusakan baru dari '.Auth::user()->nama,
-            'comment' => $request->nama,
-            'notice' => '127.0.0.1:8000/suwar_admin/'.$request->desa
-        ];
+        $id_desa = $request->desa;
+        $desa = Village::find($id_desa);
+
+        // EMAIL ADMIN
+        $details = array(
+            'baris1' => 'Kepada Pemerintah Desa '.$desa->nama, 
+            'baris2' => 'Laporan masuk dari Saudara/i '.Auth::user()->nama,
+            'judul' => $request->nama,
+            'keterangan' => $request->keterangan,
+            'notice' => 'http://localhost:8000/suwar_admin/'.$request->desa,
+        );
 
         $admin = User::where('villages_id',$request->desa)->first();
-        \Mail::to($admin)->send(new LaporanMasuk($details));
+        Mail::to($admin)->send(new LaporanMasuk($details));
+
+        $details = array(
+            'baris1' => 'Terima Kasih atas laporan yang Anda berikan untuk kami.',
+            'baris2' => 'Mohon menunggu 2x24 jam untuk kami meninjau laporan Anda.',
+            'judul' => $request->nama,
+            'keterangan' => $request->keterangan,
+            'notice' => 'http://localhost:8000/my_suwar/'.Auth::user()->id,
+        );
+
+        $user = Auth::user()->email;
+        Mail::to($user)->send(new LaporanMasuk($details));
+
+        $data->save();
 
         return redirect('/suwar')->with('simpan','Data sukses disimpan');
     }

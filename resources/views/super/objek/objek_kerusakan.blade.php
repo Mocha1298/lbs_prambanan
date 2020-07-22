@@ -3,6 +3,7 @@
 @section('title','Data Kerusakan')
 
 @section('head')
+  {{-- OK BOSSS --}}
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
@@ -20,7 +21,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
     @if (Auth::user()->roles_id != 2)
-        <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa_back/{{$id}}">Master Kerusakan</a> >Data Kerusakan
+        <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa/{{$ids}}">Master Desa</a> >Data Kerusakan
+    @else
+    Data Kerusakan
     @endif
 @endsection
 @section('isi')
@@ -29,7 +32,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Kerusakan</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Nama</th>
           <th scope="col">Level</th>
           <th scope="col">Status</th>
@@ -42,7 +44,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $kr)
             <tr id="{{$kr->id}}" class="table">
-              <td data-label="No">{{ $loop->iteration }}</td>
               <td data-label="Nama">{{ $kr->nama }}</td>
               <td data-label="Level">{{ $kr->level }}</td>
               <td data-label="Status">{{ $kr->status }}</td>
@@ -85,7 +86,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </table>
     <div class="pagination">
         <a style="color:white;" class="add" href="#add">Tambah Kerusakan</a>
-        <a style="right: 0; width: 50px;" href="/peta_kerusakan/{{$id}}"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
+        <a style="right: 0; width: 50px;" href="/maps"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
           $link_limit = 10;
@@ -265,6 +266,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
+            <fieldset>
+              <a id="cancel" href="/objek_kerusakan/{{$id}}">Cancel</a>
+            </fieldset>
         </form>
         </div>
       </div>
@@ -285,10 +289,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div id="popup_s{{$kr->id}}" class="overlay">
       <div class="popup">
         <h2>Ubah Status Perbaikan</h2>
-        <a class="close" href="/objek_kerusakan/{{$kr->villages_id}}">&times;</a>
         <div class="content">
           <form method="post" id="form" action="/objek_kerusakan_status/{{$kr->id}}">
             {{ csrf_field() }}
+            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             <fieldset>
               <select name="kategori" id="form">
                 @foreach ($tipe as $item)
@@ -306,6 +310,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             </fieldset>
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
+            </fieldset>
+            <fieldset>
+              <a id="cancel" href="/objek_kerusakan/{{$id}}">Cancel</a>
             </fieldset>
           </form>
         </div>
@@ -400,6 +407,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
+          <fieldset>
+            <a id="cancel" href="/objek_kerusakan/{{$id}}">Cancel</a>
+          </fieldset>
       </form>
       </div>
     </div>
@@ -413,5 +423,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
+    <script src="{{asset('js_admin/polygon.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

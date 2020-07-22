@@ -27,7 +27,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Desa</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Nama Desa</th>
           <th scope="col">Jumlah RW</th>
         </tr>
@@ -36,7 +35,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $ds)
             <tr id="{{$ds->id}}" class="table">
-              <td data-label="No">{{ $loop->iteration }}</td>
               <td data-label="Nama Desa">{{ $ds->nama }}</td>
               <td data-label="Jumlah RW">{{ $ds->rw }}</td>
                 {{-- Content Klik Kanan --}}
@@ -153,6 +151,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <fieldset>
               <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
             </fieldset>
+            <fieldset>
+              <a id="cancel" href="/master_desa/{{$id}}">Cancel</a>
+            </fieldset>
         </form>
         </div>
       </div>
@@ -163,7 +164,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <h2>Hapus Data Desa?</h2>
         <div class="content">
           <fieldset class="acc">
-            <a class="acc" href="/master_desa_hapus/{{$id}}/{{ $ds->id }}">HAPUS</a>
+            <a class="acc" href="/master_desa_hapus/{{ $ds->id }}">HAPUS</a>
             <a class="cancel" href="#">Batal</a>
           </fieldset>
         </div>
@@ -217,6 +218,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
+          <fieldset>
+            <a id="cancel" href="/master_desa">Cancel</a>
+          </fieldset>
       </form>
       </div>
     </div>
@@ -230,5 +234,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
+    <script src="{{asset('js_admin/polygon.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

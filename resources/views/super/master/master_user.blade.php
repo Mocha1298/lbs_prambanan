@@ -8,6 +8,17 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
+  <style>
+      .main .pagination a.button{
+        color: black;
+        background-color: #d95235;
+        padding: 5px 10px;
+        border-radius: 15px;
+        -webkit-box-shadow: 4px 4px 5px 1px #ccc;
+        -moz-box-shadow:    4px 4px 5px 1px #ccc;
+        box-shadow:         4px 4px 5px 1px #ccc;
+      }
+  </style>
   <script src="{{asset('js_admin/nav.js')}}"></script>
 @endsection
 @section('copy')
@@ -22,8 +33,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel User</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Nama User</th>
+          <th scope="col">Posisi</th>
+          <th scope="col">Desa</th>
+          {{-- <th scope="col">Kecamatan</th> --}}
           <th scope="col">Email</th>
           <th scope="col">Status</th>
         </tr>
@@ -32,8 +45,17 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $us)
           <tr id="{{$us->id}}" class="table">
-            <td data-label="No">{{ $loop->iteration }}</td>
             <td data-label="Nama User">{{ $us->nama }}</td>
+            <td data-label="Posisi">
+            @if ($us->roles_id == 1)
+                Kecamatan
+            @elseif($us->roles_id == 2)
+                Desa
+            @else
+                Warga
+            @endif
+            </td>
+            <td data-label="Email">{{ $us->desa }}</td>
             <td data-label="Email">{{ $us->email }}</td>
             <td data-label="Status">
               @if ($us->aktivasi == 1)
@@ -46,18 +68,27 @@ oncopy='return false' oncut='return false' onpaste='return false'
             {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-                  <li class="detail">
-                    <a href="/master_user_disable/{{$us->id}}">DISABLE</a>
+                  <li class="edit">
+                    <a href="/aktivasi/{{$us->id}}">
+                      @if($us->aktivasi == 1)
+                      DISABLE
+                      @else
+                      ACTIVATE
+                      @endif
+                    </a>
                   </li>
                 </ul>
               </div>
             @endif
-            @if (Auth::user()->id == $us->id)
+            @if ($us->roles_id == 2)
             {{-- Content Klik Kanan --}}
               <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                   <li class="edit">
-                    <a href="#popup_e{{$us->id}}">EDIT</a>
+                    <a href="/reset/{{$us->id}}">RESET</a>
+                  </li>
+                  <li class="detail">
+                    <a href="#popup_d{{$us->id}}">DETAIL</a>
                   </li>
                 </ul>
               </div>
@@ -109,43 +140,17 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </div>
   </div>
   @foreach ($data as $us)
-    {{-- POPUP EDIT DATA --}}
-    <div id="popup_e{{$us->id}}" class="overlay">
+    {{-- POPUP DETAIL DATA --}}
+    <div id="popup_d{{$us->id}}" class="overlay">
       <div class="popup">
-        <h2>Edit Data User</h2>
-        <div class="content">
-          <form id="form" action="/master_user_ubah/{{$us->id}}" method="post">
-            {{ csrf_field() }}
-            <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
-            <fieldset>
-              <input placeholder="Nama User" type="text" name="nama" value="{{ old('nama') ?? $us->nama }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
-              @error('nama')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
-              <input placeholder="Jumlah Desa" type="text" name="desa" value="{{ old('desa') ?? $us->desa }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-              @error('desa')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-            <fieldset>
-              <input placeholder="Nama Camat" type="text" name="nama_cmt" value="{{ old('nama_cmt') ?? $us->nama_cmt }}" tabindex="1"  oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-              @error('nama_cmt')
-              <div class="invalid-feedback">
-                  {{$message}}
-              </div>
-              @enderror
-            </fieldset>
-
-            <fieldset>
-              <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
-            </fieldset>
-        </form>
+        <a class="close" href="#">&times;</a>
+        <h2>DETAIL DATA</h2>
+        <div class="content" style="text-align: center">
+          <h4>Nama : {{$us->nama}}</h4>
+          <h4>Email : {{$us->email}}</h4>
+          @if(Hash::check('rahasia', $us->password))
+          <h4>Password : <span style="background: yellow;"> rahasia </span></h4>
+          @endif
         </div>
       </div>
     </div>
@@ -176,6 +181,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
           </fieldset>         
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
+          </fieldset>
+          <fieldset>
+            <a id="cancel" href="/master_user">Cancel</a>
           </fieldset>
       </form>
       </div>

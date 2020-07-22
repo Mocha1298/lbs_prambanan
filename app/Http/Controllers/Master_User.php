@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Village;
+use App\Subdistrict;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,8 +13,12 @@ class Master_User extends Controller
 {
     public function index()
     {
-        $data = User::paginate(10);
+        $data = User::join('villages','villages.id','users.villages_id')
+        ->join('subdistricts','subdistricts.id','villages.subdistricts_id')
+        ->select('users.*','villages.nama as desa','subdistricts.nama as kecamatan')
+        ->orderBy('roles_id','asc')->paginate(10);
         $count = User::count();
+        // return $data;
         return view('super.master.master_user',['data'=>$data,'count'=>$count]);
     }
     public function profile($id)
@@ -84,4 +90,16 @@ class Master_User extends Controller
         return redirect()->back()->with('edit','Data sukses diubah');
     }
 
+    public function disable($id)
+    {
+        $data = User::find($id);
+        if($data->aktivasi == 1){
+            $data->aktivasi = 0;
+        }
+        else{
+            $data->aktivasi = 1;
+        }
+        $data->save();
+        return redirect()->back()->with('edit','Berhasil mengubah aktivasi User..');
+    }
 }

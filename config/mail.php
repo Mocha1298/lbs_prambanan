@@ -55,10 +55,11 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
-    ],
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'donot-reply@gmail.com'),
+    //     'name' => env('MAIL_FROM_NAME', 'Peta-Jalan'),
+    // ],
+    'from' => ['address' => 'donot-reply@gmail.com', 'name' => 'Peta-Jalan'],
 
     /*
     |--------------------------------------------------------------------------

@@ -8,6 +8,7 @@
     left: 0;
     width: 100%;
     min-height: 100%;
+    z-index: 1;
 }
 div.leaflet-control-zoom.leaflet-bar.leaflet-control{
     margin-top: 90vh;
@@ -15,8 +16,13 @@ div.leaflet-control-zoom.leaflet-bar.leaflet-control{
 }
 svg.leaflet-zoom-animated g path.leaflet-interactive{
     stroke: white;
-    stroke-width: 1;
+    stroke-width: 2;
     fill-opacity: 0;
+}
+.popup img{
+    margin-right: 10px;
+    width: 100px;
+    height: 100px;
 }
 @media all and (max-width: 800px){
     div.leaflet-control-zoom.leaflet-bar.leaflet-control{

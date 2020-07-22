@@ -16,6 +16,7 @@ class LaporanMasuk extends Mailable
      *
      * @return void
      */
+    public $details;
     public function __construct($details)
     {
         $this->details = $details;
@@ -28,7 +29,7 @@ class LaporanMasuk extends Mailable
      */
     public function build()
     {
-        return $this->subject('Laporan Kerusakan Baru')
-                    ->view('super.mails.mail');
+        // return $this->markdown('super.emails.laporanmasuk');
+        return $this->from('joss@gmail.com')->subject('Laporan Masuk')->markdown('super.emails.layout')->with('details', $this->details);
     }
 }

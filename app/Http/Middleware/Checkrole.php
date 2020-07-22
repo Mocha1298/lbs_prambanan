@@ -15,7 +15,7 @@ class Checkrole
      */
     public function handle($request, Closure $next,...$roles)
     {
-        if(in_array($request->user()->roles_id,$roles)){
+        if(in_array($request->user()->roles_id,$roles) && $request->user()->aktivasi == 1){
             return $next($request);
         }
         else {

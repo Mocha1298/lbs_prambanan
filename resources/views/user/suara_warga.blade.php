@@ -19,7 +19,7 @@
 </head>
 <body>
   <a href="/" class="home"><i class="fa fa-home fa-3x"></i></a>
-  <a href="/my_suwar" class="my-report"><i class="fa fa-camera fa-3x"></i></a>
+  <a href="/my_suwar/{{Auth::user()->id}}" class="my-report"><i class="fa fa-camera fa-3x"></i></a>
   <div class="judul">
     <h3 id="logo">Suara Warga</h3>
   </div>
@@ -28,10 +28,9 @@
     @if (session('simpan'))
     <div class="success"><i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>{{session('simpan')}}</div>
     @endif
-    <input type="hidden" name="uid" value="{{Auth::user()->id}}">
 
     <label for="nama">Judul Laporan</label>
-    <input type="text" id="nama" name="nama" placeholder="Tulis Judul laporan Anda.." value="{{old('nama')}}" autocomplete="off" required />
+    <input type="text" id="nama" name="nama" placeholder="Tulis Judul laporan Anda.." value="{{old('nama')}}" autocomplete="off" required maxlength="50"/>
     @error('nama')
     <div class="invalid-feedback">
         {{$message}}
@@ -40,7 +39,7 @@
     <br>
   
     <label for="keterangan">Keterangan</label>
-    <input type="text" id="keterangan" name="keterangan" placeholder="Tulis Keterangan laporan Anda.." value="{{old('keterangan')}}" autocomplete="off" required />
+    <input type="text" id="keterangan" name="keterangan" placeholder="Tulis Keterangan laporan Anda.." value="{{old('keterangan')}}" autocomplete="off" required maxlength="200"/>
     @error('keterangan')
     <div class="invalid-feedback">
         {{$message}}
