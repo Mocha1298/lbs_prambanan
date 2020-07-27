@@ -1,5 +1,7 @@
 // MAPSS SAYA
 var mymap;
+var bujur;
+var lintang;
 
 $.getJSON("/center", function (data){
     mymap = L.map('mapid',{
@@ -10,6 +12,7 @@ $.getJSON("/center", function (data){
     });
     L.geoJSON([prambanan]).addTo(mymap);
     L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        minZoom: 10,
         maxZoom: 20,
         subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(mymap);
@@ -37,9 +40,10 @@ function show_objek() {
                    "<div class='cont'>"+
                        "<div class='box'>"+
                            "<div class='header'>"+
-                               "<h5><strong>"+name+"</strong></h5>"+
+                               "<h2><strong>"+name+"</strong></h2>"+
                            "</div>"+
                            "<img src='/gambar/objek/thumbnail/"+data[i].foto1+"' alt='' width='100%' height='auto'>"+
+                           "<a id='done' onclick='make_dst("+data[i].lintang+","+data[i].bujur+");'>Rute</a>"+
                        "</div>"+
                    "</div>"
                )
@@ -68,7 +72,6 @@ function hide(x) {
 var kerusakan = [];//KERUSAKAN
 
 function show_kr() {
-    console.log("HOW");
     $.getJSON("/datapeta", function (data1) {
         for (var i = 0; i < kerusakan.length; i++){
             layerGroup2.removeLayer(kerusakan[i]);
@@ -125,7 +128,6 @@ $("select#desa").change(function(){
                 });
                 if (desa == data1[i].desa) {
                     var name = data1[i].kerusakan;
-                    console.log(name);
                     var status = data1[i].status;
                     kerusakan[i] = L.marker([data1[i].lintang, data1[i].bujur],{icon: icon})
                     .addTo(mymap)
@@ -156,6 +158,125 @@ $("select#desa").change(function(){
     }
 });
 
+function make_dst(l,b) {
+    stoplocate();
+    locateUser();
+    var control = L.Routing.control({
+            waypoints: [
+                L.latLng(lintang,bujur),
+                L.latLng(l,b)
+            ],
+            collapsible: true,
+        })
+        .on('routingerror', function(e) {
+            try {
+                mymap.getCenter();
+            } catch (e) {
+                mymap.fitBounds(L.latLngBounds(control.getWaypoints().map(function(wp) { return wp.latLng; })));
+            }
+    
+            handleError(e);
+        })
+        .addTo(mymap);
+    
+    L.Routing.errorControl(control).addTo(mymap);
+    $('#done')[0].innerText = "SELESAI";
+    $('#done')[0].attributes.onclick.nodeValue = "done();";
+}
+
+function done() {
+    window.location.reload();
+}
+
+// MARKER CURRENT
+var current = L.icon({
+    iconUrl: '/gambar/marker/current.png',
+    iconSize:     [17, 17], // Ukuran
+    iconAnchor:   [8, 13], // Posisi marker
+});
+
+function stoplocate() {
+    mymap.stopLocate()
+}
+
+var layerLocate = L.layerGroup();
+var marker_layer;
+var ring_layer;
+
+function locateUser() {
+    console.log("START TRACK LOCATION");
+    mymap.locate({
+        watch : true,
+        setView : false,
+        minZoom: 10,
+        maxZoom: 20,
+    });
+
+	function onLocationFound(e) {
+        if (marker_layer != null) {
+            layerLocate.removeLayer(marker_layer);
+            layerLocate.removeLayer(ring_layer);
+        }
+
+		var radius = e.accuracy / 2;
+
+        marker_layer = L.marker(e.latlng,{icon:current}).addTo(mymap);
+
+        lintang = e.latitude;
+        bujur = e.longitude;
+
+        ring_layer = L.circle(e.latlng, radius).addTo(mymap);
+
+        layerLocate.addLayer(marker_layer).addTo(mymap);
+        layerLocate.addLayer(ring_layer).addTo(mymap);
+	}
+
+	function onLocationError(e) {
+		alert(e.message);
+	}
+
+	mymap.on('locationfound', onLocationFound);
+	mymap.on('locationerror', onLocationError);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // FOUND MY LOCATION
@@ -176,25 +297,11 @@ $("select#desa").change(function(){
 // mymap.locate({setView: true});
 
 // navigator.geolocation.getCurrentPosition(function(location) {
-//     // latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-  
-//     var mymap = L.map('mapid',{
-//         center : latlng,
-//         watch : true,
-//         zoom: 13,
-//         scrollWheelZoom: false,
-//     })
-//     L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
-//     maxZoom: 20,
-//     minZoom: 13,
-//     subdomains:['mt0','mt1','mt2','mt3']
-//     }).addTo(mymap);
-
-//     L.geoJSON([bugisan]).addTo(mymap);
+//     latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
 
 //     L.Routing.control({
 //         waypoints: [
-//           L.latLng(latlng.lat, latlng.lng),
+//           L.latLng(lintang, bujur),
 //           L.latLng(-7.744464, 110.494553)
 //         ]
 //       }).addTo(mymap);   
@@ -208,7 +315,6 @@ $("select#desa").change(function(){
 //     });
 
 //     var marker = L.marker(latlng,{icon:current}).addTo(mymap).bindPopup("Lokasi Anda");
-
 // }); 
 
 // var control = L.Routing.control({
@@ -221,7 +327,7 @@ $("select#desa").change(function(){
 //             });
 //         },
 //         geocoder: L.Control.Geocoder.nominatim(),
-//         routeWhileDragging: true
+//         // routeWhileDragging: true
 //     }),
 //     routeWhileDragging: true,
 //     routeDragTimeout: 250,

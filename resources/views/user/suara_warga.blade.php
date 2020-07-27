@@ -139,6 +139,7 @@
   </script>
   <script src="{{asset('js_admin/action.js')}}"></script>
   <script src="{{asset('js_admin/bundle.js')}}"></script>
+  <script src="{{asset('js_admin/polygon.js')}}"></script>
   <script src="{{asset('js_admin/crud_map.js')}}"></script>
 </body>
 </html>

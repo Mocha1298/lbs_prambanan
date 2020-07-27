@@ -38,7 +38,7 @@ class Master_Desa extends Controller
             $admin = 0;
         }
         $data = $ds->paginate(10);
-        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin]);
+        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'kc'=>$kc,'count'=>$count,'admin'=>$admin]);
     }
     public function index3($id)
     {

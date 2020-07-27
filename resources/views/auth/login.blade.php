@@ -138,7 +138,7 @@
             text-align:center;
         }
     </style>
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <div class="login-wrap">

@@ -50,9 +50,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
     // Route Master Kecamatan
     Route::get('/master_kecamatan','Master_Kecamatan@index');//Menampilkan Halaman Master Kecamatan
-    Route::post('/master_kecamatan_tambah','Master_Kecamatan@create');//Proses simpan data
+    // Route::post('/master_kecamatan_tambah','Master_Kecamatan@create');//Proses simpan data
     Route::post('/master_kecamatan_ubah/{id}','Master_Kecamatan@update');//Proses update data
-    Route::get('/master_kecamatan_hapus/{id}','Master_Kecamatan@destroy');//Proses hapus data
+    // Route::get('/master_kecamatan_hapus/{id}','Master_Kecamatan@destroy');//Proses hapus data
 
     // ROute Master Jenis
     Route::get('/master_jenis','Master_Jenis@index');//Menampilkan Halaman Master Jenis
@@ -76,7 +76,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
     // Route Laporan
     Route::get('/suwar_admin/{id}','LaporanAgenda@desa');
+    Route::post('/survey/{id}','LaporanAgenda@survey');
     Route::get('/agenda/{id}','LaporanAgenda@agenda');
+    Route::get('/valid/{id}','LaporanAgenda@valid');
     Route::get('/suwar_acc/{id}','LaporanAgenda@acc');
     Route::get('/suwar_dis/{id}','LaporanAgenda@dis');
 });

@@ -53,7 +53,7 @@ class Master_Jenis extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'jenis' => 'required',
-            'marker' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
+            'marker' => 'mimes:jpeg,jpg,png,gif|max:10000'
         ]);
 
         if ($validator->fails()) {
@@ -81,8 +81,10 @@ class Master_Jenis extends Controller
             $imgname = $request->marker1;
         }
         $data = Type::find($id);
-        $data->jenis = $request->jenis;
-        $data->nama = $request->nama;
+        if($data->jenis != "Kerusakan"){
+            $data->nama = $request->nama;
+            $data->jenis = $request->jenis;
+        }
         $data->marker = $imgname;
         $data->save();
 

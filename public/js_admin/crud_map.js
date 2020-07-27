@@ -1,6 +1,32 @@
 var classname = $('tr.table');
 var id = '';
 var mymap = [];
+
+// Input 
+var mymap1 = L.map("mapid", {
+    center: [-7.7489462,110.5110926],
+    zoom: 12,
+    scrollWheelZoom: false,
+});
+
+L.geoJSON([prambanan]).addTo(mymap1);
+
+var layer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    minZoom: 13,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(mymap1);
+
+function getcenter1(){
+    var center = mymap1.getCenter();
+    
+    document.getElementById("bujur").value = center.lng;
+    document.getElementById("lintang").value = center.lat;
+}
+
+
+
+
 for (let i = 0; i < classname.length; i++) {
     id = $(classname[i]).attr('id');
     var lng = document.getElementById("bujur"+id+"").value;
@@ -37,28 +63,4 @@ function getcenter2(id){
     var center = mymap[id].getCenter();   
     document.getElementById("bujur"+id+"").value = center.lng;
     document.getElementById("lintang"+id+"").value = center.lat;
-}
-
-
-
-// Input 
-var mymap1 = L.map("mapid", {
-    center: [-7.7489462,110.5110926],
-    zoom: 12,
-    scrollWheelZoom: false,
-});
-
-L.geoJSON([prambanan]).addTo(mymap1);
-
-var layer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
-    maxZoom: 20,
-    minZoom: 13,
-    subdomains:['mt0','mt1','mt2','mt3']
-}).addTo(mymap1);
-
-function getcenter1(){
-    var center = mymap1.getCenter();
-    
-    document.getElementById("bujur").value = center.lng;
-    document.getElementById("lintang").value = center.lat;
 }

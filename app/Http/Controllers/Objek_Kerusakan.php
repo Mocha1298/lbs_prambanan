@@ -33,10 +33,11 @@ class Objek_Kerusakan extends Controller
         $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','maps.photos_id')->select('maps.*','types.nama as status','photos.id as idp','photos.foto1','photos.foto2','photos.foto3')->paginate(10);
         $count = $data->count();
         $tipe = Type::where('jenis','Kerusakan')->get();
-        $ids = Village::find($id);
-        $ids = $ids->subdistricts_id;
+        $vil = Village::find($id);
+        $ids = $vil->subdistricts_id;
+        $kc = Subdistrict::find($ids);
         // return $data;
-        return view('super.objek.objek_kerusakan',['count'=>$count,'data'=>$data,'tipe'=>$tipe,'id'=>$id,'ids'=>$ids]);
+        return view('super.objek.objek_kerusakan',['count'=>$count,'data'=>$data,'tipe'=>$tipe,'id'=>$id,'ids'=>$ids,'kc'=>$kc,'vil'=>$vil]);
     }
 
     public function create(Request $request, $id)
@@ -49,11 +50,11 @@ class Objek_Kerusakan extends Controller
             'perbaikan' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|max:30000',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
         ]);
 
         if ($validator->fails()) {
-            return redirect('objek_kerusakan/'.$id.'#add')
+            return redirect()->back()
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -89,6 +90,7 @@ class Objek_Kerusakan extends Controller
         $data->nama = $request->nama;
         $data->level = $request->level;
         $data->perbaikan = $request->perbaikan;
+        $data->sumber = 1;
         $data->rt = $request->rt;
         $data->rw = $request->rw;
         $data->bujur = $request->bujur;
@@ -101,13 +103,13 @@ class Objek_Kerusakan extends Controller
         $data->photos_id = $ph->id;
         $data->save();
 
-        return redirect('/objek_kerusakan/'.$id.'')->with('simpan','Data sukses disimpan');
+        return redirect()->back()->with('simpan','Data sukses disimpan');
     }
 
     public function foto(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'foto1' => 'required|mimes:jpeg,jpg,png,gif|required|max:30000',
+            'foto1' => 'required|mimes:jpeg,jpg,png,gif|required|max:10000',
         ]);
         
         $data = Map::find($id);
@@ -159,9 +161,9 @@ class Objek_Kerusakan extends Controller
             'perbaikan' => 'required',
             'bujur'=> 'required',
             'lintang'=> 'required',
-            'foto1' => 'mimes:jpeg,jpg,png,gif|max:30000',
-            'foto2' => 'mimes:jpeg,jpg,png,gif|max:30000',
-            'foto3' => 'mimes:jpeg,jpg,png,gif|max:30000',
+            'foto1' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'foto2' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'foto3' => 'mimes:jpeg,jpg,png,gif|max:10000',
         ]);
 
         if ($validator->fails()) {
@@ -305,7 +307,7 @@ class Objek_Kerusakan extends Controller
 
         $data->save();
 
-        return redirect('/objek_kerusakan/'.$id.'')->with('edit','Data sukses diubah');
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
 
     public function update1(Request $request, $id)
@@ -335,7 +337,7 @@ class Objek_Kerusakan extends Controller
         $data->types_id = $request->kategori;
         $data->save();
 
-        return redirect('/objek_kerusakan/'.$id.'')->with('edit','Data sukses diubah');
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
 
     public function destroy($id)

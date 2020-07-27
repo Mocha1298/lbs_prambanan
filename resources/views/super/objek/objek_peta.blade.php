@@ -22,7 +22,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     @if (Auth::user()->roles_id != 2)
         Objek Peta
     @endif
-    <a style="position: absolute; right: 0; width: 50px;" href="/peta_kerusakan"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
 @endsection
 @section('isi')
   <div class="isi">
@@ -64,6 +63,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </table>
     <div class="pagination">
         <a style="color:white;" class="add" href="#add">Tambah Objek</a>
+        <a style="right: 0; width: 50px;" href="/maps"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
           $link_limit = 5;

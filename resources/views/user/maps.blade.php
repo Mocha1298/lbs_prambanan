@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/style_admin/popup.css')}}">
     <link rel="stylesheet" href="{{asset('/style_user/style.css')}}">
@@ -18,7 +19,6 @@
     <script src = "{{asset('jquery\jquery.js')}}"></script>
     {{-- Link LRM https://www.liedman.net/leaflet-routing-machine/ --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
     <title>Peta-Jalan</title>
 </head>
@@ -88,6 +88,9 @@
         <a class="tarikan" onclick="tarik(0);"><h2>Filter</h2></a>
     </div>
     <div class="detail"></div>
+    <div class="location">
+        <button class="loc" onclick="return locateUser();"><img src="/gambar/logo/locate.png" alt=""></button>
+    </div>
     <script>
         function tarik(x) {
             if(x == 0){
@@ -131,5 +134,6 @@
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/polygon.js')}}"></script>
     <script src="{{asset('js_admin/show_map.js')}}"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 </body>
 </html>

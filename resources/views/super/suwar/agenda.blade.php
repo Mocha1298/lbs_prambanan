@@ -27,30 +27,37 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @section('isi')
   <div class="isi">
     <table>
-      <caption>Tabel Laporan</caption>
+      <caption>Agenda Survey Laporan</caption>
       <thead>
         <tr>
-          <th scope="col">No</th>
           <th scope="col">Judul</th>
           <th scope="col">RT/RW</th>
           <th scope="col">Foto</th>
           <th scope="col">Tanggal Survey</th>
+          <th scope="col">Foto Survey</th>
         </tr>
       </thead>
       @if ($count != 0)
         <tbody>
           @foreach($data as $sw)
             <tr id="{{$sw->id}}" class="table">
-                <td data-label="No">{{ $loop->iteration }}</td>
                 <td data-label="Judul">{{ $sw->nama }}</td>
                 <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
                 <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
                 <td data-label="Tanggal Survey">{{$sw->survey}}</td>
+                <td data-label="Foto Survey">
+                  <a href="/gambar/survey/ori/{{$sw->photo}}">
+                    <img src="/gambar/survey/thumbnail/{{$sw->photo}}" alt=""> 
+                  </a>
+                </td>
                 {{-- Content Klik Kanan --}}
                 <div id="contextMenu" class="cm_{{$sw->id}}" style="display: none">
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <li class="edit">
+                        <a href="#popup_s{{$sw->id}}">EDIT</a>
+                    </li>
                     <li class="detail">
-                        <a href="#popup_s{{$sw->id}}">SURVEY</a>
+                        <a href="#popup_v{{$sw->id}}">VALID</a>
                     </li>
                     </ul>
                 </div>
@@ -100,15 +107,17 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @endif
     </div>
   </div>
-  <div id="#popup_s{{$sw->id}}" class="overlay">
+  {{-- SURVEY --}}
+  <div id="popup_s{{$sw->id}}" class="overlay">
     <div class="popup">
-      <h2>Tanggal Survey</h2>
+      <h2>Perbarui data</h2>
       <div class="content">
         <form id="form" action="/survey/{{$id}}" method="post">
           {{ csrf_field() }}
           <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
-            <input placeholder="Tanggal Survey" type="date" autocomplete="off" name="survey" value="{{ old('survey') }}" tabindex="5" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            <label for="">Tanggal Survey</label><br><br>
+            <input placeholder="Tanggal Survey" type="date" autocomplete="off" name="survey" value="{{$sw->survey}}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
             <label style="font-size: 12px; color: #888;" for="survey"></label>
             @error('survey')
             <div class="invalid-feedback">
@@ -117,17 +126,29 @@ oncopy='return false' oncut='return false' onpaste='return false'
             @enderror
           </fieldset>
           <fieldset>
+            <label for="">Foto Survey</label>
+            <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto">
+            <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/survey/thumbnail/{{$sw->photo}}" alt="">
+            @error('foto1')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror          </fieldset>
+          <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>
       </form>
       </div>
     </div>
   </div>
-  {{-- POPUP PROFILE --}}
-  <div id="map" class="overlay">
+  <div id="popup_v{{$sw->id}}" class="overlay">
     <div class="popup">
-      <h2>Form Ubah Data Pengguna</h2>
+      <h2>MASUKKAN DATA KEDALAM KERUSAKAN?</h2>
       <div class="content">
+        <fieldset class="acc">
+          <a class="ya" href="/valid/{{ $sw->id }}">YA, MASUKKAN.</a>
+          <a class="cancel" href="#">Batal</a>
+        </fieldset>
       </div>
     </div>
   </div>

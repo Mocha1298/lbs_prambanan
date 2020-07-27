@@ -19,6 +19,7 @@ class CreateSubdistrictsTable extends Migration
             $table->integer('desa');
             $table->string('bujur');
             $table->string('lintang');
+            $table->string('batas')->nullable();
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
     @if (Auth::user()->roles_id != 2)
-        <a href="/master_kecamatan">Master Kecamatan</a> > <a href="/master_desa/{{$ids}}">Master Desa</a> >Data Kerusakan
+        <a href="/master_kecamatan">{{$kc->nama}}</a> > <a href="/master_desa/{{$ids}}">{{$vil->nama}}</a> > Data Kerusakan
     @else
     Data Kerusakan
     @endif
@@ -33,6 +33,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <thead>
         <tr>
           <th scope="col">Nama</th>
+          <th scope="col">Sumber</th>
           <th scope="col">Level</th>
           <th scope="col">Status</th>
           <th scope="col">Tanggal</th>
@@ -45,6 +46,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @foreach($data as $kr)
             <tr id="{{$kr->id}}" class="table">
               <td data-label="Nama">{{ $kr->nama }}</td>
+              <td data-label="Sumber">@if($kr->sumber == 1) RPJMD @else SUARA WARGA @endif</td>
               <td data-label="Level">{{ $kr->level }}</td>
               <td data-label="Status">{{ $kr->status }}</td>
               <td data-label="Tanggal">{{ $kr->perbaikan }}</td>

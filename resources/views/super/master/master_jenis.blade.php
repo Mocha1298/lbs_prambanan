@@ -98,7 +98,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             {{ csrf_field() }}
             <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             <fieldset>
-              <input placeholder="Kategori" type="text" name="nama" value="{{ $dt->nama ?? old('nama') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <input placeholder="Kategori" type="text" autocomplete="off" name="nama" value="{{ $dt->nama ?? old('nama') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
               @error('nama')
               <div class="invalid-feedback">
                   {{$message}}

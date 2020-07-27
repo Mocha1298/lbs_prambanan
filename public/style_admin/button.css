@@ -35,6 +35,17 @@ a.acc{
   -moz-box-shadow:    4px 4px 5px 1px #ccc;
   box-shadow:         4px 4px 5px 1px #ccc;
 }
+a.ya{
+  color: rgb(0, 0, 0);
+  background-color: #5ce700;
+  padding: 10px 10px;
+  height: 30px;
+  margin-top: 10px;
+  border-radius: 15px;
+  -webkit-box-shadow: 4px 4px 5px 1px #ccc;
+  -moz-box-shadow:    4px 4px 5px 1px #ccc;
+  box-shadow:         4px 4px 5px 1px #ccc;
+}
 a.cancel{
   color: black;
   background-color: #d7da38;

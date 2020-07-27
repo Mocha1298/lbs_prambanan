@@ -19,7 +19,7 @@
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    <a href="/master_kecamatan">Master Kecamatan</a> > Master Desa
+    <a href="/master_kecamatan">{{$kc->nama}}</a> > Master Desa
 @endsection
 @section('isi')
   <div class="isi">

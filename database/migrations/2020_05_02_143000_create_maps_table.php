@@ -20,11 +20,12 @@ class CreateMapsTable extends Migration
             $table->date('perbaikan')->nullable();
             $table->integer('rt')->nullable();
             $table->integer('rw')->nullable();
+            $table->integer('sumber')->nullable();
             $table->string('bujur');
             $table->string('lintang');
-            $table->integer('types_id')->unsigned();
-            $table->integer('villages_id')->nullable()->unsigned();
-            $table->integer('photos_id')->nullable()->unsigned();
+            $table->integer('types_id');
+            $table->integer('villages_id')->nullable();
+            $table->integer('photos_id')->nullable();
             $table->timestamps();
         });
     }

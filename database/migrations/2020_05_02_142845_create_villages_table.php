@@ -19,7 +19,8 @@ class CreateVillagesTable extends Migration
             $table->integer('rw');
             $table->string('bujur');
             $table->string('lintang');
-            $table->integer('subdistricts_id')->unsigned();
+            $table->integer('subdistricts_id');
+            $table->string('batas')->nullable();
             $table->timestamps();
         });
     }

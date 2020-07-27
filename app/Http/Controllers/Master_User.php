@@ -13,9 +13,8 @@ class Master_User extends Controller
 {
     public function index()
     {
-        $data = User::join('villages','villages.id','users.villages_id')
-        ->join('subdistricts','subdistricts.id','villages.subdistricts_id')
-        ->select('users.*','villages.nama as desa','subdistricts.nama as kecamatan')
+        $data = User::leftjoin('villages','villages.id','users.villages_id')
+        ->select('users.*','villages.nama as desa')
         ->orderBy('roles_id','asc')->paginate(10);
         $count = User::count();
         // return $data;

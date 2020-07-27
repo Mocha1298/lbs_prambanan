@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('roles_id')->unsigned();
+            $table->integer('roles_id');
             $table->integer('aktivasi');
             $table->integer('rw')->nullable();
-            $table->integer('villages_id')->unsigned();
+            $table->integer('villages_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
             // Relasi

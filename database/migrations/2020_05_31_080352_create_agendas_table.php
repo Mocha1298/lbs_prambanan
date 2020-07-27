@@ -15,8 +15,9 @@ class CreateAgendasTable extends Migration
     {
         Schema::create('agendas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('texts_id')->unsigned();
+            $table->integer('texts_id');
             $table->date('survey')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

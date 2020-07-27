@@ -47,24 +47,18 @@
             <th scope="col">Status</th>
           </tr>
         </thead>
-        @if ($count != 0)
-          <tbody>
-            @foreach($data as $sw)
-              <tr id="{{$sw->id}}" class="table">
-                <td data-label="No">{{ $loop->iteration }}</td>
-                <td data-label="Judul">{{ $sw->nama }}</td>
-                <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
-                <td data-label="Desa">{{ $sw->nama_desa }}</td>
-                <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
-                <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
-              </tr>
-            @endforeach
-          </tbody>
-        @else
-          <tbody>
-            <tr>Data masih kosong! tambah sekarang...</tr>
-          </tbody>
-        @endif
+        <tbody>
+          @foreach($data as $sw)
+            <tr id="{{$sw->id}}" class="table">
+              <td data-label="No">{{ $loop->iteration }}</td>
+              <td data-label="Judul">{{ $sw->nama }}</td>
+              <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
+              <td data-label="Desa">{{ $sw->nama_desa }}</td>
+              <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
+              <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
+            </tr>
+          @endforeach
+        </tbody>
     </table>
     <div class="pagination">
         <a style="color:white; padding: 10px;" href="/suwar"><i class="fa fa-plus fa-2x"></i></a>
