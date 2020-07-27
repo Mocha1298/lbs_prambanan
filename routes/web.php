@@ -35,8 +35,8 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/master_user_hapus/{id}','Master_User@destroy');//Proses hapus data user
     Route::get('/aktivasi/{id}','Master_User@disable');//Mengubah status aktivasi user
     Route::get('/profile/{id}','Master_User@profile');
-    Route::post('display/{id}','Master_User@display');
-    Route::post('password/{id}','Master_User@password');
+    Route::post('/display/{id}','Master_User@display');
+    Route::post('/password/{id}','Master_User@password');
 
     //Route Master Desa
     Route::get('/master_desa','Master_Desa@index');//Menampilkan Halaman Master Desa
@@ -85,13 +85,13 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){
     // Route Suara Warga
-    Route::get('/suwar','SuaraWarga@index');
     Route::get('/my_suwar/{id}','SuaraWarga@index1');
-    Route::get('createcaptcha', 'SuaraWarga@create');
-    Route::post('captcha', 'SuaraWarga@captchaValidate');
+    Route::get('/suwar','SuaraWarga@suwar');
+    Route::post('/post_suwar', 'SuaraWarga@create_suwar');
     Route::get('refreshcaptcha', 'SuaraWarga@refreshCaptcha');
-    Route::post('ubah_display/{id}','SuaraWarga@display');
-    Route::post('ubah_password/{id}','SuaraWarga@password');
+    
+    Route::post('/u_display/{id}','SuaraWarga@display');
+    Route::post('/u_password/{id}','SuaraWarga@password');
 });
 
 Auth::routes();

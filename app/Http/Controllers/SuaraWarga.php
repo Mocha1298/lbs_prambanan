@@ -17,12 +17,14 @@ use Auth;
 
 class SuaraWarga extends Controller
 {
-    public function index()
+    //Menampilkan halaman info suwar
+    public function suwar()
     {
         $kc = Subdistrict::where('nama','Prambanan')->first();
         $data = Village::where('subdistricts_id',$kc->id)->get();
         return view('user.suara_warga',['data'=>$data]);
     }
+    //Menampilkan halaman profil user
     public function index1($id)
     {
         $data = Text::where('users_id',$id)->join('villages','villages.id','texts.villages_id')->join('photos','photos.id','texts.photos_id')->select('texts.*','villages.nama as nama_desa','photos.foto1')->paginate(5);
@@ -31,52 +33,8 @@ class SuaraWarga extends Controller
         return view('user.my_suwar',['data'=>$data,'count'=>$count,'id'=>$id]);
     }
 
-
-
-    public function create()
-    {
-        return view('captchacreate');
-    }
-
-    public function display(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'nama' => 'required',
-            'email' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/my_suwar#edit')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-        $data = User::find($id);
-        $data->nama = $request->nama;
-        $data->email = $request->email;
-        $data->save();
-        return redirect('my_suwar');
-    }
-
-    public function password(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'password' => 'required',
-            'passwordc' => 'required_with:password|same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/my_suwar#edit')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-        $data = User::find($id);
-        $password = bcrypt($request->password);
-        $data->password = $password;
-        $data->save();
-        return redirect('my_suwar');
-    }
-
-    public function captchaValidate(Request $request)
+    // CREATE SUWAR = POST
+    public function create_suwar(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
@@ -159,8 +117,81 @@ class SuaraWarga extends Controller
 
         return redirect('/suwar')->with('simpan','Data sukses disimpan');
     }
+    //
+    public function create()
+    {
+        return view('captchacreate');
+    }
+
+    // REFRESH CAPTCHA
     public function refreshCaptcha()
     {
         return response()->json(['captcha'=> captcha_img()]);
+    }
+
+    public function display(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'email' => 'required',
+            'photo' => 'mimes:jpeg,jpg,png,gif|max:10000',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = User::find($id);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+            $nama_foto = $data->photo;
+            if ($nama_foto != 'empty.jpg') {
+                // Hapus file lama
+                $hapus = "gambar/user/$nama_foto";
+                if(File::exists($hapus)) {
+                    File::delete($hapus);
+                }
+                // Menyimpan gambar
+                $img = Image::make($file->getRealPath());
+                $img->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save('gambar/user/'.$nama_foto);
+            }
+            else{
+                //Menamai gambar
+                $imgname ='user_'.time().'.'.$eks;
+                //Menyimpan gambar
+                $img = Image::make($file->getRealPath());
+                $img->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save('gambar/user/'.$imgname);
+                $data->photo = $imgname;
+            }
+        }
+        $data->nama = $request->nama;
+        $data->email = $request->email;
+        $data->save();
+        return redirect()->back()->with('edit','Data sukses diubah');
+    }
+
+    public function password(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+            'passwordc' => 'required_with:password|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = User::find($id);
+        $password = bcrypt($request->password);
+        $data->password = $password;
+        $data->save();
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
 }

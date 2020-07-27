@@ -34,7 +34,9 @@
             </a>
         </div>
     </header>
-
+    @if (session('edit'))
+    <div class="warning"><i class="fa fa-pencil-circle-o fa-2x" aria-hidden="true"></i>{{session('edit')}}</div>
+    @endif
     <table>
         <caption>Laporan Saya</caption>
         <thead>
@@ -101,38 +103,51 @@
         <div class="popup">
           <h2>Form Ubah Data Pengguna</h2>
           <div class="content">
-            <form id="form" action="/ubah_display/{{Auth::user()->id}}" method="post">
+            <form id="form" action="/u_display/{{Auth::user()->id}}" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
               <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
-              <label for="">Nama dan Email</label>
               <fieldset>
-              <input placeholder="Nama User" autocomplete="off" type="text" name="nama" value="{{ Auth::user()->nama ?? old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
-              @error('nama')
-              <div class="invalid-feedback">
-                  {{$message}}
-                </div>
-                @enderror
-                <input placeholder="Email" autocomplete="off" type="email" name="email" value="{{ Auth::user()->email ?? old('email') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-                @error('email')
-                <div class="invalid-feedback">
-                  {{$message}}
-                </div>
-                @enderror
+                  <label for="">Ubah Nama</label>
+                  <input placeholder="Nama" type="text" autocomplete="off" name="nama" value="{{ Auth::user()->nama ?? old('nama') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
+                  @error('nama')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror 
+              </fieldset>
+              <fieldset>
+                  <label for="">Ubah Email</label>
+                  <input placeholder="Email" type="text" autocomplete="off" name="email" value="{{ Auth::user()->email ?? old('email') }}" tabindex="1" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" autofocus>
+                  @error('email')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror 
+              </fieldset>
+              <fieldset>
+                  <label for="">Ubah Foto Profile</label>
+                  <input type="file" id="fileimg1" accept="image/*" name="photo">
+                  <img style="margin-left: 20px" width="100px" height="auto" src="/gambar/user/{{Auth::user()->photo}}">
+                  @error('photo')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
               </fieldset>
               <fieldset>
                 <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
               </fieldset>
             </form> 
-            <form id="form" action="/ubah_password/{{Auth::user()->id}}" method="post">
+            <form id="form" action="/u_password/{{Auth::user()->id}}" method="post">
               <label for="">Perbarui Password</label>
               <fieldset>
-                <input placeholder="Password Baru" type="password" name="password" value="{{ old('password') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                <input placeholder="Password Baru" autocomplete="off" type="password" name="password" value="{{ old('password') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
                 @error('password')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
                 @enderror
-                <input placeholder="Konfirmasi Password Baru" autocomplete="off" type="email" name="email" value="{{ old('email') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                <input placeholder="Konfirmasi Password Baru" type="email" name="email" value="{{ old('email') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
                 @error('email')
                 <div class="invalid-feedback">
                     {{$message}}

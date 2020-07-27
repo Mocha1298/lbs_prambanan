@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Village;
 use App\Subdistrict;
+use File;
+use Image;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -56,6 +58,7 @@ class Master_User extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'email' => 'required',
+            'photo' => 'mimes:jpeg,jpg,png,gif|max:10000',
         ]);
 
         if ($validator->fails()) {
@@ -64,6 +67,33 @@ class Master_User extends Controller
                         ->withInput();
         }
         $data = User::find($id);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+            $nama_foto = $data->photo;
+            if ($nama_foto != 'empty.jpg') {
+                // Hapus file lama
+                $hapus = "gambar/user/$nama_foto";
+                if(File::exists($hapus)) {
+                    File::delete($hapus);
+                }
+                // Menyimpan gambar
+                $img = Image::make($file->getRealPath());
+                $img->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save('gambar/user/'.$nama_foto);
+            }
+            else{
+                //Menamai gambar
+                $imgname ='user_'.time().'.'.$eks;
+                //Menyimpan gambar
+                $img = Image::make($file->getRealPath());
+                $img->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save('gambar/user/'.$imgname);
+                $data->photo = $imgname;
+            }
+        }
         $data->nama = $request->nama;
         $data->email = $request->email;
         $data->save();

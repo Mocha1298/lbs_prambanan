@@ -23,7 +23,7 @@
   <div class="judul">
     <h3 id="logo">Suara Warga</h3>
   </div>
-  <form method="post" action="{{url('captcha')}}" enctype="multipart/form-data">
+  <form method="post" action="/post_suwar" enctype="multipart/form-data">
     @csrf
     @if (session('simpan'))
     <div class="success"><i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>{{session('simpan')}}</div>

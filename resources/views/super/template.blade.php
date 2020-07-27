@@ -26,7 +26,7 @@
               <span class="log">
                 <label for="profile2" class="profile-dropdown">
                     <input type="checkbox" id="profile2">
-                    <img src="https://cdn0.iconfinder.com/data/icons/avatars-3/512/avatar_hipster_guy-512.png">
+                    <img src="/gambar/user/{{Auth::user()->photo}}">
                     <span>{{auth()->user()->nama}}</span>
                     <label for="profile2"><i class="mdi mdi-menu"></i></label>
                     <ul>

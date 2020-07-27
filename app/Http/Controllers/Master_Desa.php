@@ -94,6 +94,7 @@ class Master_Desa extends Controller
         $user->roles_id = 2;
         $user->aktivasi = 1;
         $user->villages_id = $last->id;
+        $user->photo = 'empty.jpg';
         $user->save();
         $user->markEmailAsVerified();
         return redirect()->back()->with('simpan','Data sukses disimpan');
