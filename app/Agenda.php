@@ -11,10 +11,15 @@ class Agenda extends Model
         return $this->hasMany('App\Text','texts_id');
     }
     protected $fillable = [
-        'texts_id','tanggal',
+        'texts_id','survey','photo'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['survey'])
+        ->format('d, M Y');
+    }
 }

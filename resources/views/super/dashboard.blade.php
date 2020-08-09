@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Dashboard')
+@section('title','DASHBOARD')
 
 @section('head')
 <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrump')
-    Dashboard
+    DASHBOARD
 @endsection
 
 @section('isi')
@@ -30,7 +30,7 @@
     </li>
     <li class="card kecamatan">
       <div class="logo">
-        <i class="fa fa-users fa-3x"></i>
+        <i class="fa fa-home fa-3x"></i>
       </div>
       <div class="title">
         <div class="name">KECAMATAN</div>

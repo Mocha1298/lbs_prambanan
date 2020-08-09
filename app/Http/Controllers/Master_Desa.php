@@ -55,7 +55,7 @@ class Master_Desa extends Controller
         }
         $data = Village::where('subdistricts_id',$idk)->paginate(10);
         $id = $idk;
-        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin]);
+        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin,'kc'=>$kc]);
     }
 
     public function create2(Request $request, $id)//Input berdasarkan kecamatan
@@ -63,15 +63,31 @@ class Master_Desa extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'rw' => 'required|numeric',
+            'batas' =>'required|file',
             'bujur' => 'required',
             'lintang' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return redirect('master_desa#add')
+            return redirect('/master_desa/'.$id.'#add')
                         ->withErrors($validator)
                         ->withInput();
         }
+
+        $file = $request->file('batas');
+        $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+
+        if ($eks != "json") {
+            //tambah custom validation .json by Mocha
+            $validator->errors()->add('batas', 'Hanya mendukung file .json');
+            return redirect('/master_desa/'.$id.'#add')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $json_name ='batas_'.time().'.json';
+    
+        $file->move('batas/',$json_name);
 
         $village = new Village;
         $village->nama = $request->nama;
@@ -79,6 +95,7 @@ class Master_Desa extends Controller
         $village->bujur = $request->bujur;
         $village->lintang = $request->lintang;
         $village->subdistricts_id = $id;
+        $village->batas = $json_name;
         $village->save();
 
         $last = Village::latest('id')->first();
@@ -105,6 +122,9 @@ class Master_Desa extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'rw' => 'required|numeric',
+            'batas' =>'required|file',
+            'bujur' => 'required',
+            'lintang' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -112,8 +132,25 @@ class Master_Desa extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-
+        
         $village = Village::find($id);
+        $batas = $village->batas;
+        if($request->hasFile('batas')){
+            $file = $request->file('batas');
+            $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+    
+            if ($eks != "json") {
+                //tambah custom validation .json by Mocha
+                $validator->errors()->add('batas', 'Hanya mendukung file .json');
+                return redirect('/master_desa/'.$id.'#add')
+                ->withErrors($validator)
+                ->withInput();
+            }
+            if(File::exists('batas/'.$batas)){
+                File::delete('batas/'.$batas);
+                $file->move('batas/',$batas);
+            }
+        }
         $village->nama = $request->nama;
         $village->rw = $request->rw;
         $village->subdistricts_id = $request->id;

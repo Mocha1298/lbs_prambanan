@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\sendName;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,11 +17,13 @@ Route::get('/','Homepage@landing')->name('home');
 Route::post('/bergabung','Homepage@bergabung');
 Route::post('/join_form','Homepage@join_form');
 Route::get('/maps','Homepage@maps');
+Route::get('/laporan','Homepage@lapor');
 
 // Route get datapeta
 Route::get('/datapeta','Homepage@datapeta');
 Route::get('/objek','Homepage@objek');
 Route::get('/center','Homepage@center');
+Route::get('/user','Homepage@user');
 
 // Route::get('/login','AuthController@index')->name('login');
 // Route::post('/dashboard','AuthController@postlogin');
@@ -73,6 +77,8 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
     Route::post('/objek_kerusakan_status/{id}','Objek_Kerusakan@update1');//Proses ubah status data
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
+    Route::get('/center_kr','Objek_Kerusakan@center');
+    Route::get('/datapeta_kr','Objek_Kerusakan@datapeta');
 
     // Route Laporan
     Route::get('/suwar_admin/{id}','LaporanAgenda@desa');
@@ -81,6 +87,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/valid/{id}','LaporanAgenda@valid');
     Route::get('/suwar_acc/{id}','LaporanAgenda@acc');
     Route::get('/suwar_dis/{id}','LaporanAgenda@dis');
+    Route::get('/center_desa','LaporanAgenda@center');
+    Route::get('/datapeta_desa','LaporanAgenda@datapeta');
+    Route::get('/datapeta_agenda','LaporanAgenda@peta_agenda');
 });
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){

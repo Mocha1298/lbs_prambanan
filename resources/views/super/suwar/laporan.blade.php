@@ -1,20 +1,25 @@
 @extends('super.template')
 
-@section('title','Data Kerusakan')
+@section('title','LAPORAN')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
-  <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
-  <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
-  <script src="{{asset('jquery/jquery-3.5.1.slim.min.js')}}"></script>
+  <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
+  <link rel="stylesheet" href="{{asset('style_user/box-map.css')}}">
+  <style>
+    #mapid{
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
   <script src="{{asset('js_admin/nav.js')}}"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -49,6 +54,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               <td data-label="Tanggal Masuk">{{ $sw->created_at }}</td>
               <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
               {{-- Content Klik Kanan --}}
+              @if ($sw->status == 1)
               <div id="contextMenu" class="cm_{{$sw->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                   <li class="detail">
@@ -59,6 +65,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
                   </li>
                 </ul>
               </div>
+              @endif
             </tr>
           @endforeach
         </tbody>
@@ -72,7 +79,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
-          $link_limit = 10;
+          $link_limit = 5;
           ?>
 
           @if ($data->lastPage() > 1)
@@ -105,15 +112,60 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @endif
     </div>
   </div>
-  {{-- POPUP PROFILE --}}
+  {{-- POPUP MAP --}}
   <div id="map" class="overlay">
     <div class="popup">
-      <h2>Form Ubah Data Pengguna</h2>
+      <h2>Peta Laporan</h2>
+      <a href='#' class='close'>&times;</a>
       <div class="content">
+        <div id="mapid"></div>
       </div>
     </div>
   </div>
 @endsection
 @section('script')
     <script src="{{asset('js_admin/action.js')}}"></script>
+    <script src="{{asset('js_admin/bundle.js')}}"></script>
+    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script>
+      $.getJSON("/center_desa", function (data){
+          mymap = L.map('mapid',{
+              center :  [data.lintang,data.bujur],
+              watch : true,
+              zoom: 16,
+              // scrollWheelZoom: false,
+              closePopupOnClick: false
+          });
+          L.geoJSON([prambanan],{
+              fillOpacity : 0,
+              color : 'white'
+          }).addTo(mymap);
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+              minZoom: 10,
+              maxZoom: 20,
+              subdomains:['mt0','mt1','mt2','mt3']
+          }).addTo(mymap);
+      });
+      $.getJSON("/datapeta_desa", function (data1) {
+          for (var i = 0; i < data1.length; i++) {
+              var name = data1[i].nama;
+              L.marker([data1[i].lintang, data1[i].bujur])
+              .addTo(mymap)
+              .bindPopup(
+                  (info =
+                      "<div class='cont'>"
+                          +"<div class='box'>"
+                              +"<div class='header'>"
+                                  +"<h2><strong> Nama Laporan : "+name+"</strong></h2>"
+                                  +"<p> Keterangan : "+data1[i].keterangan+"</p>"
+                                  +"<p>RT/RW : "+data1[i].rt+"/"+data1[i].rw+" </p>"
+                              +"</div>"
+                              +"<img src='/gambar/laporan/thumbnail/"+data1[i].foto1+"' alt=''>"
+                          +"</div>"
+                      +"</div>"
+                      )
+              );
+          }
+      })
+    </script>
 @endsection

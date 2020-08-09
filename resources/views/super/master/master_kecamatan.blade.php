@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Master Kecamatan')
+@section('title','KECAMATAN')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
@@ -61,7 +61,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Kecamatan</a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         <?php
           // config
           $link_limit = 7;
@@ -103,7 +103,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <div class="popup">
         <h2>Edit Data Kecamatan</h2>
         <div class="content">
-          <form id="form" action="/master_kecamatan_ubah/{{$kc->id}}" method="post">
+          <form id="form" action="/master_kecamatan_ubah/{{$kc->id}}" method="post" enctype="multipart/form-data">
             <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
             {{ csrf_field() }}
             <fieldset>
@@ -123,13 +123,22 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
+              <input id="json" type="file" autocomplete="off" name="batas" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <p>{{$kc->batas}}</p>
+              @error('batas')
+              <div class="invalid-feedback">
+                  {{$message}}
+              </div>
+              @enderror
+            </fieldset>
+            <fieldset>
               <input id="bujur{{$kc->id}}" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kc->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
                   {{$message}}
               </div>
               @enderror
-            </fieldset>
+            </fieldset> 
             <fieldset>
               <input id="lintang{{$kc->id}}" placeholder="Latitude" type="text" name="lintang" value="{{ old('lintang') ?? $kc->lintang }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('lintang')
@@ -172,7 +181,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div class="popup">
       <h2>Form Tambah Data</h2>
       <div class="content">
-        <form id="form" action="/master_kecamatan_tambah" method="post">
+        <form id="form" action="/master_kecamatan_tambah" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
           <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
@@ -186,6 +195,14 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <fieldset>
             <input placeholder="Jumlah Desa" autocomplete="off" type="text" name="desa" value="{{ old('desa') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
             @error('desa')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+          </fieldset>
+          <fieldset>
+            <input id="json" type="file" autocomplete="off" name="batas" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('batas')
             <div class="invalid-feedback">
                 {{$message}}
             </div>

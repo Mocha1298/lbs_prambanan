@@ -39,13 +39,22 @@ class Master_Jenis extends Controller
             $constraint->aspectRatio();
         })->save('gambar/jenis/'.$imgname);
 
-        $type = new Type;
-        $type->nama = $request->nama;
-        $type->jenis = $request->jenis;
-        $type->marker = $imgname;
-        $type->save();
+        // CEK TYPE
+        $cek_tipe = Type::where('jenis','Kerusakan')->count();
 
-        return redirect('/master_jenis')->with('simpan','Data sukses disimpan');
+        // return $cek_tipe;
+        if($cek_tipe >= 3){
+            return redirect('/master_jenis')->with('gagal','Gagal menyimpan data');
+        }
+        else{
+            $type = new Type;
+            $type->nama = $request->nama;
+            $type->jenis = $request->jenis;
+            $type->marker = $imgname;
+            // $type->save();
+            return redirect('/master_jenis')->with('simpan','Data sukses disimpan');
+        }
+
     }
 
     public function update(Request $request, $id)

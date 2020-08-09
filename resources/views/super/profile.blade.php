@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Profile')
+@section('title','PROFILE')
 
 @section('head')
 <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrump')
-    Profile
+    PROFILE
 @endsection
 
 @section('isi')

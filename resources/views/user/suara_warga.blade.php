@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="{{asset('style_user/suwar.css')}}">
-  <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
-  <script src="{{asset('jquery/jquery.js')}}"></script>
-  <script src="https://use.fontawesome.com/46ea1af652.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&display=swap" rel="stylesheet">
-  <script src="{{asset('jquery/jquery-3.5.1.slim.min.js')}}"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <title>Suara Warga</title>
-</head>
-<body>
-  <a href="/" class="home"><i class="fa fa-home fa-3x"></i></a>
-  <a href="/my_suwar/{{Auth::user()->id}}" class="my-report"><i class="fa fa-camera fa-3x"></i></a>
+@extends('user.lay')
+
+@section('head')
+<link rel="stylesheet" href="{{asset('style_user/suwar.css')}}">
+<link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
+{{-- LEAFLET --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+@endsection
+
+@section('title','SUARA WARGA')
+@section('isi')
+@section('profile')
+<a class="navoption" href="/my_suwar/{{Auth::user()->id}}">Profile</a>
+@endsection
   <div class="judul">
     <h3 id="logo">Suara Warga</h3>
   </div>
@@ -37,7 +32,7 @@
     </div>
     @enderror
     <br>
-  
+
     <label for="keterangan">Keterangan</label>
     <input type="text" id="keterangan" name="keterangan" placeholder="Tulis Keterangan laporan Anda.." value="{{old('keterangan')}}" autocomplete="off" required maxlength="200"/>
     @error('keterangan')
@@ -122,9 +117,9 @@
         {{$message}}
     </div>
     @enderror
-  
+
     <input type="submit" name="submit" value="Kirim" />
-  
+
   </form>
   <script type="text/javascript">
     $('#refresh').click(function(){
@@ -141,5 +136,4 @@
   <script src="{{asset('js_admin/bundle.js')}}"></script>
   <script src="{{asset('js_admin/polygon.js')}}"></script>
   <script src="{{asset('js_admin/crud_map.js')}}"></script>
-</body>
-</html>
+@endsection

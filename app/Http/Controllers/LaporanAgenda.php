@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Text;
 use App\Agenda;
 use File;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use App\Map;
 use App\Photo;
+use App\Village;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LaporanMasuk;
 use Carbon\Carbon;
 use Auth;
+use App\Events\sendName;
 
 class LaporanAgenda extends Controller
 {
@@ -27,8 +30,9 @@ class LaporanAgenda extends Controller
 
     public function agenda($id)
     {
-        $data = Text::where('villages_id',$id)->where('status','2')->join('photos','photos.id','texts.photos_id')->join('agendas','agendas.texts_id','texts.id')->select('texts.*','photos.foto1','agendas.survey')->paginate(5);
+        $data = Text::where('villages_id',$id)->where('status','2')->join('photos','photos.id','texts.photos_id')->join('agendas','agendas.texts_id','texts.id')->select('texts.*','photos.foto1','agendas.survey','agendas.photo')->paginate(5);
         $count = $data->count();
+        // return $data;
         return view('super.suwar.agenda',['data'=>$data,'count'=>$count,'id'=>$id]);
     }
 
@@ -36,15 +40,26 @@ class LaporanAgenda extends Controller
     {
         $data  = Text::find($id);
         $id_user = $data->users_id;
+
         $pengirim = User::find($id_user);
+
         $idt = $data->id;
+
         $agenda = new Agenda;
         $agenda->texts_id = $idt;
         $agenda->survey = now();
+        $agenda->photo = 'empty.jpg';
+
         $data->status = 2;
-        $data->photo = 'empty.jpg';
+
+        $text = "Laporan disetujui untuk di survey. Silahkan Cek Profile.";
+        $id =  $pengirim->id;
+        event(new sendName($text,$id));
+        // return "ok";
+
         $data->save();
         $agenda->save();
+
         //EMAL USER
         $details = array(
             'baris1' => 'Selamat laporan Anda telah disetujui oleh Pemerintah Desa untuk ditinjau.',
@@ -85,7 +100,7 @@ class LaporanAgenda extends Controller
             $foto = $date->photo;
             if ($foto != 'empty.jpg') {
                 // Hapus file lama
-                $hapus = "gambar/survey/thumbnail/$foto";
+                $hapus = "gambar/survey/ori/$foto";
                 $hapus1 = "gambar/survey/ori/$foto";
                 if(File::exists($hapus)) {
                     File::delete($hapus);
@@ -127,6 +142,8 @@ class LaporanAgenda extends Controller
         $agenda = Agenda::find($id);
         $idt = $agenda->texts_id;
         $data = Text::find($idt);
+        $idp = $data->photos_id;
+
         $kr = new Map;
         $kr->nama = $data->nama;
         $kr->sumber = 0;
@@ -142,8 +159,61 @@ class LaporanAgenda extends Controller
         $kr->lintang = $data->lintang;
         $kr->types_id = 1;
         $kr->villages_id = $data->villages_id;
-        $kr->photos_id = $data->photo_id;
+
+        $temp = Photo::find($idp);
+
+        $photo = new Photo;
+        $photo->foto1 = $temp->foto1;
+        $nama_foto = $temp->foto1;
+
+        $thm_asal = "gambar/laporan/thumbnail/$nama_foto";
+        $thm_trgt = "gambar/kerusakan/thumbnail/$nama_foto";
+        $ori_asal = "gambar/laporan/ori/$nama_foto";
+        $ori_trgt = "gambar/kerusakan/ori/$nama_foto";
+
+        if(File::exists($thm_asal)) {
+            // Copy file foto
+            // Storage::copy("public/$nama_foto","$nama_foto");
+            File::copy("gambar/laporan/thumbnail/".$nama_foto, "gambar/kerusakan/thumbnail/".$nama_foto);
+            File::copy("gambar/laporan/ori/".$nama_foto, "gambar/kerusakan/ori/".$nama_foto);
+        }
+        
+        $text = "Laporan Anda akan di masukkan ke data kerusakan. Terima kasih atas kerjasamanya. #PETA-JALAN";
+        $id =  $data->users_id;
+        event(new sendName($text,$id));
+        
+        $photo->save();
+        $photo = Photo::orderBy('created_at', 'desc')->first();
+        $id = $photo->id;
+        $kr->photos_id = $id;
         $kr->save();
         return redirect()->back()->with('simpan','Sukses memindah data..');
+    }
+    // TENGAH PETA
+    public function center()
+    {
+        $id = Auth::user()->villages_id;
+        $vil = Village::find($id);
+        echo json_encode($vil);
+    }
+    //DATA LAPORAN
+    public function datapeta()
+    {
+        $id = Auth::user()->villages_id;
+        $data = Text::where('villages_id',$id)
+        ->join('photos','photos.id','texts.photos_id')
+        ->select('texts.*','photos.*')
+        ->get();
+        echo json_encode($data);
+    }
+    public function peta_agenda()
+    {
+        $id = Auth::user()->villages_id;
+        $data = Text::where('villages_id',$id)
+        ->join('photos','photos.id','texts.photos_id')
+        ->join('agendas','agendas.texts_id','texts.id')
+        ->select('texts.*','photos.*','agendas.*')
+        ->get();
+        echo json_encode($data);
     }
 }

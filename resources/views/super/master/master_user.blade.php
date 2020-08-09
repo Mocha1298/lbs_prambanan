@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Master User')
+@section('title','PENGGUNA')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
@@ -36,7 +36,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
           <th scope="col">Nama User</th>
           <th scope="col">Posisi</th>
           <th scope="col">Desa</th>
-          {{-- <th scope="col">Kecamatan</th> --}}
           <th scope="col">Email</th>
           <th scope="col">Status</th>
         </tr>
@@ -45,7 +44,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $us)
           <tr id="{{$us->id}}" class="table">
-            <td data-label="Nama User">{{ $us->nama }}</td>
+            <td data-label="Nama User" class="titik">{{ $us->nama }}</td>
             <td data-label="Posisi">
             @if ($us->roles_id == 1)
                 Kecamatan
@@ -55,8 +54,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 Warga
             @endif
             </td>
-            <td data-label="Email">{{ $us->desa }}</td>
-            <td data-label="Email">{{ $us->email }}</td>
+            <td data-label="Desa" class="titik">{{ $us->desa }}</td>
+            <td data-label="Email" class="titik">{{ $us->email }}</td>
             <td data-label="Status">
               @if ($us->aktivasi == 1)
               OK
@@ -103,10 +102,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Admin</a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         <?php
           // config
-          $link_limit = 10;
+          $link_limit = 5;
           ?>
 
           @if ($data->lastPage() > 1)

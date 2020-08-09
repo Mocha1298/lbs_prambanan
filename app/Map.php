@@ -13,4 +13,9 @@ class Map extends Model
     protected $fillable = [
         'nama','level','status','perbaikan','rt','rw','bujur','lintang','types_id','villages_id','subdistricts_id','photos_id',
     ];
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['created_at'])
+        ->format('d, M Y H:i');
+    }
 }

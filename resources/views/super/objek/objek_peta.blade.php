@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Objek Peta')
+@section('title','OBJEK PETA')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
@@ -9,11 +9,11 @@
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
   <script src="{{asset('js_admin/nav.js')}}"></script>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -62,7 +62,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Objek</a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         <a style="right: 0; width: 50px;" href="/maps"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config

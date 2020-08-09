@@ -17,7 +17,7 @@ class Master_User extends Controller
     {
         $data = User::leftjoin('villages','villages.id','users.villages_id')
         ->select('users.*','villages.nama as desa')
-        ->orderBy('roles_id','asc')->paginate(10);
+        ->orderBy('roles_id','asc')->paginate(5);
         $count = User::count();
         // return $data;
         return view('super.master.master_user',['data'=>$data,'count'=>$count]);

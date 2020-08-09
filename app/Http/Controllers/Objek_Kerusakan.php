@@ -10,6 +10,7 @@ use App\Subdistrict;
 use App\Village;
 use Image;
 use File;
+use Auth;
 use Illuminate\Support\Facades\Validator;
 
 // OK
@@ -18,9 +19,17 @@ class Objek_Kerusakan extends Controller
 {
     public function datapeta()
     {
-        $map = Map::all();
-        return $map;
+        $id = Auth::user()->villages_id;
+        $map = Map::where('villages_id',$id)
+        ->join('photos','photos.id','maps.photos_id')
+        ->get();
         echo json_encode($map);
+    }
+    public function center()
+    {
+        $id = Auth::user()->villages_id;
+        $data = Village::find($id);
+        echo json_encode($data);
     }
     
     public function index()
@@ -30,7 +39,7 @@ class Objek_Kerusakan extends Controller
 
     public function index2($id)//Berdasarkan Desa
     {
-        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','maps.photos_id')->select('maps.*','types.nama as status','photos.id as idp','photos.foto1','photos.foto2','photos.foto3')->paginate(10);
+        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','maps.photos_id')->select('maps.*','types.nama as status','photos.id as idp','photos.foto1','photos.foto2','photos.foto3')->paginate(5);
         $count = $data->count();
         $tipe = Type::where('jenis','Kerusakan')->get();
         $vil = Village::find($id);

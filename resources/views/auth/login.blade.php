@@ -186,6 +186,9 @@
                                 {{ __('Forgot Your Password?') }}
                             </a>
                         @endif
+                        <br>
+                        <br>
+                        <a href="/#bergabung">Bergabung?</a>
                     </div>
                 </div>
             </div>

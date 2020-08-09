@@ -4,16 +4,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Peta-Jalan</title>
+        <link rel="icon" type="image/png" href="{{asset('/gambar/logo/logo.png')}}">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <link rel="stylesheet" href="{{asset('style_user/lp-style.css')}}">
+        <script src="{{asset('jquery/jquery.js')}}"></script>
+        <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+        <title>SELAMAT DATANG DI PETA-JALAN PATEN</title>
     </head>
     <body>
         <div class="float-sm">
             <div class="fl-fl float-sw">
-                <a href="/suwar"> Suara Warga!</a>
+                <a href="/laporan"> Suara Warga!</a>
                 <i class="fa fa-flag-checkered fa-4x"></i>
             </div>
         </div>
@@ -45,7 +47,7 @@
             <div class="background-image"></div>
             <div class="hero-content-area">
             <h1>Peta-Jalan</h1>
-            <h3>Petanya Kerusakan Jalan Tingkat Desa...</h3>
+            <h3>Petanya PATEN <br>Prambanan Klaten</h3>
             <a href="/maps" class="btn">Lihat Peta</a>
             </div>
         </section>
@@ -123,5 +125,22 @@
                 }, 500);
             });
         </script>
+        @if (Auth::check())
+            <script>
+                var id = {{Auth::user()->id}};
+            
+                var pusher = new Pusher('c70441997e3d2b65ebed', {
+                cluster: 'ap1',
+                forceTLS: true
+                });
+            
+                var channel = pusher.subscribe('my-channel');
+                channel.bind('App\\Events\\sendName', function(data) {
+                if(id == data.id){
+                    alert(data.text);
+                }
+                });
+            </script>
+        @endif
     </body>
 </html>

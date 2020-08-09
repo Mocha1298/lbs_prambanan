@@ -8,9 +8,10 @@
     <script src="https://use.fontawesome.com/46ea1af652.js"></script>
     <link rel="stylesheet" href="{{asset('style_admin/style.css')}}">
     <link rel="stylesheet" href="{{asset('style_admin/dropdown-user.css')}}">
-    <link rel="stylesheet" href="{{asset('style_admin/notif.css')}}">
     <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
+    <link rel="stylesheet" href="{{asset('style_admin/notifikasi.css')}}">
     <script src="{{asset('jquery/jquery.js')}}"></script>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script src="{{asset('js_admin/nav.js')}}"></script>
     @yield('head')
 </head>
@@ -19,9 +20,11 @@
         <header>
             <h2 class="bagian header">
               <div class="notif" onclick="stop();">
-                <a href="#notif">
-                  <i class="fa fa-bell-o"></i>
-                </a>
+                @if(Auth::user()->roles_id == 2)
+                  <a href="/suwar_admin/{{Auth::user()->villages_id}}">
+                    <div id="notification" class="notification" data-count="0"></div>
+                  </a>
+                @endif
               </div>
               <span class="log">
                 <label for="profile2" class="profile-dropdown">
@@ -44,25 +47,25 @@
         <div class="background"></div>
         <nav>
           <ul>
-            <li><a class="bagian dashboard" href="/admin"><span class='fa fa-home'></span>Dashboard</a></li>
+            <li><a class="bagian dashboard" href="/admin"><span class='fa fa-dashboard'></span>Dashboard</a></li>
             @if (Auth::user()->roles_id == 1)
             {{-- OLAH MASTER --}}
             <li class="topmenu">
                 <div id="opener1">
                   <a href="#1" id="1" class="bagian pages" onclick="return show(1);">
-                    <span class='fa fa-bookmark'></span>Olah Master
+                    <span class='fa fa-folder'></span>Olah Master
                   </a>
                 </div>
                 <ul class="submenu">
                   <div id="submenu1" style="display:none;">
                     <li>
-                      <a class="bagian pages" href="/master_kecamatan"><span class='fa fa-bookmark'></span>Kecamatan</a>
+                      <a class="bagian pages" href="/master_kecamatan"><span class='fa fa-home'></span>Kecamatan</a>
                     </li>
                     <li>
-                      <a class="bagian pages" href="/master_jenis"><span class='fa fa-bookmark'></span>Jenis Objek</a>
+                      <a class="bagian pages" href="/master_jenis"><span class='fa fa-info'></span>Jenis Objek</a>
                     </li>
                     <li>
-                      <a class="bagian pages" href="/master_user"><span class='fa fa-bookmark'></span>User</a>
+                      <a class="bagian pages" href="/master_user"><span class='fa fa-user'></span>User</a>
                     </li>
                   </div> 
                 </ul>
@@ -72,18 +75,18 @@
             <li class="topmenu">
               <div id="opener2">
                 <a href="#2" id="2" class="bagian navigation" name="2" onclick="return show(2);">
-                  <span class='fa fa-share'></span>Olah Objek
+                  <span class='fa fa-map-marker'></span>Olah Objek
                 </a>
               </div>
               <ul class="submenu">
                 <div id="submenu2" style="display:none;">
                   @if (Auth::user()->roles_id == 1)
                   <li>
-                    <a class="bagian navigation" href="/objek_peta"><span class='fa fa-share'></span>Objek Peta</a>
+                    <a class="bagian navigation" href="/objek_peta"><span class='fa fa-map-pin'></span>Objek Peta</a>
                   </li>
                   @else
                   <li>
-                    <a class="bagian navigation" href="/objek_kerusakan/{{Auth::user()->villages_id}}"><span class='fa fa-share'></span>Kerusakan</a>
+                    <a class="bagian navigation" href="/objek_kerusakan/{{Auth::user()->villages_id}}"><span class='fa fa-road'></span>Kerusakan</a>
                   </li>
                   @endif
                 </div> 
@@ -94,16 +97,16 @@
               <li class="topmenu">
                 <div id="opener3">
                   <a href="#3" id="3" class="bagian users" name="3" onclick="return show(3);">
-                    <span class='fa fa-user'></span>Suara Warga
+                    <span class='fa fa-flag-checkered'></span>Suara Warga
                   </a>
                 </div>
                 <ul class="submenu">
                     <div id="submenu3" style="display:none;">
                       <li>
-                      <a class="bagian users" href="/suwar_admin/{{Auth::user()->villages_id}}"><span class='fa fa-user'></span>Laporan</a>
+                      <a class="bagian users" href="/suwar_admin/{{Auth::user()->villages_id}}"><span class='fa fa-bullhorn'></span>Laporan</a>
                       </li>
                       <li>
-                        <a class="bagian users" href="/agenda/{{Auth::user()->villages_id}}"><span class='fa fa-user'></span>Agenda</a>
+                        <a class="bagian users" href="/agenda/{{Auth::user()->villages_id}}"><span class='fa fa-flag-checkered'></span>Agenda</a>
                       </li>
                     </div> 
                 </ul>
@@ -142,10 +145,35 @@
     </div>
   </div>
     @yield('script')
+  @if (Auth::user()->roles_id != 1)
     <script>
-      function stop() {
-        $(".notif").css('animation','none');
-      }
+      var id = {{Auth::user()->id}};
+      var bell = document.getElementById('notification');
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = false;
+
+      var pusher = new Pusher('c70441997e3d2b65ebed', {
+        cluster: 'ap1',
+        forceTLS: true
+      });
+
+      var count = 0
+
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('App\\Events\\sendName', function(data) {
+        if(id == data.id){
+          count = Number(bell.attributes[2].nodeValue);
+          bell.setAttribute('data-count', count + 1);
+          console.log(bell.attributes[2].nodeValue);
+          bell.classList.add('show-count');
+          bell.classList.add('notify');
+          alert('Ada Laporan Masuk. Silahkan Cek Laporan.');
+        }
+      });
+      bell.addEventListener("animationend", function(event){
+        bell.classList.remove('notify');
+      });
     </script>
+  @endif
 </body>
 </html>

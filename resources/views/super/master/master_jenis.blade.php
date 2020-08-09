@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Master Jenis')
+@section('title','JENIS OBJEK')
 
 @section('head')
   {{-- OK BOSSS --}}
@@ -52,7 +52,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </tbody>
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Jenis</a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         <?php
           // config
           $link_limit = 5;

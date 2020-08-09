@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="{{asset('/gambar/logo/logo.png')}}">
     <style>
         body{
             margin:0;
@@ -138,7 +139,7 @@
             text-align:center;
         }
     </style>
-    <title>Document</title>
+    <title>FORM PENDAFTARAN</title>
 </head>
 <body>
     <div class="login-wrap">

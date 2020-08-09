@@ -2,28 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="{{asset('/gambar/logo/logo.png')}}">
     <link rel="stylesheet" href="{{asset('/style_admin/popup.css')}}">
     <link rel="stylesheet" href="{{asset('/style_user/style.css')}}">
     <link rel="stylesheet" href="{{asset('/style_user/sidebar.css')}}">
     <link rel="stylesheet" href="{{asset('/style_user/box-map.css')}}">
     <link rel="stylesheet" href="{{asset('/style_user/filter.css')}}">
+    <script src="{{asset('jquery/jquery.js')}}"></script>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
     <script src="https://use.fontawesome.com/46ea1af652.js"></script>
-    {{-- Link Leaflet --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-    crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-    <script src = "{{asset('jquery\jquery.js')}}"></script>
-    {{-- Link LRM https://www.liedman.net/leaflet-routing-machine/ --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-
-    <title>Peta-Jalan</title>
+    {{-- LEAFLET --}}
+    <link rel="stylesheet" href="{{asset('/css/leaflet-routing-machine.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <title>PETA KERUSAKAN</title>
 </head>
 <body>
     <div id="mapid"></div>
+    <style>
+        img.icon_current{
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        .leaflet-routing-container.leaflet-bar.leaflet-control{
+            margin-top: 60vh;
+        }
+        .leaflet-control-container .leaflet-routing-container-hide {
+            display: none;
+        }
+        .leaflet-routing-container.leaflet-bar.leaflet-control{
+            bottom: 20px;
+            margin-left: 10px;
+        }
+        @media all and (max-width: 800px){
+            .leaflet-routing-container.leaflet-bar.leaflet-control{
+            margin-top: 60vh;
+        }
+        }
+    </style>
     <nav role="navigation">
         <div id="menuToggle">
             <input type="checkbox"/>
@@ -76,17 +94,18 @@
     <div class="panel">
         <div class="body">
             <div class="content">
-                <button onclick="hide(0);" id="show">Clear Object</button>
+                <button onclick="hide(0);" id="show">OBJEK <i class="fa fa-eye-slash"></i></button>
                 <select name="desa" id="desa">
-                    <option value="">--Desa--</option>
+                    <option value="">DESA</option>
                     @foreach ($desa as $ds)
                         <option value="{{$ds->id}}">{{$ds->nama}}</option>
                     @endforeach
                 </select>
             </div>
         </div>
-        <a class="tarikan" onclick="tarik(0);"><h2>Filter</h2></a>
+        <a class="tarikan" onclick="tarik(0);"><i class="fa fa-caret-down fa-2x"></i></a>
     </div>
+    <img src="/logo/routing.gif" onclick="return icon();" alt="" class="routing">
     <div class="detail"></div>
     <div class="location">
         <button class="loc" onclick="return locateUser();"><img src="/gambar/logo/locate.png" alt=""></button>
@@ -96,10 +115,12 @@
             if(x == 0){
                 $('.panel').css('top','0');
                 $('.panel .tarikan')[0].attributes.onclick.nodeValue = "tarik(1);";
+                $('.panel .tarikan')[0].innerHTML = "<i class='fa fa-caret-up fa-2x'></i>";
             }
             else{
                 $('.panel').css('top','-100px');
                 $('.panel .tarikan')[0].attributes.onclick.nodeValue = "tarik(0);";
+                $('.panel .tarikan')[0].innerHTML = "<i class='fa fa-caret-down fa-2x'></i>";
             }
         }
     </script>
@@ -131,9 +152,29 @@
             }
         }
     </script>
-    <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="{{asset('js/leaflet-routing-machine.js')}}"></script>
+    <script src="https://unpkg.com/leaflet.icon.glyph@0.2.0/Leaflet.Icon.Glyph.js"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
+    <script src="{{asset('js_admin/config.js')}}"></script>
     <script src="{{asset('js_admin/show_map.js')}}"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    @if (Auth::check())
+        <script>
+            var id = {{Auth::user()->id}};
+        
+            var pusher = new Pusher('c70441997e3d2b65ebed', {
+            cluster: 'ap1',
+            forceTLS: true
+            });
+        
+            var channel = pusher.subscribe('my-channel');
+            channel.bind('App\\Events\\sendName', function(data) {
+            if(id == data.id){
+                alert(data.text);
+            }
+            });
+        </script>
+    @endif
+    
 </body>
 </html>

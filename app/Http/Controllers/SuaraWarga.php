@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Image;
 use File;
 use Auth;
+use App\Events\sendName;
 
 class SuaraWarga extends Controller
 {
@@ -53,6 +54,12 @@ class SuaraWarga extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+        $text = "LAPORAN BARU!";
+        $ids = $request->desa;
+        $id =  User::where('villages_id',$ids)->first();
+        $id = $id->id;
+        event(new sendName($text,$id));
+        return "SUKSES";
         
         $file = $request->file('foto1');
         $eks = $file->getClientOriginalExtension();//Mengambil ekstensi

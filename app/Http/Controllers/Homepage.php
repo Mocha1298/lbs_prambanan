@@ -11,6 +11,7 @@ use App\Village;
 use App\Subdistrict;
 use App\Photo;
 use App\Type;
+use Auth;
 
 class Homepage extends Controller
 {
@@ -25,7 +26,19 @@ class Homepage extends Controller
          $center = Subdistrict::where('nama','Prambanan')->first();
          echo json_encode($center);
      }
-
+     
+     public function user()
+     {
+         if (Auth::check()) {
+            $id = Auth::user()->id;
+            $user = User::find($id);
+            echo json_encode($user);
+         }
+         else{
+             $user["photo"] = "empty.jpg";
+             echo json_encode($user);
+         }
+     }
      public function datapeta()
      {
         $data = Subdistrict::where('nama','Prambanan')->first();
@@ -82,6 +95,7 @@ class Homepage extends Controller
         $data->password = Hash::make($password);
         $data->roles_id = 3;
         $data->aktivasi = 1;
+        $data->photo = 'empty.jpg';
         $data->remember_token = str_random(60);
         $data->save();
         $data->sendEmailVerificationNotification();
@@ -110,7 +124,24 @@ class Homepage extends Controller
             ,'villages.nama as desa'
             ,'photos.foto1','photos.foto2','photos.foto3'
             ,'types.nama as status','types.marker')->get();
+            // return $data;
 
         return view('user.maps',['data'=>$data,'objek'=>$objek,'desa'=>$desa]);
+    }
+
+    //Tampil halaman laporan
+    public function lapor()
+    {
+        $kc = Subdistrict::where('nama','Prambanan')->first();
+        $id = $kc->id;
+        $laporan = Village::where('subdistricts_id',$id)
+        ->join('texts','texts.villages_id','villages.id')
+        ->join('users','texts.users_id','users.id')
+        ->join('photos','texts.photos_id','photos.id')
+        ->leftjoin('agendas','texts.id','agendas.texts_id')
+        ->select('villages.nama as desa','texts.*','users.nama as pengirim','users.photo','photos.foto1','agendas.photo as foto')
+        ->get();
+
+        return view('user.laporan',['laporan'=>$laporan]);
     }
 }

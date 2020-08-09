@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Village extends Model
 {
 
-    protected $fillable = ['nama','rw','subdistricts_id','bujur','lintang'];
+    protected $fillable = ['nama','rw','subdistricts_id','batas','bujur','lintang'];
     public function user()
     {
         return $this->hasMany('App\User','villages_id');

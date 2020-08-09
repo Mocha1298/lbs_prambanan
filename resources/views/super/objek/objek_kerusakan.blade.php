@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Data Kerusakan')
+@section('title','OBJEK KERUSAKAN')
 
 @section('head')
   {{-- OK BOSSS --}}
@@ -9,12 +9,19 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
+  <link rel="stylesheet" href="{{asset('style_user/box-map.css')}}">
   <script src="{{asset('js_admin/nav.js')}}"></script>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
+  <style>
+    #peta{
+      width: 100%;
+      height: 500px;
+    }
+  </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -30,6 +37,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div class="isi">
     <table>
       <caption>Tabel Kerusakan</caption>
+      <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
       <thead>
         <tr>
           <th scope="col">Nama</th>
@@ -45,7 +53,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $kr)
             <tr id="{{$kr->id}}" class="table">
-              <td data-label="Nama">{{ $kr->nama }}</td>
+              <td data-label="Nama" class="titik">{{ $kr->nama }}</td>
               <td data-label="Sumber">@if($kr->sumber == 1) RPJMD @else SUARA WARGA @endif</td>
               <td data-label="Level">{{ $kr->level }}</td>
               <td data-label="Status">{{ $kr->status }}</td>
@@ -87,11 +95,10 @@ oncopy='return false' oncut='return false' onpaste='return false'
       @endif
     </table>
     <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah Kerusakan</a>
-        <a style="right: 0; width: 50px;" href="/maps"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         <?php
           // config
-          $link_limit = 10;
+          $link_limit = 5;
           ?>
 
           @if ($data->lastPage() > 1)
@@ -416,6 +423,15 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </div>
     </div>
   </div>
+  <div id="map" class="overlay">
+    <div class="popup">
+      <h2>Peta Agenda</h2>
+      <a href="#" class="close">&times;</a>
+      <div class="content">
+        <div id="peta"></div>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('script')
     <script>
@@ -425,6 +441,48 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
+    <script>
+      var peta;
+      $.getJSON("/center_kr", function (data){
+          peta = L.map('peta',{
+              center :  [data.lintang,data.bujur],
+              watch : true,
+              zoom: 16,
+              // scrollWheelZoom: false,
+              closePopupOnClick: false
+          });
+          var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+              fillOpacity : 0,
+              color : 'white'
+          });       
+          geojsonLayer.addTo(peta);
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+              minZoom: 10,
+              maxZoom: 20,
+              subdomains:['mt0','mt1','mt2','mt3']
+          }).addTo(peta);
+      });
+      $.getJSON("/datapeta_kr", function (data1) {
+          for (var i = 0; i < data1.length; i++) {
+            var name = data1[i].nama;
+            L.marker([data1[i].lintang, data1[i].bujur])
+            .addTo(peta)
+            .bindPopup(
+                (info =
+                    "<div class='cont'>"
+                        +"<div class='box'>"
+                            +"<div class='header'>"
+                                +"<h2><strong> Nama Laporan : "+name+"</strong></h2>"
+                                +"<p>RT/RW : "+data1[i].rt+"/"+data1[i].rw+" </p>"
+                            +"</div>"
+                            +"<img src='/gambar/kerusakan/thumbnail/"+data1[i].foto1+"' alt=''>"
+                        +"</div>"
+                    +"</div>"
+                    )
+            );
+          }
+      })
+    </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('super.template')
 
-@section('title','Master Desa')
+@section('title','DESA')
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
   <script src="{{asset('js_admin/nav.js')}}"></script>
+  <style>
+    input[type=file]#json::before{
+      content: 'Pilih File :';
+    }
+  </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
@@ -62,9 +67,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </table>
     <div class="pagination">
         @if ($admin == 1)
-        <a class="add false" href="#">Tambah Desa</a>
+        <a class="add false" href="#">Tambah</a>
         @else
-        <a style="color:white;" class="add" href="#add">Tambah Desa</a>
+        <a style="color:white;" class="add" href="#add">Tambah</a>
         @endif
         <?php
           // config
@@ -128,6 +133,15 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
+              <input id="json" type="file" autocomplete="off" name="batas" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <p>{{$ds->batas}}</p>
+              @error('batas')
+              <div class="invalid-feedback">
+                  {{$message}}
+              </div>
+              @enderror
+            </fieldset>
+            <fieldset>
               <input id="bujur{{$ds->id}}" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $ds->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
               <div class="invalid-feedback">
@@ -175,7 +189,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <div class="popup">
       <h2>Form Tambah Data</h2>
       <div class="content">
-        <form id="form" action="/master_desa_tambah/{{$id}}" method="post">
+        <form id="form" action="/master_desa_tambah/{{$id}}" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
           <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
           <fieldset>
@@ -185,10 +199,18 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 {{$message}}
             </div>
             @enderror
-          </fieldset> 
+          </fieldset>
           <fieldset>
             <input placeholder="Jumlah RW" type="text" autocomplete="off" name="rw" value="{{ old('rw') }}" tabindex="2" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
             @error('rw')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+          </fieldset>
+          <fieldset>
+            <input id="json" placeholder="Batas Desa (.json)" type="file" autocomplete="off" name="batas" value="{{ old('batas') }}" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+            @error('batas')
             <div class="invalid-feedback">
                 {{$message}}
             </div>

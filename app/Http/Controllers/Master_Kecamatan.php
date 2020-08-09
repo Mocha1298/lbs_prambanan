@@ -27,6 +27,7 @@ class Master_Kecamatan extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'desa' => 'required|numeric',
+            'batas' =>'required|file',
             'bujur' => 'required',
             'lintang' => 'required',
         ]);
@@ -36,9 +37,25 @@ class Master_Kecamatan extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+        $file = $request->file('batas');
+        $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+
+        if ($eks != "json") {
+            //tambah custom validation .json by Mocha
+            $validator->errors()->add('batas', 'Hanya mendukung file .json');
+            return redirect('master_kecamatan#add')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $json_name ='batas_'.time().'.json';
+    
+        $file->move('batas/',$json_name);
+
         $subdistrict = new Subdistrict;
         $subdistrict->nama = $request->nama;
         $subdistrict->desa = $request->desa;
+        $subdistrict->batas = $json_name;
         $subdistrict->bujur = $request->bujur;
         $subdistrict->lintang = $request->lintang;
         $subdistrict->save();
@@ -61,6 +78,23 @@ class Master_Kecamatan extends Controller
         }
 
         $subdistrict = Subdistrict::find($id);
+        $batas = $subdistrict->batas;
+        if($request->hasFile('batas')){
+            $file = $request->file('batas');
+            $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
+    
+            if ($eks != "json") {
+                //tambah custom validation .json by Mocha
+                $validator->errors()->add('batas', 'Hanya mendukung file .json');
+                return redirect('/master_desa/'.$id.'#add')
+                ->withErrors($validator)
+                ->withInput();
+            }
+            if(File::exists('batas/'.$batas)){
+                File::delete('batas/'.$batas);
+                $file->move('batas/',$batas);
+            }
+        }
         $subdistrict->nama = $request->nama;
         $subdistrict->desa = $request->desa;
         $subdistrict->bujur = $request->bujur;

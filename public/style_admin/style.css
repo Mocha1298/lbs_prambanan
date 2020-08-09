@@ -270,3 +270,12 @@
       background-color: #e7e7e7;
     }
   }
+  @media screen and (min-width: 600px){
+    .titik { 
+      text-overflow: ellipsis;
+      overflow: hidden; 
+      width: 10px; 
+      height: 1.2em; 
+      white-space: nowrap;
+    }
+  }
