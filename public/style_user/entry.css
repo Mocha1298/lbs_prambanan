@@ -195,3 +195,31 @@
 .add-data a:hover{
   color: #ff4d4d;
 }
+
+
+/* PAGINATION */
+.pagination {
+  width: 20%;
+  display: flex;
+  margin: auto;
+  background-color: whitesmoke;
+}
+.pagination ul{
+  margin: 20px auto;
+  list-style: none;
+  padding-left: 0;
+}
+.pagination ul li{
+  display: inline;
+}
+.pagination ul li.active{
+  background-color: dodgerblue;
+}
+.pagination ul li.active a{
+  color: white;
+}
+.pagination a{
+  font-weight: bold;
+  color: black;
+  padding: 5px 10px;
+}

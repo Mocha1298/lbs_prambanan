@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
   <script src="{{asset('js_admin/nav.js')}}"></script>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
   <style>
     input[type=file]#json::before{
       content: 'Pilih File :';
@@ -18,13 +19,12 @@
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    <a href="/master_kecamatan">{{$kc->nama}}</a> > Master Desa
+    <a href="/master_kecamatan">{{$kc->nama}}</a>
 @endsection
 @section('isi')
   <div class="isi">
@@ -133,7 +133,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               @enderror
             </fieldset>
             <fieldset>
-              <input id="json" type="file" autocomplete="off" name="batas" tabindex="3" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+              <input id="json" type="file" autocomplete="off" name="batas" tabindex="3" oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
               <p>{{$ds->batas}}</p>
               @error('batas')
               <div class="invalid-feedback">
@@ -254,8 +254,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
         window.location.href = '#';
       }
     </script>
+    <script>
+      var input = "desa";
+      var desa = {{$id}};
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

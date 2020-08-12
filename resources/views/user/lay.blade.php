@@ -17,12 +17,17 @@
     <header class="topnav" id="myTopnav">
         <a href="/"><img class="logo" src="{{asset('/logo/peta-jalan.png')}}" alt="Smiley face"></a>
         <div class="navlist" id="navlist">
+            <style>
+                #active{
+                    color: darkgray;
+                }
+            </style>
             <a class="cursor0" href="/">&nbsp</a>
             <a class="navoption" href="/">Home</a>
             @if (auth::check())
                 @yield('profile')
             @endif
-            <a class="navoption" href="/laporan">Laporan</a>
+            <a class="navoption" id="@yield('active')" href="/laporan">Laporan</a>
             @if (Auth::check())
             <a class="navoption" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

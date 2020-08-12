@@ -77,9 +77,9 @@ class Master_Desa extends Controller
         $file = $request->file('batas');
         $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
 
-        if ($eks != "json") {
+        if ($eks != "geojson") {
             //tambah custom validation .json by Mocha
-            $validator->errors()->add('batas', 'Hanya mendukung file .json');
+            $validator->errors()->add('batas', 'Hanya mendukung file .geojson');
             return redirect('/master_desa/'.$id.'#add')
             ->withErrors($validator)
             ->withInput();
@@ -122,7 +122,7 @@ class Master_Desa extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'rw' => 'required|numeric',
-            'batas' =>'required|file',
+            // 'batas' =>'file',
             'bujur' => 'required',
             'lintang' => 'required'
         ]);
@@ -139,9 +139,9 @@ class Master_Desa extends Controller
             $file = $request->file('batas');
             $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
     
-            if ($eks != "json") {
+            if ($eks != "geojson") {
                 //tambah custom validation .json by Mocha
-                $validator->errors()->add('batas', 'Hanya mendukung file .json');
+                $validator->errors()->add('batas', 'Hanya mendukung file .geojson');
                 return redirect('/master_desa/'.$id.'#add')
                 ->withErrors($validator)
                 ->withInput();
@@ -153,6 +153,8 @@ class Master_Desa extends Controller
         }
         $village->nama = $request->nama;
         $village->rw = $request->rw;
+        $village->bujur = $request->bujur;
+        $village->lintang = $request->lintang;
         $village->subdistricts_id = $request->id;
         $village->save();
         return redirect()->back()->with('edit','Data sukses diubah');

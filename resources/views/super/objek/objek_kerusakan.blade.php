@@ -28,7 +28,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
     @if (Auth::user()->roles_id != 2)
-        <a href="/master_kecamatan">{{$kc->nama}}</a> > <a href="/master_desa/{{$ids}}">{{$vil->nama}}</a> > Data Kerusakan
+        <a href="/master_kecamatan">{{$kc->nama}}</a> > <a href="/master_desa/{{$ids}}">{{$vil->nama}}</a>
     @else
     Data Kerusakan
     @endif
@@ -185,7 +185,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
               </div>
               @enderror
             </fieldset>
-              @if ($kr->status == 'Rencana')
+            @if ($kr->status == 'Rencana')
               <fieldset>
                 <label for="">Foto Kerusakan</label>
                 <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
@@ -196,61 +196,61 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 </div>
                 @enderror
               </fieldset>
-              @endif
-              @if($kr->status == 'Sedang')
+            @endif
+            @if($kr->status == 'Sedang')
               <fieldset>
-                <label for="">Foto Kerusakan</label>
-                <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
-                <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="">  
-                @error('foto1')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
+                  <label for="">Foto Kerusakan</label>
+                  <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
+                  <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="">  
+                  @error('foto1')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
               </fieldset>
               <fieldset>
-                <label for="">Foto Perbaikan</label>
-                <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto2">
-                <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto2}}" alt="">
-                @error('foto2')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
+                  <label for="">Foto Perbaikan</label>
+                  <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto2">
+                  <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto2}}" alt="">
+                  @error('foto2')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
               </fieldset>
-              @endif
-              @if($kr->status == 'Selesai')
+            @endif
+            @if($kr->status == 'Selesai')
               <fieldset>
-                <label for="">Foto Kerusakan</label>
-                <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
-                <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="">
-                @error('foto1')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-              </fieldset>
-              <fieldset>
-                <label for="">Foto Perbaikan</label>
-                <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto2">
-                <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto2}}" alt="">
-                @error('foto2')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
+                  <label for="">Foto Kerusakan</label>
+                  <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto1">
+                  <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto1}}" alt="">
+                  @error('foto1')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
               </fieldset>
               <fieldset>
-                <label for="">Foto Selesai</label>
-                <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto3">
-                <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto3}}" alt="">
-                @error('foto3')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
+                  <label for="">Foto Perbaikan</label>
+                  <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto2">
+                  <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto2}}" alt="">
+                  @error('foto2')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
               </fieldset>
-              @endif
+              <fieldset>
+                  <label for="">Foto Selesai</label>
+                  <input style="margin-top: 10px" type="file" id="fileimg1" accept="image/*" name="foto3">
+                  <img style="margin-left: 20px" width="50px" height="auto" src="/gambar/kerusakan/thumbnail/{{$kr->foto3}}" alt="">
+                  @error('foto3')
+                  <div class="invalid-feedback">
+                      {{$message}}
+                  </div>
+                  @enderror
+              </fieldset>
+            @endif
             <fieldset>
               <input id="bujur{{$kr->id}}" placeholder="Longitude" type="text" name="bujur" value="{{ old('bujur') ?? $kr->bujur }}" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" readonly>
               @error('bujur')
@@ -438,50 +438,63 @@ oncopy='return false' oncut='return false' onpaste='return false'
       function href() {
         window.location.href = '#';
       }
+      var input = "kerusakan";
+      var desa = {{$vil->id}};
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
     <script>
-      var peta;
-      $.getJSON("/center_kr", function (data){
-          peta = L.map('peta',{
-              center :  [data.lintang,data.bujur],
+      $.getJSON("/center/desa/"+desa, function (db){
+          mymap = L.map('peta',{
+              center :  [db.lintang,db.bujur],
               watch : true,
-              zoom: 16,
+              zoom: 14,
               // scrollWheelZoom: false,
               closePopupOnClick: false
           });
-          var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+          var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+db.batas,{
               fillOpacity : 0,
               color : 'white'
           });       
-          geojsonLayer.addTo(peta);
-          L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
-              minZoom: 10,
-              maxZoom: 20,
-              subdomains:['mt0','mt1','mt2','mt3']
-          }).addTo(peta);
+          geojsonLayer.addTo(mymap);
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            minZoom: 13,
+            subdomains:['mt0','mt1','mt2','mt3']
+          }).addTo(mymap);
       });
-      $.getJSON("/datapeta_kr", function (data1) {
-          for (var i = 0; i < data1.length; i++) {
-            var name = data1[i].nama;
-            L.marker([data1[i].lintang, data1[i].bujur])
-            .addTo(peta)
-            .bindPopup(
-                (info =
-                    "<div class='cont'>"
-                        +"<div class='box'>"
-                            +"<div class='header'>"
-                                +"<h2><strong> Nama Laporan : "+name+"</strong></h2>"
-                                +"<p>RT/RW : "+data1[i].rt+"/"+data1[i].rw+" </p>"
-                            +"</div>"
-                            +"<img src='/gambar/kerusakan/thumbnail/"+data1[i].foto1+"' alt=''>"
-                        +"</div>"
-                    +"</div>"
-                    )
-            );
+      $.getJSON("/datapeta_kr", function (marker) {
+          for (var i = 0; i < marker.length; i++) {
+              var icon = L.icon({
+                  iconUrl: '/gambar/jenis/'+marker[i].marker,
+                  iconSize:     [30, 30],
+              });
+              var name = marker[i].kerusakan;
+              var status = marker[i].status;
+              kerusakan[i] = L.marker([marker[i].lintang, marker[i].bujur],{icon: icon})
+              .addTo(mymap)
+              .bindPopup(
+                  (info =
+                      "<div class='cont'>"
+                          +"<div class='box'>"
+                              +"<div class='header'>"
+                                  +"<h2><strong>"+name+"</strong></h2>"
+                                  +"<p>Desa : "+marker[i].desa+" </p>"
+                                  +"<p>RT/RW : "+marker[i].rt+"/"+marker[i].rw+" </p>"
+                              +"</div>"
+                              +"<img src='/gambar/kerusakan/thumbnail/"
+                              +(status == 'Rencana' ? marker[i].foto1 : "")
+                              +(status == 'Sedang' ? marker[i].foto2 : "")
+                              +(status == 'Selesai' ? marker[i].foto3 : "")
+                              +"' alt=''>"
+                              +"<a id='jos' onclick='return show("+marker[i].id+");'>Detail<i class='fa fa-arrow-circle-right'></a>"
+                              +"</a>"
+                          +"</div>"
+                      +"</div>"
+                      )
+              );
           }
       })
     </script>

@@ -21,9 +21,15 @@ class Homepage extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function center()
+     public function center1($id)
      {
-         $center = Subdistrict::where('nama','Prambanan')->first();
+         $center = Subdistrict::find($id)->first();
+         echo json_encode($center);
+     }
+
+     public function center2($id)
+     {
+         $center = Village::where('id',$id)->first();
          echo json_encode($center);
      }
      
@@ -140,7 +146,7 @@ class Homepage extends Controller
         ->join('photos','texts.photos_id','photos.id')
         ->leftjoin('agendas','texts.id','agendas.texts_id')
         ->select('villages.nama as desa','texts.*','users.nama as pengirim','users.photo','photos.foto1','agendas.photo as foto')
-        ->get();
+        ->paginate(5);
 
         return view('user.laporan',['laporan'=>$laporan]);
     }

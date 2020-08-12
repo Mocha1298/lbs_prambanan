@@ -1,3 +1,4 @@
+var status = 0;
 $(document).ready(function(){
   $('tr.table').contextmenu(function(e){
     var index = $('div#contextMenu'); 
@@ -14,11 +15,14 @@ $(document).ready(function(){
       left: e.pageX,
       top: e.pageY
     });
+    status = 1;
     return false;
   });
   $(document).click(function(){
-    contextMenu.css({
-      display: "none"
-    });
+    if(status == 1){
+      contextMenu.css({
+        display: "none"
+      });
+    }
   }); 
 });

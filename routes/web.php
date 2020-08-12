@@ -22,7 +22,8 @@ Route::get('/laporan','Homepage@lapor');
 // Route get datapeta
 Route::get('/datapeta','Homepage@datapeta');
 Route::get('/objek','Homepage@objek');
-Route::get('/center','Homepage@center');
+Route::get('/center/kecamatan/{id}','Homepage@center1');
+Route::get('/center/desa/{id}','Homepage@center2');
 Route::get('/user','Homepage@user');
 
 // Route::get('/login','AuthController@index')->name('login');
@@ -54,9 +55,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
     // Route Master Kecamatan
     Route::get('/master_kecamatan','Master_Kecamatan@index');//Menampilkan Halaman Master Kecamatan
-    // Route::post('/master_kecamatan_tambah','Master_Kecamatan@create');//Proses simpan data
+    Route::post('/master_kecamatan_tambah','Master_Kecamatan@create');//Proses simpan data
     Route::post('/master_kecamatan_ubah/{id}','Master_Kecamatan@update');//Proses update data
-    // Route::get('/master_kecamatan_hapus/{id}','Master_Kecamatan@destroy');//Proses hapus data
+    Route::get('/master_kecamatan_hapus/{id}','Master_Kecamatan@destroy');//Proses hapus data
 
     // ROute Master Jenis
     Route::get('/master_jenis','Master_Jenis@index');//Menampilkan Halaman Master Jenis

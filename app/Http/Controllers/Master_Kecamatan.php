@@ -24,6 +24,11 @@ class Master_Kecamatan extends Controller
 
     public function create(Request $request)
     {
+        $count = Subdistrict::count();
+        if($count >= 1){
+            return redirect('master_kecamatan')->with('gagal','Hanya dapat menyimpan 1 data');
+        }
+
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'desa' => 'required|numeric',
@@ -40,15 +45,15 @@ class Master_Kecamatan extends Controller
         $file = $request->file('batas');
         $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
 
-        if ($eks != "json") {
+        if ($eks != "geojson") {
             //tambah custom validation .json by Mocha
-            $validator->errors()->add('batas', 'Hanya mendukung file .json');
+            $validator->errors()->add('batas', 'Hanya mendukung file .geojson');
             return redirect('master_kecamatan#add')
             ->withErrors($validator)
             ->withInput();
         }
 
-        $json_name ='batas_'.time().'.json';
+        $json_name ='batas_'.time().'.geojson';
     
         $file->move('batas/',$json_name);
 
@@ -83,9 +88,9 @@ class Master_Kecamatan extends Controller
             $file = $request->file('batas');
             $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
     
-            if ($eks != "json") {
+            if ($eks != "geojson") {
                 //tambah custom validation .json by Mocha
-                $validator->errors()->add('batas', 'Hanya mendukung file .json');
+                $validator->errors()->add('batas', 'Hanya mendukung file .geojson');
                 return redirect('/master_desa/'.$id.'#add')
                 ->withErrors($validator)
                 ->withInput();
@@ -105,6 +110,10 @@ class Master_Kecamatan extends Controller
 
     public function destroy($id)
     {
+        $count = Subdistrict::count();
+        if($count >= 1){
+            return redirect('master_kecamatan')->with('gagal','Gagal menghapus data!');
+        }
         $subdistrict = Subdistrict::find($id);//AMBIL 1 KCMTN
         $ids = $subdistrict->id;// Ambil ID Kecamatan for del desa
         $village = Village::where('subdistricts_id',$ids)->get();//AMBIL SELURUH DESA PADA ID KCMTN

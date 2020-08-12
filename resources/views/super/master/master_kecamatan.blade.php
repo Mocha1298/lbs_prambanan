@@ -8,18 +8,23 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
+  <style>
+    input[type=file]#json::before{
+      content: 'Pilih File :';
+    }
+  </style>
   <script src="{{asset('js_admin/nav.js')}}"></script>
+  <script src="{{asset('jquery/jquery.js')}}"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('breadcrump')
-    Master Kecamatan
+    Kecamatan
 @endsection
 @section('isi')
   <div class="isi">
@@ -246,8 +251,73 @@ oncopy='return false' oncut='return false' onpaste='return false'
         window.location.href = '#';
       }
     </script>
+    <script>
+      // DETEKSI USER
+      var input = "kecamatan";
+    </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
+    <script>
+      // var classname = $('tr.table');
+      // var id = '';
+      // // INPUT
+      // var mymap1
+      // mymap1 = L.map('mapid',{
+      //     center :  [-7.7520153,110.4892787],
+      //     zoom: 13,
+      // });
+      // L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+      //     maxZoom: 20,
+      //     minZoom: 13,
+      //     subdomains:['mt0','mt1','mt2','mt3']
+      // }).addTo(mymap1);
+      // function getcenter1(){
+      //     var center = mymap1.getCenter();
+      //     document.getElementById("bujur").value = center.lng;
+      //     document.getElementById("lintang").value = center.lat;
+      // }
+
+      // // EDIT
+      // var mymap = [];
+      // for (let i = 0; i < classname.length; i++) {
+      //   id = $(classname[i]).attr('id');
+      //   $.getJSON("/center/kecamatan/"+id+"", function (data1){
+      //       mymap[id] = L.map("mapid"+id, {
+      //           center: [data1.lintang,data1.bujur],
+      //           zoom: 20,
+      //           // scrollWheelZoom: false,
+      //       });
+      //       var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data1.batas,{
+      //           fillOpacity : 0,
+      //           color : 'white'
+      //       });
+      //       geojsonLayer.addTo(mymap[id]);
+      //       L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+      //           maxZoom: 20,
+      //           minZoom: 13,
+      //           subdomains:['mt0','mt1','mt2','mt3']
+      //       }).addTo(mymap[id]);
+            
+      //       // Marker Current
+      //       var current = L.icon({
+      //           iconUrl: '/gambar/marker/current.png',
+      //           iconSize:     [17, 17], // size of the icon
+      //           iconAnchor:   [5, 15], // point of the icon which will correspond to marker's location
+      //           popupAnchor:  [-10, -5], // point from which the popup should open relative to the iconAnchor
+      //           tooltipAnchor: [9,-20], //Alhamdulillah nemu bind tool up e aku :D
+      //       });
+      //       L.marker([data1.lintang,data1.bujur],{icon:current})
+      //       .addTo(mymap[id])
+      //       .bindPopup("Lokasi terkini");
+      //   })
+      // }
+      // function getcenter2(id){
+      //     var center = mymap[id].getCenter();   
+      //     document.getElementById("bujur"+id+"").value = center.lng;
+      //     document.getElementById("lintang"+id+"").value = center.lat;
+      // }
+
+    </script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection
