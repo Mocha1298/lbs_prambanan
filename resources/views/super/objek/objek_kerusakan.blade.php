@@ -425,7 +425,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </div>
   <div id="map" class="overlay">
     <div class="popup">
-      <h2>Peta Agenda</h2>
+      <h2>Review Peta</h2>
       <a href="#" class="close">&times;</a>
       <div class="content">
         <div id="peta"></div>
@@ -446,8 +446,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
     <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
     <script>
-      $.getJSON("/center/desa/"+desa, function (db){
-          mymap = L.map('peta',{
+      var peta;
+      $.getJSON("/center_ds/"+desa, function (db){
+          peta = L.map('peta',{
               center :  [db.lintang,db.bujur],
               watch : true,
               zoom: 14,
@@ -458,44 +459,43 @@ oncopy='return false' oncut='return false' onpaste='return false'
               fillOpacity : 0,
               color : 'white'
           });       
-          geojsonLayer.addTo(mymap);
+          geojsonLayer.addTo(peta);
           L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
             maxZoom: 20,
-            minZoom: 13,
+            minZoom: 14,
             subdomains:['mt0','mt1','mt2','mt3']
-          }).addTo(mymap);
+          }).addTo(peta);
       });
-      $.getJSON("/datapeta_kr", function (marker) {
-          for (var i = 0; i < marker.length; i++) {
-              var icon = L.icon({
-                  iconUrl: '/gambar/jenis/'+marker[i].marker,
-                  iconSize:     [30, 30],
-              });
-              var name = marker[i].kerusakan;
-              var status = marker[i].status;
-              kerusakan[i] = L.marker([marker[i].lintang, marker[i].bujur],{icon: icon})
-              .addTo(mymap)
-              .bindPopup(
-                  (info =
-                      "<div class='cont'>"
-                          +"<div class='box'>"
-                              +"<div class='header'>"
-                                  +"<h2><strong>"+name+"</strong></h2>"
-                                  +"<p>Desa : "+marker[i].desa+" </p>"
-                                  +"<p>RT/RW : "+marker[i].rt+"/"+marker[i].rw+" </p>"
-                              +"</div>"
-                              +"<img src='/gambar/kerusakan/thumbnail/"
-                              +(status == 'Rencana' ? marker[i].foto1 : "")
-                              +(status == 'Sedang' ? marker[i].foto2 : "")
-                              +(status == 'Selesai' ? marker[i].foto3 : "")
-                              +"' alt=''>"
-                              +"<a id='jos' onclick='return show("+marker[i].id+");'>Detail<i class='fa fa-arrow-circle-right'></a>"
-                              +"</a>"
+      var url = "/datapeta_ds/"+desa;
+      $.getJSON(url, function (marker){
+        console.log("JOSSS");
+        for (var i = 0; i < marker.length; i++) {
+          var icon = L.icon({
+              iconUrl: '/gambar/jenis/'+marker[i].marker,
+              iconSize:     [30, 30],
+          });
+          var name = marker[i].kerusakan;
+          var status = marker[i].status;
+          L.marker([marker[i].lintang, marker[i].bujur],{icon: icon})
+          .bindPopup(
+              (info =
+                  "<div class='cont'>"
+                      +"<div class='box'>"
+                          +"<div class='header'>"
+                              +"<h2><strong>"+name+"</strong></h2>"
+                              +"<p>Desa : "+marker[i].desa+" </p>"
+                              +"<p>RT/RW : "+marker[i].rt+"/"+marker[i].rw+" </p>"
                           +"</div>"
+                          +"<img src='/gambar/kerusakan/thumbnail/"
+                          +(status == 'Rencana' ? marker[i].foto1 : "")
+                          +(status == 'Sedang' ? marker[i].foto2 : "")
+                          +(status == 'Selesai' ? marker[i].foto3 : "")
+                          +"' alt=''>"
                       +"</div>"
-                      )
-              );
-          }
+                  +"</div>"
+                  )
+          ).addTo(peta);
+        }
       })
     </script>
 @endsection

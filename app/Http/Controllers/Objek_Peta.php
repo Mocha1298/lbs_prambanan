@@ -12,11 +12,15 @@ use App\Photo;
 
 class Objek_Peta extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function dataobjek()
+    {
+        $data = Map::join('types','maps.types_id','types.id')
+        ->join('photos','photos.id','maps.photos_id')
+        ->where('types.jenis','Peta')
+        ->select('maps.*','types.nama as kategori','types.marker','photos.foto1')
+        ->get();
+        echo json_encode($data);
+    }
     public function index()
     {
         $tipe = Type::where('jenis','Kerusakan')->first();

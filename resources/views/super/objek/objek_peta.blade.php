@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
+  <style>
+    #peta{
+      width: 100%;
+      height: 500px;
+    }
+  </style>
   <script src="{{asset('js_admin/nav.js')}}"></script>
   <script src="{{asset('jquery/jquery.js')}}"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -27,6 +33,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
   <div class="isi">
     <table>
       <caption>Tabel Objek Peta</caption>
+      <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
       <thead>
         <tr>
           <th scope="col">Nama</th>
@@ -63,7 +70,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
     </table>
     <div class="pagination">
         <a style="color:white;" class="add" href="#add">Tambah</a>
-        <a style="right: 0; width: 50px;" href="/maps"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
         <?php
           // config
           $link_limit = 5;
@@ -262,15 +268,66 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </div>
     </div>
   </div>
+  <div id="map" class="overlay">
+    <div class="popup">
+      <h2>Peta Agenda</h2>
+      <a href="#" class="close">&times;</a>
+      <div class="content">
+        <div id="peta"></div>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('script')
     <script>
       function href() {
         window.location.href = '#';
       }
+      var input = "objek";
+      var desa = 6;
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
+    <script>
+      var peta1;
+      peta1 = L.map('peta',{
+          center :  [-7.7520153,110.4892787],
+          watch : true,
+          zoom: 14,
+          closePopupOnClick: false
+      });
+
+      L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        minZoom: 10,
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+      }).addTo(peta1);
+      $.getJSON("/dataobjek", function (data){
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i].id);
+          var icon = L.icon({
+              iconUrl: '/gambar/jenis/'+data[i].marker,
+              iconSize:     [30, 30],
+          });
+          var name = data[i].nama;
+          var status = data[i].status;
+          L.marker([data[i].lintang, data[i].bujur],{icon: icon})
+          .bindPopup(
+              (info =
+                  "<div class='cont'>"
+                      +"<div class='box'>"
+                          +"<div class='header'>"
+                              +"<h2><strong>"+name+"</strong></h2>"
+                          +"</div>"
+                          +"<img src='/gambar/objek/thumbnail/"+data[i].foto1+"' alt=''>"
+                      +"</div>"
+                  +"</div>"
+                  )
+          ).addTo(peta1);
+        }
+      })
+    </script>
 @endsection

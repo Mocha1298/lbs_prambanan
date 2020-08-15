@@ -21,6 +21,7 @@ class CreateMapsTable extends Migration
             $table->integer('rt')->nullable();
             $table->integer('rw')->nullable();
             $table->integer('sumber')->nullable();
+            $table->integer('texts_id')->nullable();//
             $table->string('bujur');
             $table->string('lintang');
             $table->integer('types_id');

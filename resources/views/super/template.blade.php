@@ -112,6 +112,16 @@
                 </ul>
               </li>
             @endif
+            @if (Auth::user()->roles_id == 1)
+              {{-- OLAH WARGA --}}
+              <li class="topmenu">
+                <div id="opener3">
+                  <a href="/report" id="4" class="bagian users" name="4" onclick="return show(4);">
+                    <span class='fa fa-flag-checkered'></span>Laporan
+                  </a>
+                </div>
+              </li>
+            @endif
           </ul>
         </nav>
         <div class="content">

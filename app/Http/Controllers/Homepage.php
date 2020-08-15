@@ -47,7 +47,7 @@ class Homepage extends Controller
      }
      public function datapeta()
      {
-        $data = Subdistrict::where('nama','Prambanan')->first();
+        $data = Subdistrict::all();
         $id = $data->id;
         $data = Village::where('subdistricts_id',$id)
         ->join('maps','maps.villages_id','villages.id')

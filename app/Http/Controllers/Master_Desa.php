@@ -55,7 +55,7 @@ class Master_Desa extends Controller
         }
         $data = Village::where('subdistricts_id',$idk)->paginate(10);
         $id = $idk;
-        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin,'kc'=>$kc]);
+        return view('super.master.master_desa',['data'=>$data,'id'=>$id,'count'=>$count,'admin'=>$admin,'kc'=>$kc,'ds'=>$ds]);
     }
 
     public function create2(Request $request, $id)//Input berdasarkan kecamatan

@@ -135,5 +135,21 @@ crossorigin=""/>
   <script src="{{asset('js_admin/action.js')}}"></script>
   <script src="{{asset('js_admin/bundle.js')}}"></script>
   <script src="{{asset('js_admin/polygon.js')}}"></script>
-  <script src="{{asset('js_admin/crud_map.js')}}"></script>
+  <script>
+        mymap1 = L.map('mapid',{
+        center :  [-7.7520153,110.4892787],
+        zoom: 13,
+    });
+    L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        minZoom: 13,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(mymap1);
+    function getcenter1(){
+    var center = mymap1.getCenter();
+    
+    document.getElementById("bujur").value = center.lng;
+    document.getElementById("lintang").value = center.lat;
+}
+  </script>
 @endsection

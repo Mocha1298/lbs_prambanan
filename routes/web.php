@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/objek_peta_tambah','Objek_Peta@create');
     Route::post('/objek_peta_ubah/{id}','Objek_Peta@update');
     Route::get('/objek_peta_hapus/{id}','Objek_Peta@destroy');
+    Route::get('/dataobjek','Objek_Peta@dataobjek');
 
     // Route Objek Kerusakan
     Route::get('/objek_kerusakan/{id}','Objek_Kerusakan@index2');//Menampilkan peta berdasarkan desa
@@ -78,8 +79,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/objek_kerusakan_ubah/{id}','Objek_Kerusakan@update');//Proses ubah data berdasarkan desa
     Route::post('/objek_kerusakan_status/{id}','Objek_Kerusakan@update1');//Proses ubah status data
     Route::get('/objek_kerusakan_hapus/{id}','Objek_Kerusakan@destroy');
-    Route::get('/center_kr','Objek_Kerusakan@center');
-    Route::get('/datapeta_kr','Objek_Kerusakan@datapeta');
+    Route::get('/datapeta_kr/{id}','Objek_Kerusakan@datapeta');
+    Route::get('/datapeta_ds/{id}','Objek_Kerusakan@datapeta1');
+    Route::get('/center_ds/{id}','Objek_Kerusakan@center');
 
     // Route Laporan
     Route::get('/suwar_admin/{id}','LaporanAgenda@desa');
@@ -91,6 +93,9 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/center_desa','LaporanAgenda@center');
     Route::get('/datapeta_desa','LaporanAgenda@datapeta');
     Route::get('/datapeta_agenda','LaporanAgenda@peta_agenda');
+
+    // Route Laporan Akhir
+    Route::get('/report','Report@index');
 });
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){

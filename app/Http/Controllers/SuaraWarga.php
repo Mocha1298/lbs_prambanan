@@ -59,7 +59,6 @@ class SuaraWarga extends Controller
         $id =  User::where('villages_id',$ids)->first();
         $id = $id->id;
         event(new sendName($text,$id));
-        return "SUKSES";
         
         $file = $request->file('foto1');
         $eks = $file->getClientOriginalExtension();//Mengambil ekstensi

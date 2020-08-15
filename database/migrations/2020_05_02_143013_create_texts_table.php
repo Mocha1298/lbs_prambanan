@@ -16,7 +16,6 @@ class CreateTextsTable extends Migration
         Schema::create('texts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('status');//0. ditolak, 1. diterima, 2. disetujui(survey), 3. valid
-            $table->integer('readed')->nullable();
             $table->string('nama');
             $table->string('keterangan');
             $table->integer('rt')->nullable();
@@ -25,7 +24,6 @@ class CreateTextsTable extends Migration
             $table->string('lintang');
             $table->integer('id_tul')->nullable();
             $table->integer('users_id');
-            $table->integer('maps_id')->nullable();
             $table->integer('photos_id')->nullable();
             $table->integer('villages_id')->nullable();
             $table->timestamps();

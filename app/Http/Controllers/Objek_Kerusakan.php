@@ -17,18 +17,26 @@ use Illuminate\Support\Facades\Validator;
 
 class Objek_Kerusakan extends Controller
 {
-    public function datapeta()
+    public function center($id)
     {
-        $id = Auth::user()->villages_id;
-        $map = Map::where('villages_id',$id)
-        ->join('photos','photos.id','maps.photos_id')
-        ->get();
-        echo json_encode($map);
-    }
-    public function center()
-    {
-        $id = Auth::user()->villages_id;
         $data = Village::find($id);
+        echo json_encode($data);
+    }
+    public function datapeta($id)
+    {
+        $data = Map::find($id);
+        echo json_encode($data);
+    }
+
+    public function datapeta1($id)
+    {
+        $data = Map::where('villages_id',$id)
+        ->join('photos','photos.id','maps.photos_id')
+        ->join('types','types.id','maps.types_id')
+        ->where('types.jenis','Kerusakan')
+        ->select('maps.id','maps.nama as kerusakan','maps.level','maps.perbaikan','maps.rt','maps.rw','maps.lintang','maps.bujur','maps.types_id','maps.photos_id'
+            ,'photos.foto1','photos.foto2','photos.foto3'
+            ,'types.nama as status','types.marker')->get();
         echo json_encode($data);
     }
     

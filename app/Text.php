@@ -12,11 +12,11 @@ class Text extends Model
     }
     protected $fillable = [
         'nama','status','keterangan','rt','rw','bujur','lintang','id_tul','users_id','maps_id','photos_id','villages_id',
-
     ];
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])
-        ->format('d, M Y H:i');
+        ->format('d, H M Y');
     }
 }

@@ -65,7 +65,7 @@
         <div class="name">KERUSAKAN</div>
         <div class="number">{{$data3}}</div>
       </div>
-      <a href="/objek_kerusakan">
+      <a href="/objek_kerusakan/{{Auth::user()->villages_id}}">
         <div class="detail">
           <i class="fa fa-arrow-right fa-3x"></i>
         </div>
