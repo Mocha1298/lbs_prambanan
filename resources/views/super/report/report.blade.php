@@ -13,6 +13,14 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
 <div class="isi">
+  <div class="filter">
+    <select name="desa">
+      <option value="all">--Pilih Desa--</option>
+      @foreach ($desa as $ds)
+        <option value="{{$ds->id}}">{{$ds->nama}}</option>
+      @endforeach
+    </select>
+  </div>
     <table>
       <caption>Tabel Laporan</caption>
       <thead>
@@ -40,5 +48,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @endforeach
     </tbody>
     </table>
+    <style>
+      .cetak button{
+        padding:0 20px;
+      }
+    </style>
+    <a class="cetak" href="/cetak"><button><i class="fa fa-print fa-2x"></i></button></a>
 </div>
 @endsection

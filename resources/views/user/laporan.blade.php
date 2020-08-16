@@ -2,6 +2,7 @@
 
 @section('head')
 <link rel="stylesheet" href="{{asset('style_user/entry.css')}}">
+<link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
 <style>
     .blog-author h3::before,
     .blog-author--no-cover h3::before {
@@ -73,39 +74,13 @@
           
         </div>
     @endforeach
-    <div class="pagination">
-      <?php
-        // config
-        $link_limit = 5;
-        ?>
-
-        @if ($laporan->lastPage() > 1)
-            <ul>
-                <li class="{{ ($laporan->currentPage() == 1) ? ' disabled' : '' }}">
-                    <a href="{{ $laporan->url(1) }}">First</a>
-                </li>
-                @for ($i = 1; $i <= $laporan->lastPage(); $i++)
-                    <?php
-                    $half_total_links = floor($link_limit / 2);
-                    $from = $laporan->currentPage() - $half_total_links;
-                    $to = $laporan->currentPage() + $half_total_links;
-                    if ($laporan->currentPage() < $half_total_links) {
-                      $to += $half_total_links - $laporan->currentPage();
-                    }
-                    if ($laporan->lastPage() - $laporan->currentPage() < $half_total_links) {
-                        $from -= $half_total_links - ($laporan->lastPage() - $laporan->currentPage()) - 1;
-                    }
-                    ?>
-                    @if ($from < $i && $i < $to)
-                        <li class="{{ ($laporan->currentPage() == $i) ? ' active' : '' }}">
-                            <a href="{{ $laporan->url($i) }}">{{ $i }}</a>
-                        </li>
-                    @endif
-                @endfor
-                <li class="{{ ($laporan->currentPage() == $laporan->lastPage()) ? ' disabled' : '' }}">
-                    <a href="{{ $laporan->url($laporan->lastPage()) }}">Last</a>
-                </li>
-            </ul>
-        @endif
-  </div>
+    <style>
+      .jos{
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+    <div class="jos">
+      {{$laporan->links()}}
+    </div>
 @endsection

@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
 
     // Route Laporan Akhir
     Route::get('/report','Report@index');
+    Route::get('/cetak','Report@cetak');
 });
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){

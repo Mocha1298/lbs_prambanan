@@ -147,6 +147,7 @@ class LaporanAgenda extends Controller
         $kr = new Map;
         $kr->nama = $data->nama;
         $kr->sumber = 0;
+        $kr->texts_id = $idt;
         $kr->level = "Ringan";
         $kr->perbaikan = now();
         if ($data->rt) {

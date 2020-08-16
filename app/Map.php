@@ -11,7 +11,7 @@ class Map extends Model
         return $this->hasMany('App\Text','maps_id');
     }
     protected $fillable = [
-        'nama','level','status','perbaikan','rt','rw','bujur','lintang','types_id','villages_id','subdistricts_id','photos_id',
+        'nama','level','status','perbaikan','rt','rw','sumber','texts_id','bujur','lintang','types_id','villages_id','subdistricts_id','photos_id',
     ];
     
     public function getCreatedAtAttribute()
