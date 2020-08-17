@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://use.fontawesome.com/46ea1af652.js"></script>
+    <script src="{{asset('jquery/jquery.js')}}"></script>
     <title>LAPORAN</title>
     <style>
-        html{
-            background-color: gray;
+        body{
+            margin: 0;
         }
         .container{
             width: 950px;
-            margin: auto;
             background-color: white;
         }
         table,
@@ -33,9 +34,10 @@
         background-color: skyblue;
         }
 
-        #event-table {
-        margin-left: 250px;
-        margin-top: 50px;
+        #table {
+            margin: auto;
+            width: 900px;
+            margin-bottom: 100px;
         }
         header{
             display: flex;
@@ -48,6 +50,27 @@
             width: 100px;
             height: auto;
         }
+        .judul{
+            text-align: center;
+        }
+        tr.tebal{
+            font-weight: bold;
+        }
+        a.cetak{
+            margin-top: 100px;
+        }
+        .cetak button{
+            width: 80px;
+        }
+        .kop{
+            text-align: center;
+        }
+        hr{
+            margin: 2px 0;
+        }
+        hr.tebal{
+            border: 2px solid black; 
+        }
     </style>
 </head>
 <body>
@@ -57,11 +80,14 @@
             <img src="{{asset('gambar/logo/logo.png')}}" alt="">
         </div>
         <div class="kop">
-            <h2>Pemerintah Kecamatan Prambanan Kabupaten Klaten</h2>
-            <p>Alamat : Tlogo, Prambanan, Klaten.</p>
+            <h1>Pemerintah Kecamatan Prambanan Kabupaten Klaten</h1>
+            <p>Alamat : Jl. Jogja-Solo Km 13 Tlogo, Prambanan, Klaten</p>
         </div>
     </header>
+    <hr class="tebal">
+    <hr>
     <div id="table">
+        <h1 class="judul">Laporan Suara Warga</h1>
         <table>
             <tr>
                 <td>No</td>
@@ -73,8 +99,7 @@
                 <td data-label="Setuju">Setuju</td>
                 <td data-label="Valid">Valid</td>
             </tr>
-            <tr>
-                @foreach ($data as $lap)
+                @foreach ($hasil as $lap)
                 <tr class="table">
                     <td>{{$loop->iteration}}</td>
                     <td data-label="Judul">{{$lap->nama}}</td>
@@ -94,9 +119,13 @@
                     <td data-label="Valid">{{$lap->valid}}</td>
                 </tr>
               @endforeach
-            </tr>
         </table>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+    window.print();
+    });
+</script>
 </body>
 </html>

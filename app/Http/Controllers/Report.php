@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Text;
 use App\Village;
+use PDF;
 
 class Report extends Controller
 {
@@ -28,7 +29,7 @@ class Report extends Controller
         $filter = $request->filter;
         $awal = $request->dari;
         $akhir = $request->sampai;
-        $data = Text::leftjoin('agendas','agendas.texts_id','texts.id')
+        $hasil = Text::leftjoin('agendas','agendas.texts_id','texts.id')
         ->leftjoin('maps','maps.nama','texts.nama')
         ->leftjoin('users','texts.users_id','users.id')
         ->leftjoin('villages','texts.villages_id','villages.id')
@@ -36,6 +37,8 @@ class Report extends Controller
         ->where($filter,'>=',$awal)
         ->where($filter,'<=',$akhir)
         ->get();
-        return view('super.report.cetak',['data'=>$data]);
+        // $pdf = PDF::loadView('cetak',['hasil'=>$hasil]);
+        // return $pdf->stream('laporan.pdf');
+        return view('cetak',['hasil'=>$hasil]);
     }
 }

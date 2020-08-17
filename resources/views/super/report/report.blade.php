@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
   <link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
+  <script src="{{asset('jquery/jquery.js')}}"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -81,11 +82,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
           </fieldset>
           <fieldset>
             <label for="dari">Dari Tanggal</label>
-            <input name="dari" type="date" value="{{date('Y-m-d')}}">
+            <input id="dari" oninput="setmin();" max="{{date('Y-m-d')}}" name="dari" type="date" value="{{date('Y-m-d')}}">
           </fieldset>
           <fieldset>
             <label for="sampai">Sampai Tanggal</label>
-            <input name="sampai" type="date" value="{{date('Y-m-d')}}">
+            <input id="sampai" oninput="setmax();" name="sampai" min="{{date('Y-m-d')}}" type="date" value="{{date('Y-m-d')}}">
           </fieldset>
           <button type="submit" name="submit" value="print"><i class="fa fa-print fa-2x"></i></button>
         </form>
@@ -96,16 +97,15 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('script')
     <script>
-      $(function(){
-        $('.search-box__input').on('focus',function(){
-          $('.search-box__icon').css('color','#222');
-        })
-        $('.search-box__input').on('blur',function(){
-          $('.search-box__icon').css('color','##959595');
-        })
-      })
-    </script>
-    <script>
-
+      function setmin() {
+        var value = $("#dari")[0].value;
+        $("#sampai")[0].min = value;
+        // console.log($("#sampai")[0].min);
+      }
+      function setmax() {
+        var value = $("#sampai")[0].value;
+        $("#dari")[0].max = value;
+        // console.log($("#dari")[0].max);
+      }
     </script>
 @endsection
