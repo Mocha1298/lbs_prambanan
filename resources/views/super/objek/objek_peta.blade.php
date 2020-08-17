@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
+  <link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
   <style>
     #peta{
       width: 100%;
@@ -31,9 +32,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
   <div class="isi">
+    <div style="display: flex;justify-content:space-between;" class="half">
+      <a style="color:white;" class="add" href="#add">Tambah</a>
+      <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
+    </div>
     <table>
       <caption>Tabel Objek Peta</caption>
-      <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
       <thead>
         <tr>
           <th scope="col">Nama</th>
@@ -68,42 +72,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </tbody>
       @endif
     </table>
-    <div class="pagination">
-        <a style="color:white;" class="add" href="#add">Tambah</a>
-        <?php
-          // config
-          $link_limit = 5;
-          ?>
-
-          @if ($data->lastPage() > 1)
-              <ul>
-                  <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url(1) }}">First</a>
-                  </li>
-                  @for ($i = 1; $i <= $data->lastPage(); $i++)
-                      <?php
-                      $half_total_links = floor($link_limit / 2);
-                      $from = $data->currentPage() - $half_total_links;
-                      $to = $data->currentPage() + $half_total_links;
-                      if ($data->currentPage() < $half_total_links) {
-                        $to += $half_total_links - $data->currentPage();
-                      }
-                      if ($data->lastPage() - $data->currentPage() < $half_total_links) {
-                          $from -= $half_total_links - ($data->lastPage() - $data->currentPage()) - 1;
-                      }
-                      ?>
-                      @if ($from < $i && $i < $to)
-                          <li class="{{ ($data->currentPage() == $i) ? ' active' : '' }}">
-                              <a href="{{ $data->url($i) }}">{{ $i }}</a>
-                          </li>
-                      @endif
-                  @endfor
-                  <li class="{{ ($data->currentPage() == $data->lastPage()) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url($data->lastPage()) }}">Last</a>
-                  </li>
-              </ul>
-          @endif
-    </div>
+    {{$data->links()}}
   </div>
   @foreach ($data as $pt)
     {{-- POPUP EDIT DATA --}}

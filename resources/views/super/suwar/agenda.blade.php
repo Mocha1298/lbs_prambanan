@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
   <link rel="stylesheet" href="{{asset('style_user/box-map.css')}}">
+  <link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
   <style>
     #mapid{
       width: 100%;
@@ -31,6 +32,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
   <div class="isi">
+    <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
     <table>
       <caption>Agenda Survey Laporan</caption>
       <thead>
@@ -75,42 +77,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </tbody>
       @endif
     </table>
-    <div class="pagination">
-        <a style="right: 0; width: 50px;" href="#map"><i style="width: 28px; height: 28px; color: mediumseagreen;" class="fa fa-globe fa-2x"></i></a>
-        <?php
-          // config
-          $link_limit = 10;
-          ?>
-
-          @if ($data->lastPage() > 1)
-              <ul>
-                  <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url(1) }}">First</a>
-                  </li>
-                  @for ($i = 1; $i <= $data->lastPage(); $i++)
-                      <?php
-                      $half_total_links = floor($link_limit / 2);
-                      $from = $data->currentPage() - $half_total_links;
-                      $to = $data->currentPage() + $half_total_links;
-                      if ($data->currentPage() < $half_total_links) {
-                        $to += $half_total_links - $data->currentPage();
-                      }
-                      if ($data->lastPage() - $data->currentPage() < $half_total_links) {
-                          $from -= $half_total_links - ($data->lastPage() - $data->currentPage()) - 1;
-                      }
-                      ?>
-                      @if ($from < $i && $i < $to)
-                          <li class="{{ ($data->currentPage() == $i) ? ' active' : '' }}">
-                              <a href="{{ $data->url($i) }}">{{ $i }}</a>
-                          </li>
-                      @endif
-                  @endfor
-                  <li class="{{ ($data->currentPage() == $data->lastPage()) ? ' disabled' : '' }}">
-                      <a href="{{ $data->url($data->lastPage()) }}">Last</a>
-                  </li>
-              </ul>
-          @endif
-    </div>
+    {{$data->links()}}
   </div>
   {{-- SURVEY --}}
 @foreach ($data as $sw)
@@ -177,7 +144,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
   </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
     <script src="{{asset('js_admin/bundle.js')}}"></script>
-    <script src="{{asset('js_admin/polygon.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script>
       $.getJSON("/center_desa", function (data){
           mymap = L.map('mapid',{
@@ -187,10 +154,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
               // scrollWheelZoom: false,
               closePopupOnClick: false
           });
-          L.geoJSON([prambanan],{
+          var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
               fillOpacity : 0,
               color : 'white'
-          }).addTo(mymap);
+          });       
+          geojsonLayer.addTo(mymap);
           L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
               minZoom: 10,
               maxZoom: 20,

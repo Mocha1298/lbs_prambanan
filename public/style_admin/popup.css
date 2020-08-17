@@ -19,7 +19,7 @@
   }
   
   div.overlay {
-    z-index: 2;
+    z-index: 10;
     overflow-y: auto;
     position: fixed;
     top: 0;
@@ -42,9 +42,9 @@
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    width: 40%;
+    width: 50%;
     position: relative;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   
   div.popup h2 {

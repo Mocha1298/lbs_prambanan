@@ -218,31 +218,6 @@
     padding: 16px;
     background-color: #e7e7e7;
   }
-  .main .pagination {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 20px;
-  }
-  .main .pagination ul{
-    list-style: none;
-    padding-left: 0;
-  }
-  .main .pagination ul li{
-    display: inline;
-  }
-  .main .pagination a{
-    color: black;
-    padding: 5px 10px;
-  }
-  .main .pagination a.button{
-    color: white;
-    background-color: #d95235;
-    padding: 5px 10px;
-    border-radius: 15px;
-    -webkit-box-shadow: 4px 4px 5px 1px #ccc;
-    -moz-box-shadow:    4px 4px 5px 1px #ccc;
-    box-shadow:         4px 4px 5px 1px #ccc;
-  }
   img.marker{
     position: absolute;
     width: 40px;

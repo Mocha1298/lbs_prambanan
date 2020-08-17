@@ -4,6 +4,9 @@
 
 @section('head')
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
+  <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
+  <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
+  <link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -13,14 +16,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
 @endsection
 @section('isi')
 <div class="isi">
-  <div class="filter">
-    <select name="desa">
-      <option value="all">--Pilih Desa--</option>
-      @foreach ($desa as $ds)
-        <option value="{{$ds->id}}">{{$ds->nama}}</option>
-      @endforeach
-    </select>
-  </div>
+  <style>
+    .filter button{
+      padding:0 20px;
+    }
+  </style>
+  <a class="filter" href="#filter"><button><i class="fa fa-filter fa-2x"></i></button></a>
     <table>
       <caption>Tabel Laporan</caption>
       <thead>
@@ -40,7 +41,15 @@ oncopy='return false' oncut='return false' onpaste='return false'
                 <td data-label="Judul">{{$lap->nama}}</td>
                 <td data-label="Pengirim">{{$lap->sender}}</td>
                 <td data-label="Desa">{{$lap->desa}}</td>
-                <td data-label="Status">Diterima</td>
+                <td data-label="Status">
+                  @if ($lap->status == 1)
+                  Diterima
+                  @elseif($lap->status == 2)
+                  Disetujui
+                  @else
+                  Valid
+                  @endif
+                </td>
                 <td data-label="Masuk">{{$lap->created_at}}</td>
                 <td data-label="Setuju">{{$lap->setuju}}</td>
                 <td data-label="Valid">{{$lap->valid}}</td>
@@ -48,11 +57,55 @@ oncopy='return false' oncut='return false' onpaste='return false'
           @endforeach
     </tbody>
     </table>
+    {{$data->links()}}
     <style>
       .cetak button{
         padding:0 20px;
       }
     </style>
-    <a class="cetak" href="/cetak"><button><i class="fa fa-print fa-2x"></i></button></a>
 </div>
+{{-- POPUP filter DATA --}}
+<div id="filter" class="overlay">
+  <div class="popup">
+    <h2>Filter</h2>
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <div class="filter">
+        <form id="form" action="/report/period" method="get">
+          <fieldset>
+            <select name="filter" id="">
+              <option value="texts.created_at">Tanggal Masuk</option>
+              <option value="agendas.created_at">Tanggal Acc</option>
+              <option value="maps.created-at">Tanggal Valid</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label for="dari">Dari Tanggal</label>
+            <input name="dari" type="date" value="{{date('Y-m-d')}}">
+          </fieldset>
+          <fieldset>
+            <label for="sampai">Sampai Tanggal</label>
+            <input name="sampai" type="date" value="{{date('Y-m-d')}}">
+          </fieldset>
+          <button type="submit" name="submit" value="print"><i class="fa fa-print fa-2x"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+@section('script')
+    <script>
+      $(function(){
+        $('.search-box__input').on('focus',function(){
+          $('.search-box__icon').css('color','#222');
+        })
+        $('.search-box__input').on('blur',function(){
+          $('.search-box__icon').css('color','##959595');
+        })
+      })
+    </script>
+    <script>
+
+    </script>
 @endsection
