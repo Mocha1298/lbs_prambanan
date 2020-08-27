@@ -13,6 +13,12 @@
   <link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
   <script src="{{asset('js_admin/nav.js')}}"></script>
   <script src="{{asset('jquery/jquery.js')}}"></script>
+  <script>
+    var x=0;
+    var id = [];
+    var bujur = [];
+    var lintang = [];
+  </script>
   <style>
     #peta{
       width: 100%;
@@ -22,7 +28,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="{{asset('js_admin/leaflet.js')}}"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -44,6 +50,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Kerusakan</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Nama</th>
           <th scope="col">Sumber</th>
           <th scope="col">Level</th>
@@ -55,8 +62,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $kr)
+          @foreach($data as $nomor => $kr)
             <tr id="{{$kr->id}}" class="table">
+              <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
               <td data-label="Nama" class="titik">{{ $kr->nama }}</td>
               <td data-label="Sumber">@if($kr->sumber == 1) RPJMD @else SUARA WARGA @endif</td>
               <td data-label="Level">{{ $kr->level }}</td>
@@ -104,7 +112,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     {{-- POPUP EDIT DATA --}}
     <div id="popup_e{{$kr->id}}" class="overlay">
       <div class="popup">
-        <h2>Edit Desa</h2>
+        <h2>Edit Data</h2>
         <div class="content">
           <form id="form" action="/objek_kerusakan_ubah/{{$kr->id}}" method="post" enctype="multipart/form-data">
             <input type="reset" id="configreset" value="&times;" class="close" onclick="href();">
@@ -254,7 +262,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
     {{-- POPUP HAPUS DATA --}}
     <div id="popup_h{{$kr->id}}" class="overlay">
       <div class="popup">
-        <h2>Hapus Data Kerusakan?</h2>
+        <h2>Hapus Data?</h2>
         <div class="content">
           <fieldset class="acc">
             <a class="acc" href="/objek_kerusakan_hapus/{{ $kr->id }}">HAPUS</a>
@@ -296,6 +304,12 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </div>
       </div>
     </div>
+    <script>
+      id[x] = {{$kr->id}};
+      bujur[x] = {{$kr->bujur}};
+      lintang[x] = {{$kr->lintang}};
+      x++;
+    </script>
   @endforeach
   <div id="add" class="overlay">
     <div class="popup">
@@ -411,9 +425,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
       var desa = {{$vil->id}};
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
-    <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/ajax.js')}}"></script>
-    <script src="{{asset('js_admin/crud_map.js')}}"></script>
+    {{-- <script src="{{asset('js_admin/crud_map.js')}}"></script> --}}
     <script>
       var peta;
       $.getJSON("/center_ds/"+desa, function (db){
@@ -466,5 +479,77 @@ oncopy='return false' oncut='return false' onpaste='return false'
           ).addTo(peta);
         }
       })
+    </script>
+    <script>
+      var mymap = [];
+      $.getJSON("/center/desa/"+desa, function (data2){
+          mymap1 = L.map('mapid',{
+              center :  [data2.lintang,data2.bujur],
+              zoom: 15,
+          });
+          var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data2.batas,{
+              fillOpacity : 0,
+              color : 'white'
+          });    
+          geojsonLayer.addTo(mymap1);
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+              maxZoom: 20,
+              minZoom: 13,
+              subdomains:['mt0','mt1','mt2','mt3']
+          }).addTo(mymap1);
+      });
+      // EDIT
+      var sid
+      var sbujur
+      var slintang
+      for (let i = 0; i < id.length; i++) {
+        sid = id[i];
+        sbujur = bujur[i];
+        slintang = lintang[i];
+        mymap[sid] = L.map("mapid"+sid, {
+            center: [slintang,sbujur],
+            zoom: 20,
+        });
+        $.getJSON("/center_ds/"+desa, function (batas){
+            var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+batas.batas,{
+                fillOpacity : 0,
+                color : 'white'
+            });
+            geojsonLayer.addTo(mymap[sid]);
+        })
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            minZoom: 13,
+            subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(mymap[sid]);
+        
+        // Marker Current
+        var current = L.icon({
+            iconUrl: '/gambar/marker/current.png',
+            iconSize:     [17, 17], // size of the icon
+            iconAnchor:   [5, 15], // point of the icon which will correspond to marker's location
+            popupAnchor:  [-10, -5], // point from which the popup should open relative to the iconAnchor
+            tooltipAnchor: [9,-20], //Alhamdulillah nemu bind tool up e aku :D
+        });
+        L.marker([slintang,sbujur],{icon:current})
+        .addTo(mymap[sid])
+        .bindPopup("Lokasi terkini");        
+      }
+      function getcenter1(){
+          var center = mymap1.getCenter();
+          
+          document.getElementById("bujur").value = center.lng;
+          document.getElementById("lintang").value = center.lat;
+      }
+
+
+      // EDIT DATA
+
+      function getcenter2(id){
+          var center = mymap[id].getCenter();   
+          document.getElementById("bujur"+id).value = center.lng;
+          document.getElementById("lintang"+id).value = center.lat;
+      }
+
     </script>
 @endsection

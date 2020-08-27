@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="{{asset('js_admin/leaflet.js')}}"></script>
 @endsection
 @section('copy')
 oncopy='return false' oncut='return false' onpaste='return false'
@@ -33,14 +33,16 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Kecamatan</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Nama Kecamatan</th>
           <th scope="col">Jumlah Desa</th>
         </tr>
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $kc)
+          @foreach($data as $nomor => $kc)
           <tr id="{{$kc->id}}" class="table">
+            <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
             <td data-label="Nama Kecamatan">{{ $kc->nama }}</td>
             <td data-label="Jumlah Desa">{{ $kc->desa }}</td>
               {{-- Content Klik Kanan --}}
@@ -222,7 +224,6 @@ oncopy='return false' oncut='return false' onpaste='return false'
       var input = "kecamatan";
     </script>
     <script src="{{asset('js_admin/action.js')}}"></script>
-    <script src="{{asset('js_admin/bundle.js')}}"></script>
     <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/crud_map.js')}}"></script>
 @endsection

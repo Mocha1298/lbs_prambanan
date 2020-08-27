@@ -23,7 +23,7 @@ class SuaraWarga extends Controller
     {
         $kc = Subdistrict::where('nama','Prambanan')->first();
         $data = Village::where('subdistricts_id',$kc->id)->get();
-        return view('user.suara_warga',['data'=>$data]);
+        return view('user.suara_warga',['data'=>$data,'kc'=>$kc]);
     }
     //Menampilkan halaman profil user
     public function index1($id)

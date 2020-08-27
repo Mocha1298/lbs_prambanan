@@ -52,6 +52,7 @@ class Objek_Peta extends Controller
 
         if ($validator->fails()) {
             return redirect('/objek_peta#add')
+            // return redirect()->back()
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -139,7 +140,7 @@ class Objek_Peta extends Controller
 
         $data->save();
 
-        return redirect('/objek_peta')->with('edit','Data sukses diubah');
+        return redirect()->back()->with('edit','Data sukses diubah');
     }
 
     public function destroy($id)

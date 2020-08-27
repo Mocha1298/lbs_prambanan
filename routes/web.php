@@ -25,10 +25,6 @@ Route::get('/objek','Homepage@objek');
 Route::get('/center/kecamatan/{id}','Homepage@center1');
 Route::get('/center/desa/{id}','Homepage@center2');
 Route::get('/user','Homepage@user');
-
-// Route::get('/login','AuthController@index')->name('login');
-// Route::post('/dashboard','AuthController@postlogin');
-// Route::get('/logout','AuthController@logout');
     
 Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/admin','Dashboard@index');
@@ -84,7 +80,7 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/center_ds/{id}','Objek_Kerusakan@center');
 
     // Route Laporan
-    Route::get('/suwar_admin/{id}','LaporanAgenda@desa');
+    Route::get('/suwar_admin/{id}','LaporanAgenda@suwar');
     Route::post('/survey/{id}','LaporanAgenda@survey');
     Route::get('/agenda/{id}','LaporanAgenda@agenda');
     Route::get('/valid/{id}','LaporanAgenda@valid');

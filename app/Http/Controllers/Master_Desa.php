@@ -140,7 +140,7 @@ class Master_Desa extends Controller
             $eks = $file->getClientOriginalExtension();//Mengambil ekstensi
     
             if ($eks != "geojson") {
-                //tambah custom validation .json by Mocha
+                //tambah custom validation .geojson by Mocha
                 $validator->errors()->add('batas', 'Hanya mendukung file .geojson');
                 return redirect('/master_desa/'.$id.'#add')
                 ->withErrors($validator)

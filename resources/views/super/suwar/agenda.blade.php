@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/action.css')}}">
+  <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/alert.css')}}">
   <link rel="stylesheet" href="{{asset('style_admin/button.css')}}">
   <link rel="stylesheet" href="{{asset('style_user/box-map.css')}}">
@@ -37,6 +38,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Agenda Survey Laporan</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Judul</th>
           <th scope="col">RT/RW</th>
           <th scope="col">Foto</th>
@@ -46,8 +48,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $sw)
+          @foreach($data as $nomor => $sw)
             <tr id="{{$sw->id}}" class="table">
+              <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
                 <td data-label="Judul">{{ $sw->nama }}</td>
                 <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
                 <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
@@ -106,7 +109,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <div class="invalid-feedback">
                 {{$message}}
             </div>
-            @enderror          </fieldset>
+            @enderror
+          </fieldset>
           <fieldset>
             <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Simpan</button>
           </fieldset>

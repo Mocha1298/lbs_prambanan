@@ -4,12 +4,13 @@
 <link rel="stylesheet" href="{{asset('style_admin/table.css')}}">
 <link rel="stylesheet" href="{{asset('style_admin/popup.css')}}">
 <link rel="stylesheet" href="{{asset('style_admin/form.css')}}">
+<link rel="stylesheet" href="{{asset('bs/pagination.css')}}">
 @endsection
 @section('title','Profile')
 
 @section('isi')
 @section('profile')
-<a class="navoption" href="#edit">Profile</a>
+<a title="edit profil" class="navoption" href="#edit">Profile</a>
 @endsection
 @if (session('edit'))
 <div class="warning"><i class="fa fa-pencil-circle-o fa-2x" aria-hidden="true"></i>{{session('edit')}}</div>
@@ -27,54 +28,19 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($data as $sw)
+      @foreach($data as $nomor => $sw)
         <tr id="{{$sw->id}}" class="table">
-          <td data-label="No">{{ $loop->iteration }}</td>
+          <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
           <td data-label="Judul">{{ $sw->nama }}</td>
           <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
           <td data-label="Desa">{{ $sw->nama_desa }}</td>
           <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
-          <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
+          <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @elseif($sw->status==3) goldenrod @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @elseif($sw->status==3) VALID @else Ditunda @endif</td>
         </tr>
       @endforeach
     </tbody>
 </table>
-<div class="pagination">
-    <a style="color:white; padding: 10px;" href="/suwar"><i class="fa fa-plus fa-2x"></i></a>
-    <?php
-      // config
-      $link_limit = 10;
-      ?>
-
-      @if ($data->lastPage() > 1)
-          <ul style="background: white;">
-              <li class="{{ ($data->currentPage() == 1) ? ' disabled' : '' }}">
-                  <a href="{{ $data->url(1) }}">First</a>
-              </li>
-              @for ($i = 1; $i <= $data->lastPage(); $i++)
-                  <?php
-                  $half_total_links = floor($link_limit / 2);
-                  $from = $data->currentPage() - $half_total_links;
-                  $to = $data->currentPage() + $half_total_links;
-                  if ($data->currentPage() < $half_total_links) {
-                    $to += $half_total_links - $data->currentPage();
-                  }
-                  if ($data->lastPage() - $data->currentPage() < $half_total_links) {
-                      $from -= $half_total_links - ($data->lastPage() - $data->currentPage()) - 1;
-                  }
-                  ?>
-                  @if ($from < $i && $i < $to)
-                      <li class="{{ ($data->currentPage() == $i) ? ' active' : '' }}">
-                          <a href="{{ $data->url($i) }}">{{ $i }}</a>
-                      </li>
-                  @endif
-              @endfor
-              <li class="{{ ($data->currentPage() == $data->lastPage()) ? ' disabled' : '' }}">
-                  <a href="{{ $data->url($data->lastPage()) }}">Last</a>
-              </li>
-          </ul>
-      @endif
-</div>
+{{$data->links()}}
   {{-- POPUP PROFILE --}}
   <div id="edit" class="overlay">
     <div class="popup">

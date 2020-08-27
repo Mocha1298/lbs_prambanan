@@ -47,14 +47,34 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $sw)
+          @foreach($data as $nomor => $sw)
             <tr id="{{$sw->id}}" class="table">
-              <td data-label="No">{{ $loop->iteration }}</td>
+              <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
               <td data-label="Judul">{{ $sw->nama }}</td>
               <td data-label="RT/RW">{{ $sw->rt }}/{{ $sw->rw }}</td>
               <td data-label="Foto"><a href="/gambar/laporan/ori/{{$sw->foto1}}"><img src="/gambar/laporan/thumbnail/{{ $sw->foto1 }}" width="100px" height="auto"></a></td>
               <td data-label="Tanggal Masuk">{{ $sw->created_at }}</td>
-              <td data-label="Status" style="color:white;background: @if($sw->status==1) dodgerblue @elseif($sw->status==2) forestgreen @else indianred @endif">@if($sw->status==1) Diterima @elseif($sw->status==2) Disetujui @else Ditunda @endif</td>
+              <td data-label="Status" style="color:white;background: 
+              @if($sw->status==1)
+              dodgerblue
+              @elseif($sw->status==2)
+              forestgreen
+              @elseif($sw->status==3)
+              goldenrod
+              @else
+              indianred
+              @endif
+              ">
+              @if($sw->status==1)
+              Diterima
+              @elseif($sw->status==2)
+              Disetujui
+              @elseif($sw->status==3)
+              VALID
+              @else
+              Ditunda
+              @endif
+              </td>
               {{-- Content Klik Kanan --}}
               @if ($sw->status == 1)
               <div id="contextMenu" class="cm_{{$sw->id}}" style="display: none">

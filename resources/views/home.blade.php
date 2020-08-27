@@ -29,16 +29,16 @@
             <li><a href="#bergabung">Bergabung</a></li>
             @if (Auth::check())
                 @if (Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
-                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/admin" title="ke halaman admin">Admin</a></li>
                 @elseif(Auth::user()->roles_id == 3)
-                    <li><a href="/my_suwar/{{Auth::user()->id}}">Profile</a></li>
+                    <li><a href="/my_suwar/{{Auth::user()->id}}" title="ke halaman profil">Profile</a></li>
                 @endif
-                <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                <li><a title="keluar" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                      @csrf
                  </form></li>
             @else
-                <li><a href="login">Login</a></li>
+                <li><a href="login" title="masuk">Login</a></li>
             @endif
             </nav>
         </header>

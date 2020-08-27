@@ -17,6 +17,6 @@ class Text extends Model
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])
-        ->format('d, H M Y');
+           ->format('d-M-Y');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Text;
 use App\Village;
 use PDF;
+use Carbon;
 
 class Report extends Controller
 {
@@ -34,8 +35,8 @@ class Report extends Controller
         ->leftjoin('users','texts.users_id','users.id')
         ->leftjoin('villages','texts.villages_id','villages.id')
         ->select('texts.*','agendas.created_at as setuju','maps.created_at as valid','users.nama as sender','villages.nama as desa')
-        ->where($filter,'>=',$awal)
-        ->where($filter,'<=',$akhir)
+        ->whereDate($filter,'>=',$awal)
+        ->whereDate($filter,'<=',$akhir)
         ->get();
         // $pdf = PDF::loadView('cetak',['hasil'=>$hasil]);
         // return $pdf->stream('laporan.pdf');

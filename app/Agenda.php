@@ -14,9 +14,15 @@ class Agenda extends Model
         'texts_id','survey','photo',
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        // your other new column
+    ];
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])
-        ->format('d, H M Y');
+        ->format('d, M Y');
     }
 }

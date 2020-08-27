@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
 integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+<script src="{{asset('js_admin/leaflet.js')}}"></script>
 @endsection
 
 @section('title','SUARA WARGA')
 @section('isi')
 @section('profile')
-<a class="navoption" href="/my_suwar/{{Auth::user()->id}}">Profile</a>
+<a title="ke halaman profil" class="navoption" href="/my_suwar/{{Auth::user()->id}}">Profile</a>
 @endsection
   <div class="judul">
     <h3 id="logo">Suara Warga</h3>
@@ -43,7 +43,7 @@ crossorigin=""/>
     <br>
 
     <label for="desa">DESA</label>
-    <select name="desa">
+    <select id="desa" name="desa">
       <option class="dis" @if (old('desa') == '') selected @endif disabled>Pilih Desa laporan Anda..</option>
       @foreach ($data as $dt)
         <option @if (old('desa') == $dt->id) selected @endif value="{{$dt->id}}">{{$dt->nama}}</option>
@@ -121,6 +121,7 @@ crossorigin=""/>
     <input type="submit" name="submit" value="Kirim" />
 
   </form>
+  <script src="{{asset('js_admin/ajax.js')}}"></script>
   <script type="text/javascript">
     $('#refresh').click(function(){
         $.ajax({
@@ -132,24 +133,36 @@ crossorigin=""/>
         });
       });
   </script>
-  <script src="{{asset('js_admin/action.js')}}"></script>
-  <script src="{{asset('js_admin/bundle.js')}}"></script>
-  <script src="{{asset('js_admin/polygon.js')}}"></script>
   <script>
-        mymap1 = L.map('mapid',{
-        center :  [-7.7520153,110.4892787],
-        zoom: 13,
-    });
-    L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
-        maxZoom: 20,
-        minZoom: 13,
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(mymap1);
+    var geojsonLayer;
+    var kec = {{$kc->id}}
+    var mymap;
+    function map() {
+      $.getJSON("/center/kecamatan/"+kec, function (data){
+          mymap = L.map('mapid',{
+              center :  [data.lintang,data.bujur],
+              watch : true,
+              zoom: 13,
+              closePopupOnClick: false
+          });
+          geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+          fillOpacity : 0,
+          color : 'white'
+          }).addTo(mymap);
+          L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+              maxZoom: 20,
+              minZoom: 12,
+              subdomains:['mt0','mt1','mt2','mt3']
+          }).addTo(mymap);
+      });
+    }
+    map()
+
     function getcenter1(){
-    var center = mymap1.getCenter();
-    
-    document.getElementById("bujur").value = center.lng;
-    document.getElementById("lintang").value = center.lat;
-}
+        var center = mymap.getCenter();
+        
+        document.getElementById("bujur").value = center.lng;
+        document.getElementById("lintang").value = center.lat;
+    }
   </script>
 @endsection

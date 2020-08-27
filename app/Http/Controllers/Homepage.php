@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Map;
+use App\Text;
 use App\Village;
 use App\Subdistrict;
-use App\Photo;
-use App\Type;
 use Auth;
+use Carbon\Carbon;
 
 class Homepage extends Controller
 {
@@ -47,7 +47,7 @@ class Homepage extends Controller
      }
      public function datapeta()
      {
-        $data = Subdistrict::all();
+        $data = Subdistrict::where('nama','Prambanan')->first();
         $id = $data->id;
         $data = Village::where('subdistricts_id',$id)
         ->join('maps','maps.villages_id','villages.id')
@@ -55,7 +55,7 @@ class Homepage extends Controller
         ->join('types','types.id','maps.types_id')
         ->where('types.jenis','Kerusakan')
         ->select('maps.id','maps.nama as kerusakan','maps.level','maps.perbaikan','maps.rt','maps.rw','maps.lintang','maps.bujur','maps.types_id','maps.photos_id'
-            ,'villages.nama as desa'
+            ,'villages.id as desa'
             ,'photos.foto1','photos.foto2','photos.foto3'
             ,'types.nama as status','types.marker')->get();
         echo json_encode($data);
@@ -71,6 +71,7 @@ class Homepage extends Controller
      }
     public function landing()
     {
+        $data = Text::where('status',3)->where('updated_at', '<', Carbon::now()->subDays(3));
         return view('home');
     }
 
@@ -119,8 +120,8 @@ class Homepage extends Controller
         $desa = $desa->where('kc','Prambanan');
         // return $desa;
 
-        $data = Subdistrict::where('nama','Prambanan')->first();
-        $id = $data->id;
+        $kc = Subdistrict::where('nama','Prambanan')->first();
+        $id = $kc->id;
         $data = Village::where('subdistricts_id',$id)
         ->join('maps','maps.villages_id','villages.id')
         ->join('photos','photos.id','maps.photos_id')
@@ -132,7 +133,7 @@ class Homepage extends Controller
             ,'types.nama as status','types.marker')->get();
             // return $data;
 
-        return view('user.maps',['data'=>$data,'objek'=>$objek,'desa'=>$desa]);
+        return view('user.maps',['data'=>$data,'objek'=>$objek,'desa'=>$desa,'kc'=>$kc]);
     }
 
     //Tampil halaman laporan
@@ -146,6 +147,7 @@ class Homepage extends Controller
         ->join('photos','texts.photos_id','photos.id')
         ->leftjoin('agendas','texts.id','agendas.texts_id')
         ->select('villages.nama as desa','texts.*','users.nama as pengirim','users.photo','photos.foto1','agendas.photo as foto')
+        ->where('texts.status','!=','4')
         ->paginate(5);
 
         return view('user.laporan',['laporan'=>$laporan]);

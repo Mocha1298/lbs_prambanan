@@ -25,14 +25,16 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Jenis</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Kategori</th>
           <th scope="col">Jenis</th>
           <th scope="col">Icon</th>
         </tr>
       </thead>
       <tbody>
-        @foreach($data as $dt)
+        @foreach($data as $nomor => $dt)
           <tr id="{{$dt->id}}" class="table">
+            <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
             <td data-label="Kategori">{{ $dt->nama }}</td>
             <td data-label="Jenis">{{ $dt->jenis }}</td>
             <td data-label="Icon"><img width="50px" height="50px" src="{{asset('gambar/jenis/'.$dt->marker.'')}}" alt=""></td>

@@ -15,26 +15,26 @@
 </head>
 <body>
     <header class="topnav" id="myTopnav">
-        <a href="/"><img class="logo" src="{{asset('/logo/peta-jalan.png')}}" alt="Smiley face"></a>
+        <a href="/" title="ke beranda"><img class="logo" src="{{asset('/logo/peta-jalan.png')}}" alt="Smiley face"></a>
         <div class="navlist" id="navlist">
             <style>
                 #active{
                     color: darkgray;
                 }
             </style>
-            <a class="cursor0" href="/">&nbsp</a>
-            <a class="navoption" href="/">Home</a>
+            <a style="display: none" class="cursor0">&nbsp</a>
+            <a class="navoption" href="/" title="ke beranda">Home</a>
             @if (auth::check())
                 @yield('profile')
             @endif
-            <a class="navoption" id="@yield('active')" href="/laporan">Laporan</a>
+            <a class="navoption" id="@yield('active')" href="/laporan" title="ke halaman suara warga">Laporan</a>
             @if (Auth::check())
-            <a class="navoption" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+            <a title="keluar" class="navoption" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
             </form>
             @else
-            <a href="login" class="navoption">Login</a>
+            <a href="login" title="masuk" class="navoption">Login</a>
             @endif
             <a href="javascript:void(0);" class="icon" id="hamburger">
                 <i class="fa fa-bars"></i>

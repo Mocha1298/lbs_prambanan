@@ -1,5 +1,3 @@
-// MAPSS SAYA
-var mymap;
 var bujur = 0;
 var lintang = 0;
 var foto;
@@ -8,32 +6,39 @@ var current;
 var layerGroup1 = L.layerGroup();
 var layerGroup2 = L.layerGroup();
 var layerLocate = L.layerGroup();
-// var layerLRM = L.layerGroup();
 var marker_layer;
 var ring_layer;
 var control;//LRM
 var status = 0;
 var routing = 0;
 
-$.getJSON("/center", function (data){
-    mymap = L.map('mapid',{
-        center :  [data.lintang,data.bujur],
-        watch : true,
-        zoom: 14,
-        // scrollWheelZoom: false,
-        closePopupOnClick: false
-    });
-    var geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+// MYMAP
+
+var geojsonLayer;
+function map() {
+    $.getJSON("/center/kecamatan/"+kec, function (data){
+        mymap = L.map('mapid',{
+            center :  [data.lintang,data.bujur],
+            // watch : true,
+            zoom: 14,
+            // scrollWheelZoom: false,
+            closePopupOnClick: false
+        });
+        geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
         fillOpacity : 0,
         color : 'white'
-    });       
-    geojsonLayer.addTo(mymap);
-    L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
-        minZoom: 10,
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(mymap);
-});
+        }).addTo(mymap);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            minZoom: 10,
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(mymap);
+    });
+}
+map()
+
+// LOad ICon USer
+
 $.getJSON("/user", function (user){
     foto = user.photo;
     // MARKER CURRENT
@@ -49,16 +54,18 @@ var popup = L.popup({
     closeButton: false
 });
 
+// TAmpil OBjek
+
 var objek = []; //OBJEK PETA
 function show_objek() {
-    $.getJSON("/objek", function (data) {
-        for (var i = 0; i < data.length; i++) {
+    $.getJSON("/objek", function (data0) {
+        for (var i = 0; i < data0.length; i++) {
            var icon = L.icon({
-               iconUrl: '/gambar/jenis/'+data[i].marker,
+               iconUrl: '/gambar/jenis/'+data0[i].marker,
                iconSize:     [30, 30],
            });
-           var name = data[i].nama;
-           objek[i] = L.marker([data[i].lintang, data[i].bujur],{icon: icon}).addTo(mymap)
+           var name = data0[i].nama;
+           objek[i] = L.marker([data0[i].lintang, data0[i].bujur],{icon: icon})
            .bindTooltip(name).openTooltip()
            .bindPopup(
                (info =
@@ -67,17 +74,19 @@ function show_objek() {
                            "<div class='header'>"+
                                "<h2><strong>"+name+"</strong></h2>"+
                            "</div>"+
-                           "<img src='/gambar/objek/thumbnail/"+data[i].foto1+"' alt='' width='100%' height='auto'>"+
-                           "<a id='done' onclick='make_dst("+data[i].lintang+","+data[i].bujur+");'>Rute</a>"+
+                           "<img src='/gambar/objek/thumbnail/"+data0[i].foto1+"' alt='' width='100%' height='auto'>"+
+                           "<a id='done' onclick='make_dst("+data0[i].lintang+","+data0[i].bujur+");'>Rute</a>"+
                        "</div>"+
                    "</div>"
                )
-           );
+           ).addTo(mymap);
            layerGroup1.addLayer(objek[i]).addTo(mymap);
         }
    })
 }
 show_objek();
+
+// HIde OBjek
 
 function hide(x) {
     if(routing == 0 ){
@@ -99,6 +108,8 @@ function hide(x) {
     }
 }
 
+// TAmpil KErusakan
+
 var kerusakan = [];//KERUSAKAN
 
 function show_kr() {
@@ -106,6 +117,12 @@ function show_kr() {
         for (var i = 0; i < kerusakan.length; i++){
             layerGroup2.removeLayer(kerusakan[i]);
         }
+        $.getJSON("/center/kecamatan/"+kec, function (data){
+            geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+            fillOpacity : 0,
+            color : 'white'
+            }).addTo(mymap);
+        });
         for (var i = 0; i < data1.length; i++) {
             var icon = L.icon({
                 iconUrl: '/gambar/jenis/'+data1[i].marker,
@@ -142,8 +159,9 @@ function show_kr() {
 show_kr();
 
 $("select#desa").change(function(){
-    var desa = $(this).children(":selected")[0].innerText;
-    if(desa == "Desa"){
+    var desa = $(this).children(":selected")[0].value;
+    if(desa == "DESA"){
+        geojsonLayer.remove()
         show_kr();
     }
     else{
@@ -159,6 +177,13 @@ $("select#desa").change(function(){
                 if (desa == data1[i].desa) {
                     var name = data1[i].kerusakan;
                     var status = data1[i].status;
+                    $.getJSON("/center/desa/"+desa, function (jos){
+                        geojsonLayer.remove()
+                        geojsonLayer = new L.GeoJSON.AJAX("/batas/"+jos.batas,{
+                        fillOpacity : 0,
+                        color : 'yellow'
+                        }).addTo(mymap);
+                    });
                     kerusakan[i] = L.marker([data1[i].lintang, data1[i].bujur],{icon: icon})
                     .addTo(mymap)
                     .bindPopup(
@@ -188,13 +213,12 @@ $("select#desa").change(function(){
     }
 });
 
-// function done() {
-//     window.location.reload();
-// }
+
+// TRack LOcation
 
 function locateUser() {
     mymap.locate({
-        // watch : true,
+        // watch : false,
         setView : true,
         enableHighAccuracy:true
     });
@@ -255,7 +279,7 @@ function make_dst(l,b) {
             routeDragTimeout: 250,
             draggableWaypoints: false,
 			addWaypoints: false,
-            showAlternatives: true,
+            // showAlternatives: true,
             altLineOptions: {
                 styles: [
                     {color: 'black', opacity: 0.15, weight: 9},
@@ -274,8 +298,6 @@ function make_dst(l,b) {
         })
         .addTo(mymap);
         $('.routing').fadeIn("slow"); 
-        $('#done')[0].innerText = "SELESAI";
-        $('#done')[0].attributes.onclick.nodeValue = "done();";
         routing = 1;
         route_a = l;
         route_b = b;
@@ -285,7 +307,6 @@ function make_dst(l,b) {
 function done() {
     mymap.removeControl(control);
     routing = 0;
-    $('#done')[0].innerText = "Rute";
     $('#done')[0].attributes.onclick.nodeValue = "make_dst("+route_a+","+route_b+");";
     $('.routing').fadeOut("slow"); 
 }
@@ -295,119 +316,3 @@ function icon(){
     $('.routing').fadeOut("slow"); 
     mymap.closePopup();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// FOUND MY LOCATION
-// function onLocationFound(e) {
-//     var radius = e.accuracy / 2;
-
-//     L.marker(e.latlng).addTo(mymap)
-//         .bindPopup("Lokasi Anda ada didalam radius " + radius + "meter.").openPopup();
-// }
-
-// function onLocationError(e) {
-//     alert(e.message);
-// }
-
-// mymap.on('locationfound', onLocationFound);
-// mymap.on('locationerror', onLocationError);
-
-// mymap.locate({setView: true});
-
-// navigator.geolocation.getCurrentPosition(function(location) {
-//     latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-
-//     L.Routing.control({
-//         waypoints: [
-//           L.latLng(lintang, bujur),
-//           L.latLng(-7.744464, 110.494553)
-//         ]
-//       }).addTo(mymap);   
-  
-//     var current = L.icon({
-//         iconUrl: '/gambar/marker/current.png',
-//         iconSize:     [17, 17], // Ukuran
-//         iconAnchor:   [8, 13], // Posisi marker
-//         popupAnchor:  [-13, -5], // Posisi Popup muncul
-//         tooltipAnchor: [9,-20], //Alhamdulillah nemu bind tool up e aku :D
-//     });
-
-//     var marker = L.marker(latlng,{icon:current}).addTo(mymap).bindPopup("Lokasi Anda");
-// }); 
-
-// var control = L.Routing.control({
-//     router: L.routing.mapbox(LRM.apiToken),
-//     plan: L.Routing.plan(waypoints, {
-//         createMarker: function(i, wp) {
-//             return L.marker(wp.latLng, {
-//                 // draggable: true,
-//                 icon: L.icon.glyph({ glyph: String.fromCharCode(65 + i) })
-//             });
-//         },
-//         geocoder: L.Control.Geocoder.nominatim(),
-//         // routeWhileDragging: true
-//     }),
-//     routeWhileDragging: true,
-//     routeDragTimeout: 250,
-//     showAlternatives: true,
-//     altLineOptions: {
-//         styles: [
-//             {color: 'black', opacity: 0.15, weight: 9},
-//             {color: 'white', opacity: 0.8, weight: 6},
-//             {color: 'blue', opacity: 0.5, weight: 2}
-//         ]
-//     }
-// })
-// .addTo(mymap)
-// .on('routingerror', function(e) {
-//     try {
-//         map.getCenter();
-//     } catch (e) {
-//         map.fitBounds(L.latLngBounds(waypoints));
-//     }
-
-//     handleError(e);
-// });
-
-// L.Routing.errorControl(control).addTo(mymap);

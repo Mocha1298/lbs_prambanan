@@ -146,8 +146,9 @@
             <input type="radio" class="sign-in" checked><label for="tab-1" class="tab">Reset Password dengan Email</label>
             <div class="login-form">
                 <div class="sign-in-htm">
-                    <form method="post" action="{{ route('password.update') }}">
+                    <form method="post" action="{{ route('password.email') }}">
                         <div class="group">
+                            {{ csrf_field() }}
                             <label for="user" class="label">Email</label>
                             <input name="email" id="email" type="text" class="input" value="{{ old('email') }}" autocomplete="off" required autofocus>
                             @error('email')

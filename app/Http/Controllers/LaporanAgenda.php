@@ -20,9 +20,8 @@ use App\Events\sendName;
 
 class LaporanAgenda extends Controller
 {
-    public function desa($id)
+    public function suwar($id)
     {
-        // Text::where('created_at', '<', Carbon::now()->subDays(3))->delete();
         $data = Text::where('villages_id',$id)->join('photos','photos.id','texts.photos_id')->select('texts.*','photos.foto1')->paginate(5);
         $count = $data->count();
         return view('super.suwar.laporan',['data'=>$data,'count'=>$count,'id'=>$id]);
@@ -30,9 +29,14 @@ class LaporanAgenda extends Controller
 
     public function agenda($id)
     {
-        $data = Text::where('villages_id',$id)->where('status','2')->join('photos','photos.id','texts.photos_id')->join('agendas','agendas.texts_id','texts.id')->select('texts.*','photos.foto1','agendas.survey','agendas.photo')->paginate(5);
-        $count = $data->count();
+        $data = Agenda::join('texts','texts.id','agendas.texts_id')
+        ->join('photos','photos.id','texts.photos_id')
+        ->select('texts.nama','texts.rt','texts.rw','photos.foto1','agendas.*')
+        ->where('texts.status','2')
+        ->where('texts.villages_id',$id)
+        ->paginate();
         // return $data;
+        $count = $data->count();
         return view('super.suwar.agenda',['data'=>$data,'count'=>$count,'id'=>$id]);
     }
 
@@ -75,7 +79,7 @@ class LaporanAgenda extends Controller
     public function dis($id)
     {
         $data  = Text::find($id);
-        $data->status = 3;
+        $data->status = 4;
         $data->save();
         return redirect()->back();
     }
@@ -142,6 +146,7 @@ class LaporanAgenda extends Controller
         $agenda = Agenda::find($id);
         $idt = $agenda->texts_id;
         $data = Text::find($idt);
+        $data->status = 3;
         $idp = $data->photos_id;
 
         $kr = new Map;
@@ -168,13 +173,8 @@ class LaporanAgenda extends Controller
         $nama_foto = $temp->foto1;
 
         $thm_asal = "gambar/laporan/thumbnail/$nama_foto";
-        $thm_trgt = "gambar/kerusakan/thumbnail/$nama_foto";
-        $ori_asal = "gambar/laporan/ori/$nama_foto";
-        $ori_trgt = "gambar/kerusakan/ori/$nama_foto";
 
         if(File::exists($thm_asal)) {
-            // Copy file foto
-            // Storage::copy("public/$nama_foto","$nama_foto");
             File::copy("gambar/laporan/thumbnail/".$nama_foto, "gambar/kerusakan/thumbnail/".$nama_foto);
             File::copy("gambar/laporan/ori/".$nama_foto, "gambar/kerusakan/ori/".$nama_foto);
         }

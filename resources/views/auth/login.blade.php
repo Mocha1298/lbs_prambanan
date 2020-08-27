@@ -154,15 +154,9 @@
                 <div class="sign-in-htm">
                     <form method="post" action="{{ route('login') }}">
                         @csrf
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                        @if (session('gagal'))
+                        <p>{{session('gagal')}}</p>
+                        @endif
                         <div class="group">
                             <label for="user" class="label">Email</label>
                             <input name="email" id="user" type="text" class="input" autocomplete="off" autofocus required>

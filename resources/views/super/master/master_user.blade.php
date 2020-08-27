@@ -24,6 +24,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel User</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Nama User</th>
           <th scope="col">Posisi</th>
           <th scope="col">Desa</th>
@@ -35,6 +36,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
         <tbody>
           @foreach($data as $us)
           <tr id="{{$us->id}}" class="table">
+            <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
             <td data-label="Nama User" class="titik">{{ $us->nama }}</td>
             <td data-label="Posisi">
             @if ($us->roles_id == 1)

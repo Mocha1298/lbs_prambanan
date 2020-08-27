@@ -17,6 +17,7 @@
     {{-- LEAFLET --}}
     <link rel="stylesheet" href="{{asset('/css/leaflet-routing-machine.css')}}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <script src="{{asset('js_admin/leaflet.js')}}"></script>
     <title>PETA KERUSAKAN</title>
 </head>
 <body>
@@ -49,7 +50,7 @@
             <span></span>
             <span></span>
             <ul id="menu">
-                <a href="/">
+                <a href="/" title="ke halaman beranda">
                     <li class="between">
                         <img style="width: 40px; height: 40px; margin: 10px 23px 0 11px" src="/gambar/marker/logo.png">
                         <p>Home</p>
@@ -57,21 +58,21 @@
                 </a>
                 @if(Auth::check())
                     @if(Auth::user()->roles_id == 3)
-                    <a href="/my_suwar/{{Auth::user()->id}}">
+                    <a href="/my_suwar/{{Auth::user()->id}}" title="ke halaman profile pengguna">
                         <li class="between">
                             <i class="fa fa-user"></i>
                             <p>Profile</p>
                         </li>
                     </a>
                     @else
-                    <a href="/admin">
+                    <a href="/admin" title="ke halaman admin">
                         <li class="between">
                             <i class="fa fa-cog"></i>
                             <p>Admin</p>
                         </li>
                     </a>
                     @endif
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" title="keluar">
                         <li class="between">
                             <i class="fa fa-sign-out"></i>
                             <p>logout</p>
@@ -81,7 +82,7 @@
                         @csrf
                     </form>
                 @else
-                <a href="/login">
+                <a href="/login" title="masuk">
                     <li class="between">
                         <i class="fa fa-sign-out"></i>
                         <p>Login</p>
@@ -96,7 +97,7 @@
             <div class="content">
                 <button onclick="hide(0);" id="show">OBJEK <i class="fa fa-eye-slash"></i></button>
                 <select name="desa" id="desa">
-                    <option value="">DESA</option>
+                    <option value="DESA">DESA</option>
                     @foreach ($desa as $ds)
                         <option value="{{$ds->id}}">{{$ds->nama}}</option>
                     @endforeach
@@ -105,10 +106,24 @@
         </div>
         <a class="tarikan" onclick="tarik(0);"><i class="fa fa-caret-down fa-2x"></i></a>
     </div>
-    <img src="/logo/routing.gif" onclick="return icon();" alt="" class="routing">
+    <a title="Sedang Routing"><img src="/logo/routing.gif" onclick="return icon();" alt="" class="routing"></a>
     <div class="detail"></div>
     <div class="location">
-        <button class="loc" onclick="return locateUser();"><img src="/gambar/logo/locate.png" alt=""></button>
+        <button class="loc" onclick="return locateUser();"><a title="Lacak Lokasi"><img src="/gambar/logo/locate.png" alt=""></a></button>
+    </div>
+    <div id="petunjuk" class="overlay">
+        <div class="popup">
+          <h2>Petunjuk Penggunaan Peta</h2>
+          <a href='#' class='close'>&times;</a>
+          <div class="content">
+            <div class="box">
+                1. Klik tombol <i><strong>Lacak Lokasi</strong></i>.
+                2. Klik marker objek.
+                3. Klik tombol <i><strong>Rute</strong></i>.
+                4. Klik gambar <i><strong>Sedang Routing</strong></i> untuk mengakhiri pelacak jalan.
+            </div>
+          </div>
+        </div>
     </div>
     <script>
         function tarik(x) {
@@ -152,11 +167,14 @@
             }
         }
     </script>
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    {{-- <script src="{{asset('js_admin/bundle.js')}}"></script> --}}
     <script src="{{asset('js/leaflet-routing-machine.js')}}"></script>
-    <script src="https://unpkg.com/leaflet.icon.glyph@0.2.0/Leaflet.Icon.Glyph.js"></script>
     <script src="{{asset('js_admin/ajax.js')}}"></script>
     <script src="{{asset('js_admin/config.js')}}"></script>
+    <script>
+        var kec = {{$kc->id}};
+        var mymap;
+    </script>
     <script src="{{asset('js_admin/show_map.js')}}"></script>
     @if (Auth::check())
         <script>
@@ -175,6 +193,5 @@
             });
         </script>
     @endif
-    
 </body>
 </html>

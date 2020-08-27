@@ -27,6 +27,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       <caption>Tabel Laporan</caption>
       <thead>
         <tr>
+          <th scope="col">No</th>
           <th scope="col">Judul</th>
           <th scope="col">Pengirim</th>
           <th scope="col">Desa</th>
@@ -37,8 +38,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
         </tr>
       </thead>
       <tbody>
-          @foreach ($data as $lap)
+          @foreach ($data as $nomor => $lap)
             <tr class="table">
+              <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
                 <td data-label="Judul">{{$lap->nama}}</td>
                 <td data-label="Pengirim">{{$lap->sender}}</td>
                 <td data-label="Desa">{{$lap->desa}}</td>
@@ -51,9 +53,9 @@ oncopy='return false' oncut='return false' onpaste='return false'
                   Valid
                   @endif
                 </td>
-                <td data-label="Masuk">{{$lap->created_at}}</td>
-                <td data-label="Setuju">{{$lap->setuju}}</td>
-                <td data-label="Valid">{{$lap->valid}}</td>
+                <td data-label="Masuk">{{date('d F Y', strtotime($lap->created_at))}}</td>
+                <td data-label="Setuju">{{date('d F Y', strtotime($lap->setuju))}}</td>
+                <td data-label="Valid">{{date('d F Y', strtotime($lap->valid))}}</td>
             </tr>
           @endforeach
     </tbody>
@@ -77,7 +79,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
             <select name="filter" id="">
               <option value="texts.created_at">Tanggal Masuk</option>
               <option value="agendas.created_at">Tanggal Acc</option>
-              <option value="maps.created-at">Tanggal Valid</option>
+              <option value="maps.created_at">Tanggal Valid</option>
             </select>
           </fieldset>
           <fieldset>
