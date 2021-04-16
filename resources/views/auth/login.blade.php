@@ -149,21 +149,27 @@
             </div>
             @endif
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-            {{-- <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label> --}}
             <div class="login-form">
                 <div class="sign-in-htm">
                     <form method="post" action="{{ route('login') }}">
                         @csrf
-                        @if (session('gagal'))
-                        <p>{{session('gagal')}}</p>
-                        @endif
                         <div class="group">
                             <label for="user" class="label">Email</label>
-                            <input name="email" id="user" type="text" class="input" autocomplete="off" autofocus required>
+                            <input value="{{old('email')}}" name="email" id="user" type="text" class="input" autocomplete="off" autofocus required>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Email atau Password tidak cocok</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="group">
                             <label for="pass" class="label">Password</label>
                             <input name="password" id="pass" type="password" class="input" data-type="password" required>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="group">
                             <input id="check" class="check" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

@@ -34,7 +34,8 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::post('/master_user_tambah/{id}','Master_User@create2');//Proses tambah user berdasarkan id desa (Untuk Admin Desa) 
     Route::post('/master_user_ubah/{id}','Master_User@update');//Proses ubah data user
     Route::get('/master_user_hapus/{id}','Master_User@destroy');//Proses hapus data user
-    Route::get('/aktivasi/{id}','Master_User@disable');//Mengubah status aktivasi user
+    Route::get('/disable/{id}','Master_User@disable');//Mengubah status aktivasi user
+    Route::get('/enable/{id}','Master_User@enabled');//Mengubah status aktivasi user
     Route::get('/profile/{id}','Master_User@profile');
     Route::post('/display/{id}','Master_User@display');
     Route::post('/password/{id}','Master_User@password');
@@ -91,21 +92,23 @@ Route::group(['middleware' => ['auth','checkrole:1,2']], function () {
     Route::get('/datapeta_agenda','LaporanAgenda@peta_agenda');
 
     // Route Laporan Akhir
-    Route::get('/report','Report@index');
+    Route::get('/report/{id}','Report@index');
     Route::get('/report/period','Report@filter');
     Route::get('/cetak','Report@cetak');
 });
 
 Route::group(['middleware' => ['auth','checkrole:3']], function (){
     // Route Suara Warga
-    Route::get('/my_suwar/{id}','SuaraWarga@index1');
-    Route::get('/suwar','SuaraWarga@suwar');
+    Route::get('/my_suwar/{id}','SuaraWarga@index1')->middleware('verified');
+    Route::get('/suwar','SuaraWarga@suwar')->middleware('verified');
     Route::post('/post_suwar', 'SuaraWarga@create_suwar');
     Route::get('refreshcaptcha', 'SuaraWarga@refreshCaptcha');
     
     Route::post('/u_display/{id}','SuaraWarga@display');
     Route::post('/u_password/{id}','SuaraWarga@password');
 });
+
+Route::post('/reset_manual','Reset_Password@reset');
 
 Auth::routes();
 

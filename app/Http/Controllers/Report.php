@@ -10,9 +10,10 @@ use Carbon;
 
 class Report extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $data = Text::leftjoin('agendas','agendas.texts_id','texts.id')
+        $data = Text::where('texts.villages_id',$id)
+        ->leftjoin('agendas','agendas.texts_id','texts.id')
         ->leftjoin('maps','maps.nama','texts.nama')
         ->leftjoin('users','texts.users_id','users.id')
         ->leftjoin('villages','texts.villages_id','villages.id')

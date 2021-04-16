@@ -34,7 +34,7 @@ oncopy='return false' oncut='return false' onpaste='return false'
       </thead>
       @if ($count != 0)
         <tbody>
-          @foreach($data as $us)
+          @foreach($data as $nomor => $us)
           <tr id="{{$us->id}}" class="table">
             <td data-label="No">{{ $nomor + $data->firstitem()}}</td>
             <td data-label="Nama User" class="titik">{{ $us->nama }}</td>
@@ -61,13 +61,11 @@ oncopy='return false' oncut='return false' onpaste='return false'
               <div id="contextMenu" class="cm_{{$us->id}}" style="display: none">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                   <li class="edit">
-                    <a href="/aktivasi/{{$us->id}}">
-                      @if($us->aktivasi == 1)
-                      DISABLE
-                      @else
-                      ACTIVATE
-                      @endif
-                    </a>
+                    @if ($us->aktivasi)
+                    <a href="/disable/{{$us->id}}">DISABLE</a>
+                    @else
+                    <a href="/enable/{{$us->id}}">ENABLE</a>
+                    @endif
                   </li>
                 </ul>
               </div>

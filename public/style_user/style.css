@@ -53,11 +53,17 @@ div.locate_user{
 }
 @media all and (max-width: 800px){
     .location .loc{
-        margin-top: 90vh;
-        margin-left: 45px;
+        margin-top: 73vh;
+        margin-left: 3px;
+        width: 35px;
+        height: 35px;
+    }
+    .location .loc img{
+        width: 20px;
+        height: auto;
     }
     div.leaflet-control-zoom.leaflet-bar.leaflet-control{
-        margin-top: 90vh;
+        margin-top: 80vh;
         margin-left: 10px;
     }
 }

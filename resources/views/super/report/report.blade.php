@@ -54,8 +54,8 @@ oncopy='return false' oncut='return false' onpaste='return false'
                   @endif
                 </td>
                 <td data-label="Masuk">{{date('d F Y', strtotime($lap->created_at))}}</td>
-                <td data-label="Setuju">{{date('d F Y', strtotime($lap->setuju))}}</td>
-                <td data-label="Valid">{{date('d F Y', strtotime($lap->valid))}}</td>
+                <td data-label="Setuju">@if($lap->setuju){{date('d F Y', strtotime($lap->setuju))}}@else - @endif</td>
+                <td data-label="Valid">@if($lap->valid){{date('d F Y', strtotime($lap->valid))}}@else - @endif</td>
             </tr>
           @endforeach
     </tbody>

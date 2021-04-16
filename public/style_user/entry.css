@@ -50,21 +50,6 @@
   width: 80%;
 }
 
-.blog-author h3::before,
-.blog-author--no-cover h3::before {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/17779/russ.jpeg");
-  background-size: cover;
-  border-radius: 50%;
-  content: " ";
-  display: inline-block;
-  height: 32px;
-  margin-right: .5rem;
-  position: relative;
-  top: 8px;
-  width: 32px;
-  /* border: 2px solid #ff4d4d; */
-}
-
 .blog-author--no-cover h3 {
   color: #272222;
   font-weight: 100;
@@ -73,11 +58,6 @@
 .blog-body {
   margin: 0 auto;
   width: 80%;
-}
-
-.video-body {
-  height: 100%;
-  width: 100%;
 }
 
 .blog-title h1 a {
@@ -102,21 +82,6 @@
 
 .blog-tags li + li {
   margin-left: .5rem;
-}
-
-.blog-tags a {
-  border: 1px solid #999999;
-  border-radius: 3px;
-  color: #999999;
-  font-size: .75rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  letter-spacing: 1px;
-  padding: 0 .5rem;
-  text-align: center;
-  text-transform: uppercase;
-  white-space: nowrap;
-  width: 5rem;
 }
 
 .blog-footer {
@@ -170,14 +135,10 @@
   padding: 0 .5rem;
 }
 
-.icon-star,
-.icon-bubble {
-  fill: #999999;
-  height: 24px;
-  margin-right: .5rem;
-  -webkit-transition: .25s ease;
-  transition: .25s ease;
-  width: 24px;
+.status{
+  border: 1px solid #999999;
+  border-radius: 3px;
+  padding: 0 .5rem;
 }
 
 .add-data{
@@ -195,31 +156,3 @@
 .add-data a:hover{
   color: #ff4d4d;
 }
-
-
-/* PAGINATION */
-/* .pagination {
-  width: 20%;
-  display: flex;
-  margin: auto;
-  background-color: whitesmoke;
-}
-.pagination ul{
-  margin: 20px auto;
-  list-style: none;
-  padding-left: 0;
-}
-.pagination ul li{
-  display: inline;
-}
-.pagination ul li.active{
-  background-color: dodgerblue;
-}
-.pagination ul li.active a{
-  color: white;
-}
-.pagination a{
-  font-weight: bold;
-  color: black;
-  padding: 5px 10px;
-} */

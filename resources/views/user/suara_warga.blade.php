@@ -145,7 +145,7 @@ crossorigin=""/>
               zoom: 13,
               closePopupOnClick: false
           });
-          geojsonLayer = new L.GeoJSON.AJAX("/batas/"+data.batas,{
+          geojsonLayer1 = new L.GeoJSON.AJAX("/batas/"+data.batas,{
           fillOpacity : 0,
           color : 'white'
           }).addTo(mymap);
@@ -164,5 +164,24 @@ crossorigin=""/>
         document.getElementById("bujur").value = center.lng;
         document.getElementById("lintang").value = center.lat;
     }
+
+    $("select#desa").change(function(){
+    var desa = $(this).children(":selected")[0].value;
+    $.getJSON("/center/desa/"+desa, function (jos){
+      if(geojsonLayer){
+        geojsonLayer.remove()
+        geojsonLayer = new L.GeoJSON.AJAX("/batas/"+jos.batas,{
+        fillOpacity : 0,
+        color : 'yellow'
+        }).addTo(mymap);
+      }
+      else{
+        geojsonLayer = new L.GeoJSON.AJAX("/batas/"+jos.batas,{
+        fillOpacity : 0,
+        color : 'yellow'
+        }).addTo(mymap);
+      }
+    });
+});
   </script>
 @endsection

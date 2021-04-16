@@ -138,7 +138,7 @@
             text-align:center;
         }
     </style>
-    <title>Document</title>
+    <title>RESET PASSWORD</title>
 </head>
 <body>
     <div class="login-wrap">
@@ -146,11 +146,16 @@
             <input type="radio" class="sign-in" checked><label for="tab-1" class="tab">Reset Password dengan Email</label>
             <div class="login-form">
                 <div class="sign-in-htm">
-                    <form method="post" action="{{ route('password.email') }}">
+                    <form method="POST" action="/reset_manual">
                         <div class="group">
                             {{ csrf_field() }}
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    <p>Email terkirim</p>
+                                </div>
+                            @endif
                             <label for="user" class="label">Email</label>
-                            <input name="email" id="email" type="text" class="input" value="{{ old('email') }}" autocomplete="off" required autofocus>
+                            <input name="email" id="email" type="email" class="input" value="{{ old('email') }}" autocomplete="off" required autofocus>
                             @error('email')
                             <div class="invalid-feedback">
                                 {{$message}}

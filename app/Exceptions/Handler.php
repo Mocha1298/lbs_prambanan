@@ -45,9 +45,9 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        if($e instanceof NotFoundHttpException)
+        if($exception instanceof NotFoundHttpException)
         {
             return response()->view('errors.404', [], 404);
         }

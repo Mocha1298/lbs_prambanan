@@ -112,6 +112,7 @@ class Master_Desa extends Controller
         $user->aktivasi = 1;
         $user->villages_id = $last->id;
         $user->photo = 'empty.jpg';
+        $data->remember_token = str_random(60);
         $user->save();
         $user->markEmailAsVerified();
         return redirect()->back()->with('simpan','Data sukses disimpan');

@@ -108,18 +108,11 @@
                       <li>
                         <a class="bagian users" href="/agenda/{{Auth::user()->villages_id}}"><span class='fa fa-flag-checkered'></span>Agenda</a>
                       </li>
+                      <li>
+                        <a class="bagian users" href="/report/{{Auth::user()->villages_id}}"><span class='fa fa-print'></span>Cetak Laporan</a>
+                      </li>
                     </div> 
                 </ul>
-              </li>
-            @endif
-            @if (Auth::user()->roles_id == 1)
-              {{-- OLAH WARGA --}}
-              <li class="topmenu">
-                <div id="opener3">
-                  <a href="/report" id="4" class="bagian users" name="4" onclick="return show(4);">
-                    <span class='fa fa-flag-checkered'></span>Laporan
-                  </a>
-                </div>
               </li>
             @endif
           </ul>

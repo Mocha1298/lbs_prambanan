@@ -47,7 +47,17 @@ class Objek_Kerusakan extends Controller
 
     public function index2($id)//Berdasarkan Desa
     {
-        $data = Map::where('villages_id',$id)->join('types','types.id','=','maps.types_id')->join('photos','photos.id','maps.photos_id')->select('maps.*','types.nama as status','photos.id as idp','photos.foto1','photos.foto2','photos.foto3')->paginate(5);
+        $data = Map::where('villages_id',$id)
+        ->join('types','types.id','=','maps.types_id')
+        ->join('photos','photos.id','maps.photos_id')
+        ->select('maps.*'
+        ,'types.nama as status'
+        ,'photos.id as idp'
+        ,'photos.foto1'
+        ,'photos.foto2'
+        ,'photos.foto3')
+        ->paginate(5);
+        
         $count = $data->count();
         $tipe = Type::where('jenis','Kerusakan')->get();
         $vil = Village::find($id);

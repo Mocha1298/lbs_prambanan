@@ -113,18 +113,23 @@
     </div>
     <div id="petunjuk" class="overlay">
         <div class="popup">
-          <h2>Petunjuk Penggunaan Peta</h2>
+          <h2>Petunjuk Penggunaan Pelacak Jalan</h2>
           <a href='#' class='close'>&times;</a>
           <div class="content">
             <div class="box">
-                1. Klik tombol <i><strong>Lacak Lokasi</strong></i>.
-                2. Klik marker objek.
-                3. Klik tombol <i><strong>Rute</strong></i>.
-                4. Klik gambar <i><strong>Sedang Routing</strong></i> untuk mengakhiri pelacak jalan.
+                1. Klik tombol <i><strong>Lacak Lokasi</strong></i>. <br>
+                2. Klik marker objek. <br>
+                3. Klik tombol <i><strong>Rute</strong></i>. <br>
+                4. Klik gambar <i><strong>Sedang Routing</strong></i> untuk mengakhiri pelacak jalan. <br>
             </div>
           </div>
         </div>
     </div>
+    <script>
+        window.onload = function hint() {
+            window.location.href = "#petunjuk";
+        }
+    </script>
     <script>
         function tarik(x) {
             if(x == 0){
@@ -139,6 +144,10 @@
             }
         }
     </script>
+
+    <script src="{{asset('js/leaflet-routing-machine.js')}}"></script>
+    <script src="{{asset('js_admin/ajax.js')}}"></script>
+    <script src="{{asset('js_admin/config.js')}}"></script>
     <script>
         function show(id) {
             var x = database(id);
@@ -147,30 +156,31 @@
         }
         function database(id) {
             var data = {!! json_encode($data->toArray(), JSON_HEX_TAG) !!};
-            for (var i = 1; i <= data.length; i++) {
+            for (var i = 0; i <= data.length; i++) {
                 var con = data[i].id;
                 if (con == id) {
-                    return output(data[i].id,data[i].kerusakan,data[i].level,data[i].status,data[i].foto1,data[i].foto2,data[i].foto3);
+                    return output(data[i].id,data[i].kerusakan,data[i].level,data[i].status,data[i].perbaikan,data[i].foto1,data[i].foto2,data[i].foto3);
                 }
             }
         }
-        function output(id,nama,level,status,foto1,foto2,foto3) {
+        function output(id,nama,level,status,perbaikan,foto1,foto2,foto3) {
             var foto;
+            var event = new Date(perbaikan);
+
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+            var perbaikan = event.toLocaleString('id', options);
             if (status == 'Rencana') {
-                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : </h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a></div></div></div>";
+                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : "+perbaikan+"</h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a></div></div></div>";
             }
             if(status == 'Sedang'){
-                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : </h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto2+"'><img src='/gambar/kerusakan/thumbnail/"+foto2+"' alt=''></a></div></div></div>";
+                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : "+perbaikan+"</h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto2+"'><img src='/gambar/kerusakan/thumbnail/"+foto2+"' alt=''></a></div></div></div>";
             }
             if(status == 'Selesai'){
-                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : </h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto2+"'><img src='/gambar/kerusakan/thumbnail/"+foto2+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto3+"'><img src='/gambar/kerusakan/thumbnail/"+foto3+"' alt=''></a></div></div></div>";
+                return "<div id='popup"+id+"' class='overlay'><div class='popup'><h2>Detail Info</h2><a href='#' class='close'>&times;</a><div style='text-align: center' class='content'><h4>Nama Kerusakan : "+nama+"</h4><h4>Level Kerusakan : "+level+"</h4><h4>Status Kerusakan :  Perbaikan</h4><h4>Tanggal Perbaikan : "+perbaikan+"</h4><h4>Foto :</h4><a href='/gambar/kerusakan/ori/"+foto1+"'><img src='/gambar/kerusakan/thumbnail/"+foto1+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto2+"'><img src='/gambar/kerusakan/thumbnail/"+foto2+"' alt=''></a><a href='/gambar/kerusakan/ori/"+foto3+"'><img src='/gambar/kerusakan/thumbnail/"+foto3+"' alt=''></a></div></div></div>";
             }
         }
     </script>
-    {{-- <script src="{{asset('js_admin/bundle.js')}}"></script> --}}
-    <script src="{{asset('js/leaflet-routing-machine.js')}}"></script>
-    <script src="{{asset('js_admin/ajax.js')}}"></script>
-    <script src="{{asset('js_admin/config.js')}}"></script>
     <script>
         var kec = {{$kc->id}};
         var mymap;

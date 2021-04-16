@@ -127,7 +127,7 @@ class Homepage extends Controller
         ->join('photos','photos.id','maps.photos_id')
         ->join('types','types.id','maps.types_id')
         ->where('types.jenis','Kerusakan')
-        ->select('maps.id','maps.nama as kerusakan','maps.level','maps.perbaikan','maps.rt','maps.rw','maps.lintang','maps.bujur','maps.types_id','maps.photos_id'
+        ->select('maps.id','maps.nama as kerusakan','maps.level','maps.perbaikan','maps.rt','maps.rw','maps.lintang','maps.bujur','maps.photos_id'
             ,'villages.nama as desa'
             ,'photos.foto1','photos.foto2','photos.foto3'
             ,'types.nama as status','types.marker')->get();
@@ -148,6 +148,7 @@ class Homepage extends Controller
         ->leftjoin('agendas','texts.id','agendas.texts_id')
         ->select('villages.nama as desa','texts.*','users.nama as pengirim','users.photo','photos.foto1','agendas.photo as foto')
         ->where('texts.status','!=','4')
+        ->orderBy('created_at','desc')
         ->paginate(5);
 
         return view('user.laporan',['laporan'=>$laporan]);

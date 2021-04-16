@@ -218,9 +218,7 @@ $("select#desa").change(function(){
 
 function locateUser() {
     mymap.locate({
-        // watch : false,
-        setView : true,
-        enableHighAccuracy:true
+        setView : false,
     });
 
 	function onLocationFound(e) {
@@ -243,7 +241,6 @@ function locateUser() {
         layerLocate.addLayer(ring_layer).addTo(mymap);
         $('button.loc')[0].attributes.onclick.nodeValue = "relocate();";
         status = 1;
-        console.log("SUCCESS TRACK LOCATION");
 	}
 
 	function onLocationError(e) {

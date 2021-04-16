@@ -131,4 +131,17 @@ class Master_User extends Controller
         $data->save();
         return redirect()->back()->with('edit','Berhasil mengubah aktivasi User..');
     }
+
+    public function enabled($id)
+    {
+        $data = User::find($id);
+        if($data->aktivasi == 0){
+            $data->aktivasi = 1;
+        }
+        else{
+            $data->aktivasi = 0;
+        }
+        $data->save();
+        return redirect()->back()->with('edit','Berhasil mengubah aktivasi User..');
+    }
 }
